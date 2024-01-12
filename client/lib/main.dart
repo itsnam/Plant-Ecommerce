@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:plantial/features/cart/cart_page.dart';
+import 'package:plantial/features/favourites/favourites_page.dart';
 import 'features/bottom_nav_bar/bottom_nav_bar.dart';
 import 'features/home/home_page.dart';
 import 'features/profile/profile_page.dart';
@@ -14,7 +16,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int index = 0;
-  List<Widget> pages = [const HomePage(), const ProfilePage()];
+  List<Widget> pages = [const HomePage(), const FavouritePage(), const CartPage(), const ProfilePage()];
 
   void onTapped(int i){
     setState(() {
@@ -26,10 +28,13 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          fontFamily: 'Poppins'
+        fontFamily: 'Poppins',
+        textTheme: const TextTheme()
       ),
       home: Scaffold(
+          backgroundColor: const Color(0xFFF5F5F5),
           appBar: AppBar(
+            titleSpacing: 24.0,
             title: const Text(
               'Plantial',
               style: TextStyle(fontWeight: FontWeight.w700),
