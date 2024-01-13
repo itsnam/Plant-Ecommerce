@@ -4,6 +4,7 @@ import 'package:plantial/features/favourites/favourites_page.dart';
 import 'features/bottom_nav_bar/bottom_nav_bar.dart';
 import 'features/home/home_page.dart';
 import 'features/profile/profile_page.dart';
+import 'features/sign_in/sign_in_page.dart';
 
 void main() => runApp(const App());
 

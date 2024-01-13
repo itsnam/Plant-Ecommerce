@@ -25,49 +25,47 @@ class _CustomCardState extends State<CustomCard> {
         surfaceTintColor: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(15),
-          child: Container(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10), // Image border
-                    child: SizedBox.fromSize(
-                      size: const Size.fromRadius(100), // Image radius
-                      child: Image.network(imgUrl, fit: BoxFit.cover),
-                    ),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10), // Image border
+                  child: SizedBox.fromSize(
+                    size: const Size.fromRadius(100), // Image radius
+                    child: Image.network(imgUrl, fit: BoxFit.cover),
                   ),
-                  const SizedBox(height: 20.0,),
-                  Text(name, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
-                  const SizedBox(height: 7.0),
-                  Text(category, style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 16, color: Color(0xFF9AA09A)),),
-                  const SizedBox(height: 12.0),
-                  SizedBox(
-                    width: 200,
-                    child: Expanded(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('đ$price', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
-                            SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: TextButton(
-                                  style: TextButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                      backgroundColor: const Color(0xFF4b8e4b)
-                                  ),
-                                  onPressed: null,
-                                  child: const Icon(Iconsax.arrow_right_3, color: Colors.white, size: 20,)
-                              ),
-                            )
-                          ],
-                        ),
-                    ),
+                ),
+                const SizedBox(height: 20.0,),
+                Text(name, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+                const SizedBox(height: 7.0),
+                Text(category, style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 16, color: Color(0xFF9AA09A)),),
+                const SizedBox(height: 12.0),
+                SizedBox(
+                  width: 200,
+                  child: Expanded(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('đ$price', style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),),
+                          SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: TextButton(
+                                style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                    backgroundColor: const Color(0xFF4b8e4b)
+                                ),
+                                onPressed: null,
+                                child: const Icon(Iconsax.arrow_right_3, color: Colors.white, size: 20,)
+                            ),
+                          )
+                        ],
+                      ),
                   ),
-                ],
-              ),
-          ),
+                ),
+              ],
+            ),
           ),
     );
   }
