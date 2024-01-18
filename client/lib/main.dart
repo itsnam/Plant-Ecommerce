@@ -4,7 +4,6 @@ import 'package:plantial/features/favourites/favourites_page.dart';
 import 'features/bottom_nav_bar/bottom_nav_bar.dart';
 import 'features/home/home_page.dart';
 import 'features/profile/profile_page.dart';
-import 'features/sign_in/sign_in_page.dart';
 
 void main() => runApp(const App());
 
@@ -29,25 +28,36 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFFECECEC),
         fontFamily: 'Poppins',
-        textTheme: const TextTheme()
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
+          bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)
+        )
       ),
-      home: Scaffold(
-          backgroundColor: const Color(0xFFF5F5F5),
-          appBar: AppBar(
-            titleSpacing: 24.0,
-            title: const Text(
-              'Plantial',
-              style: TextStyle(fontWeight: FontWeight.w700),
+      home: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: Scaffold(
+            body: NestedScrollView(
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+                return [
+                  SliverAppBar(
+                    titleSpacing: 20,
+                    backgroundColor: const Color(0xFFECECEC),
+                    title: const Text('Plantial', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),),
+                    pinned: false,
+                    floating: true,
+                    snap: false,
+                    forceElevated: innerBoxIsScrolled,
+                  )
+                ];
+              }, body: pages.elementAt(index),
             ),
-          ),
-          body: Center(
-            child: pages.elementAt(index),
-          ),
-          bottomNavigationBar: BottomNavBar(
-            index: index,
-            onTapped: onTapped,
-          )
+            bottomNavigationBar: BottomNavBar(
+              index: index,
+              onTapped: onTapped,
+            )
+        ),
       ),
     );
   }
