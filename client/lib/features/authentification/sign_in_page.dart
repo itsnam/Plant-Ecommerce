@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../custom_text_field/custom_text_field.dart';
-import '../custom_button/custom_button.dart';
-import '../sign_up/sign_up_page.dart';
-import '../forgort_password/forgot_password_page.dart';
+import '../commons/custom_text_field.dart';
+import '../commons/custom_button.dart';
+import 'sign_up_page.dart';
+import 'forgot_password_page.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
