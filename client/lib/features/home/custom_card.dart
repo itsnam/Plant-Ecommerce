@@ -17,8 +17,10 @@ class _CustomCardState extends State<CustomCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/product-detail');
+      },
       child: Card(
         shadowColor: Colors.transparent,
         shape: const ContinuousRectangleBorder(
@@ -45,7 +47,8 @@ class _CustomCardState extends State<CustomCard> {
                   name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ),
               const SizedBox(height: 5.0),
