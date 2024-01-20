@@ -29,11 +29,13 @@ class _PaymentPageState extends State<PaymentPage> {
             SizedBox(width: 50),
           ],
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Handle back button press here
-          },
+        leading: const BackButton(
+          style: ButtonStyle(
+            shape: MaterialStatePropertyAll(CircleBorder()),
+            iconSize: MaterialStatePropertyAll(24),
+            backgroundColor:
+              MaterialStatePropertyAll(Colors.white)
+          ),
         ),
       ),
       
@@ -93,12 +95,11 @@ class _PaymentPageState extends State<PaymentPage> {
               Expanded(
                 child: CustomButton(
                   onTap: () {
-                    // Handle button press
+                    Navigator.pushNamed(context, '/summary');
                   },
                   buttonText: 'Next',
                 ),
               ),
-              // Example of FloatingActionButton at the end
             ],
           ),
         ),
