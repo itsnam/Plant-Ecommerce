@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
-class CustomItemCard extends StatelessWidget {
-  final String imgUrl;
+class CustomItemCard1 extends StatelessWidget {
   final String name;
-  final int price;
-  final int quantity;
+  final String detail;
+  final String nextpage;
 
-  const CustomItemCard({
+  const CustomItemCard1({
     Key? key,
-    required this.imgUrl,
     required this.name,
-    required this.price,
-    required this.quantity,
+    required this.detail,
+    required this.nextpage,
   }) : super(key: key);
 
   @override
@@ -29,13 +28,6 @@ class CustomItemCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10), // Image border
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(50), // Image radius
-                    child: Image.network(imgUrl, fit: BoxFit.cover),
-                  ),
-                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -51,23 +43,24 @@ class CustomItemCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'đ$price',
+                          detail,
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 16,
                           ),
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'QTV: $quantity',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
                       ],
                     ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, nextpage);
+                  },
+                  child: const Icon(
+                    Iconsax.edit,
+                    color: Color(0xFF4b8e4b),
+                    size: 24.0,
                   ),
                 ),
               ],

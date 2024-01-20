@@ -29,14 +29,16 @@ class _AddressPageState extends State<AddressPage> {
             SizedBox(width: 50),
           ],
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Handle back button press here
-          },
+        leading: const BackButton(
+          style: ButtonStyle(
+            shape: MaterialStatePropertyAll(CircleBorder()),
+            iconSize: MaterialStatePropertyAll(24),
+            backgroundColor:
+              MaterialStatePropertyAll(Colors.white)
+          ),
         ),
       ),
-      
+
       body: ListView(
         children: [
           const SizedBox(height: 10),
@@ -83,7 +85,7 @@ class _AddressPageState extends State<AddressPage> {
               Expanded(
                 child: CustomButton(
                   onTap: () {
-                    // Handle button press
+                    Navigator.pushNamed(context, '/payment');
                   },
                   buttonText: 'Next',
                 ),

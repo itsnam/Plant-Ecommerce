@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:plantial/features/address/address_page.dart';
 import 'package:plantial/features/cart/cart_page.dart';
 import 'package:plantial/features/favourites/favourites_page.dart';
+<<<<<<< Updated upstream
 import 'features/bottom_nav_bar/bottom_nav_bar.dart';
+=======
+import 'package:plantial/features/home/home_layout.dart';
+import 'package:plantial/features/payment/payment_page.dart';
+import 'package:plantial/features/product_detail/product_detail_layout.dart';
+import 'package:plantial/features/summary/summary_page.dart';
+>>>>>>> Stashed changes
 import 'features/home/home_page.dart';
 import 'features/profile/profile_page.dart';
 
@@ -28,6 +35,18 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< Updated upstream
+=======
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) => const HomeLayout(),
+        '/product-detail': (context) => const ProductDetailLayout(),
+        '/auth': (context) => const SignInPage(),
+        '/address': (context) => const AddressPage(),
+        '/payment': (context) => const PaymentPage(),
+        '/summary': (context) => const SummaryPage()
+      },
+>>>>>>> Stashed changes
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFECECEC),
         fontFamily: 'Poppins',
