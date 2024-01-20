@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:plantial/features/address/address_page.dart';
 import 'package:plantial/features/authentication/sign_in_page.dart';
-import 'package:plantial/features/cart/cart_page.dart';
 import 'package:plantial/features/favourites/favourites_page.dart';
-import 'features/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:plantial/features/home/home_layout.dart';
-import 'package:plantial/features/payment/payment_page.dart'
+import 'package:plantial/features/payment/payment_page.dart';
 import 'package:plantial/features/product_detail/product_detail_layout.dart';
 import 'package:plantial/features/summary/summary_page.dart';
 import 'features/home/home_page.dart';
