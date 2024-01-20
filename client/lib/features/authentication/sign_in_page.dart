@@ -12,6 +12,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  bool hideText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +51,12 @@ class _SignInPageState extends State<SignInPage> {
                 // Input Password and visibility icon
                 CustomTextField(
                   hintText: 'Password',
-                  obscureText: true,
+                  obscureText: hideText,
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.visibility),
                     onPressed: () {
                       // Toggle password visibility
+                      hideText = false;
                     },
                   ),
                 ),

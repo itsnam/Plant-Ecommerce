@@ -79,21 +79,51 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                 ],
               ),
             ),
-            SliverFillRemaining(
-              child: Scaffold(
-                body: ProductDetail(),
-                bottomNavigationBar: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  child: SizedBox(
-                      height: 56,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text("sdfd"),
-                      )),
-                ),
-              ),
+            const SliverFillRemaining(
+              hasScrollBody: false,
+              child: ProductDetail(),
             ),
           ],
+        ),
+        bottomNavigationBar: Container(
+          height: 75,
+          decoration: const BoxDecoration(color: Colors.white),
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
+              child: TextButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                    backgroundColor:
+                        const MaterialStatePropertyAll(Color(0xFF4b8e4b)),
+                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7)))),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Add to Cart",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    VerticalDivider(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "89.000",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    )
+                  ],
+                ),
+              )),
         ),
       ),
     );

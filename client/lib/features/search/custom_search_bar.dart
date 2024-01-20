@@ -8,7 +8,7 @@ class CustomSearchBar extends StatelessWidget {
     return const SearchBar(
       hintText: 'Search',
       hintStyle: MaterialStatePropertyAll(TextStyle(color: Color(0xFFAEB3AE))),
-      padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(0.0, 7.0, 5.0, 7.0)),
+      padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0)),
       surfaceTintColor: MaterialStatePropertyAll(Colors.transparent),
       backgroundColor: MaterialStatePropertyAll(Color(0xFFFFFFFF)),
       shape: MaterialStatePropertyAll(ContinuousRectangleBorder(
