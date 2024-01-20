@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 355,
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+              padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
               controller: scrollController,
               scrollDirection: Axis.horizontal,
               children: list,

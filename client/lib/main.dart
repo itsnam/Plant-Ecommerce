@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantial/features/authentification/sign_in_page.dart';
 import 'package:plantial/features/home/home_layout.dart';
 import 'package:plantial/features/product_detail/product_detail_layout.dart';
 
@@ -18,7 +19,8 @@ class _AppState extends State<App> {
       initialRoute: '/home',
       routes: {
         '/home': (context) => const HomeLayout(),
-        '/product-detail': (context) => const ProductDetailLayout()
+        '/product-detail': (context) => const ProductDetailLayout(),
+        '/auth': (context) => const SignInPage()
       },
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFECECEC),
