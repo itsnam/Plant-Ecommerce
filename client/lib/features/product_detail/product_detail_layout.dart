@@ -79,9 +79,20 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                 ],
               ),
             ),
-            const SliverFillRemaining(
-              child: ProductDetail(),
-            )
+            SliverFillRemaining(
+              child: Scaffold(
+                body: ProductDetail(),
+                bottomNavigationBar: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: SizedBox(
+                      height: 56,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text("sdfd"),
+                      )),
+                ),
+              ),
+            ),
           ],
         ),
       ),
