@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:plantial/features/address/address_page.dart';
+import 'package:plantial/features/authentication/sign_in_page.dart';
+import 'package:plantial/features/cart/cart_page.dart';
+import 'package:plantial/features/favourites/favourites_page.dart';
 import 'package:plantial/features/home/home_layout.dart';
 import 'package:plantial/features/product_detail/product_detail_layout.dart';
+import 'features/home/home_page.dart';
+import 'features/profile/profile_page.dart';
 
 void main() => runApp(const App());
 
@@ -12,13 +18,23 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  int index = 0;
+  List<Widget> pages = [const HomePage(), const FavouritePage(), const AddressPage(), const ProfilePage()];
+
+  void onTapped(int i){
+    setState(() {
+      index = i;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/home',
       routes: {
         '/home': (context) => const HomeLayout(),
-        '/product-detail': (context) => const ProductDetailLayout()
+        '/product-detail': (context) => const ProductDetailLayout(),
+        '/auth': (context) => const SignInPage()
       },
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFECECEC),

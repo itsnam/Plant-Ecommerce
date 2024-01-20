@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:plantial/features/product_detail/product_detail.dart';
 
 class ProductDetailLayout extends StatefulWidget {
   const ProductDetailLayout({super.key});
@@ -24,36 +25,31 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
               leading: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                 child: Container(
-                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(8),
                   child: const BackButton(
                     style: ButtonStyle(
+                        shape: MaterialStatePropertyAll(CircleBorder()),
                         iconSize: MaterialStatePropertyAll(24),
-                        backgroundColor: MaterialStatePropertyAll(
-                            Colors.white)),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.white)),
                   ),
                 ),
               ),
               pinned: false,
               floating: true,
               snap: false,
-              expandedHeight: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
+              expandedHeight: MediaQuery.of(context).size.width * 0.8,
               actions: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: TextButton(
-                      style: TextButton.styleFrom(
-                          shape: const CircleBorder(),
-                          backgroundColor: Colors.white),
-                      onPressed: null,
-                      child: const Icon(
-                        Iconsax.heart,
-                        color: Colors.black,
-                        size: 24,
-                      )),
-                ),
+                TextButton(
+                    style: TextButton.styleFrom(
+                        shape: const CircleBorder(),
+                        backgroundColor: Colors.white),
+                    onPressed: null,
+                    child: const Icon(
+                      Iconsax.heart,
+                      color: Colors.black,
+                      size: 24,
+                    )),
               ],
               flexibleSpace: Stack(
                 children: [
@@ -83,16 +79,8 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                 ],
               ),
             ),
-            SliverList(
-              delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
-                return Container(
-                  height: 40,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                );
-              }),
+            const SliverFillRemaining(
+              child: ProductDetail(),
             )
           ],
         ),
