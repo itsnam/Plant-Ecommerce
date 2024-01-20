@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:plantial/features/product_detail/product_detail_page.dart';
 
 class ProductDetailLayout extends StatefulWidget {
   const ProductDetailLayout({super.key});

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-
-import '../commons/bottom_nav_bar.dart';
-import '../cart/cart_page.dart';
-import '../favourites/favourites_page.dart';
-import '../profile/profile_page.dart';
+import 'package:plantial/features/address/address_page.dart';
+import 'package:plantial/features/commons/bottom_nav_bar.dart';
+import 'package:plantial/features/cart/cart_page.dart';
+import 'package:plantial/features/favourites/favourites_page.dart';
+import 'package:plantial/features/payment/payment_page.dart';
+import 'package:plantial/features/profile/profile_page.dart';
+import 'package:plantial/features/summary/summary.dart';
 import 'home_page.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -15,7 +17,7 @@ class HomeLayout extends StatefulWidget {
 
 class _HomeLayoutState extends State<HomeLayout> {
   int index = 0;
-  List<Widget> pages = [const HomePage(), const FavouritePage(), const CartPage(), const ProfilePage()];
+  List<Widget> pages = [const HomePage(), const FavouritePage(), const SummaryPage(), const ProfilePage()];
 
   void onTapped(int i){
     setState(() {
