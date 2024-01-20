@@ -81,7 +81,9 @@ class _CustomCardState extends State<CustomCard> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 backgroundColor: const Color(0xFF4b8e4b)),
-                            onPressed: null,
+                            onPressed: (){
+                              print('Button clicked');
+                            },
                             child: const Icon(
                               Iconsax.arrow_right_3,
                               color: Colors.white,
