@@ -28,6 +28,12 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) => const HomeLayout(),
+        '/product-detail': (context) => const ProductDetailLayout(),
+        '/auth': (context) => const SignInPage()
+      },
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFECECEC),
         fontFamily: 'Poppins',
@@ -35,30 +41,6 @@ class _AppState extends State<App> {
           bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
           bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)
         )
-      ),
-      home: ScrollConfiguration(
-        behavior: const ScrollBehavior().copyWith(overscroll: false),
-        child: Scaffold(
-            body: NestedScrollView(
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
-                return [
-                  SliverAppBar(
-                    titleSpacing: 20,
-                    backgroundColor: const Color(0xFFECECEC),
-                    title: const Text('Plantial', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),),
-                    pinned: false,
-                    floating: true,
-                    snap: false,
-                    forceElevated: innerBoxIsScrolled,
-                  )
-                ];
-              }, body: pages.elementAt(index),
-            ),
-            bottomNavigationBar: BottomNavBar(
-              index: index,
-              onTapped: onTapped,
-            )
-        ),
       ),
     );
   }

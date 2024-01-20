@@ -4,6 +4,7 @@ import 'package:plantial/features/custom_button/custom_button.dart';
 import 'package:plantial/features/sign_up/sign_up_page.dart';
 import 'package:plantial/features/forgort_password/forgot_password_page.dart';
 
+
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
@@ -20,7 +21,7 @@ class _SignInPageState extends State<SignInPage> {
       body: SingleChildScrollView(
         child: Center(
            child: Padding(
-            padding: const EdgeInsets.only(top: 80),
+            padding: const EdgeInsets.only(top: 60),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -41,7 +42,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                
+
                 // Input Email Address
                 const CustomTextField(
                   hintText: 'Email Address',
@@ -58,7 +59,7 @@ class _SignInPageState extends State<SignInPage> {
                     },
                   ),
                 ),
-                
+
                 // Forgot password?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -82,7 +83,7 @@ class _SignInPageState extends State<SignInPage> {
                   ],
                 ),
                 const SizedBox(height: 15),
-                
+
                 // Button Login
                 CustomButton(
                   onTap: () {
@@ -91,7 +92,7 @@ class _SignInPageState extends State<SignInPage> {
                   buttonText: 'Login',
                 ),
                 const SizedBox(height: 15),
-                
+
                 // Or continue with social account
                 const Text(
                   'Or continue with social account',
@@ -101,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                
+
                 // Buttons Google and Facebook
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +125,7 @@ class _SignInPageState extends State<SignInPage> {
                   ],
                 ),
                 const SizedBox(height: 15),
-                
+
                 // Didn't have account? Sign up
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -135,7 +136,7 @@ class _SignInPageState extends State<SignInPage> {
                         fontSize: 16,
                       ),
                     ),
-                    
+
                     TextButton(
                       onPressed: () {
                         Navigator.push(
