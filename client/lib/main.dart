@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantial/features/address/address_page.dart';
 import 'package:plantial/features/cart/cart_page.dart';
 import 'package:plantial/features/favourites/favourites_page.dart';
 import 'features/bottom_nav_bar/bottom_nav_bar.dart';
@@ -16,7 +17,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int index = 0;
-  List<Widget> pages = [const HomePage(), const FavouritePage(), const CartPage(), const ProfilePage()];
+  List<Widget> pages = [const HomePage(), const FavouritePage(), const AddressPage(), const ProfilePage()];
 
   void onTapped(int i){
     setState(() {

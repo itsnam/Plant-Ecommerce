@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../custom_text_field/custom_text_field.dart';
-import '../custom_button/custom_button.dart';
-import '../sign_in/sign_in_page.dart';
+import 'package:plantial/features/custom_text_field/custom_text_field.dart';
+import 'package:plantial/features/custom_button/custom_button.dart';
+import 'package:plantial/features/sign_in/sign_in_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
