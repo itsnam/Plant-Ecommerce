@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plantial/features/icon_with_label/icon_with_label.dart';
+import 'package:plantial/features/commons/custom_button.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:plantial/features/custom_button/custom_button.dart';
 import 'package:plantial/features/address/custom_address_card.dart';
 
 class AddressPage extends StatefulWidget {
@@ -45,9 +44,6 @@ class _AddressPageState extends State<AddressPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                IconWithLabel(icon: Iconsax.location, label: 'Address', isGreen: true),
-                IconWithLabel(icon: Iconsax.card, label: 'Payment'),
-                IconWithLabel(icon: Iconsax.document_text, label: 'Summery'),
               ],
             ),
           ),

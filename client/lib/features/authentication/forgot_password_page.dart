@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:plantial/features/custom_text_field/custom_text_field.dart';
-import 'package:plantial/features/custom_button/custom_button.dart';
-import 'package:plantial/features/sign_in/sign_in_page.dart';
+import 'package:plantial/features/authentication/sign_in_page.dart';
+import 'package:plantial/features/commons/custom_button.dart';
+import 'package:plantial/features/commons/custom_text_field.dart';
+
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);

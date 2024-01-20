@@ -1,70 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:plantial/features/custom_text_field/custom_text_field.dart';
-import 'package:plantial/features/custom_button/custom_button.dart';
-import 'package:plantial/features/sign_in/sign_in_page.dart';
+import 'package:plantial/features/authentication/forgot_password_page.dart';
+import 'package:plantial/features/authentication/sign_up_page.dart';
+import 'package:plantial/features/commons/custom_button.dart';
+import 'package:plantial/features/commons/custom_text_field.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+
+class SignInPage extends StatefulWidget {
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 25),
+           child: Padding(
+            padding: const EdgeInsets.only(top: 60),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo và dòng chữ "Register Account to Plantial"
+                // Logo và dòng chữ "Welcome to Plantial"
                 Image.asset('assets/images/logo.png', height: 100),
-
                 const Text(
-                  'Register Account',
+                  'Welcome to',
                   style: TextStyle(
                     fontSize: 30,
                   ),
                 ),
-
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'to ',
-                      style: TextStyle(
-                        fontSize: 30,
-                      ),
-                    ),
-                    Text(
-                      'Plantial',
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: Color(0xFF4b8e4b),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                const Text(
+                  'Plantial',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Color(0xFF4b8e4b),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-
-                const SizedBox(height: 10),
-                
-                // Input Name
-                const CustomTextField(
-                  hintText: 'Name',
-                ),
+                const SizedBox(height: 15),
 
                 // Input Email Address
                 const CustomTextField(
                   hintText: 'Email Address',
                 ),
 
-                // Input password and visibility icon
+                // Input Password and visibility icon
                 CustomTextField(
                   hintText: 'Password',
                   obscureText: true,
@@ -76,28 +60,39 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
 
-                // Input Confirm Password and visibility icon
-                CustomTextField(
-                  hintText: 'Confirm Password',
-                  obscureText: true,
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.visibility),
-                    onPressed: () {
-                      // Toggle password visibility
-                    },
-                  ),
+                // Forgot password?
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        // Navigate to forgot password page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ForgotPasswordPage()), // Replace SignUpPage() with the actual class name
+                        );
+                      },
+                      child: const Text(
+                        'Forgot password?',
+                        style: TextStyle(
+                          color: Color(0xFF4b8e4b),
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                
-                // Button SignUp
+                const SizedBox(height: 15),
+
+                // Button Login
                 CustomButton(
                   onTap: () {
                     //Handle
                   },
-                  buttonText: 'Register',
+                  buttonText: 'Login',
                 ),
-                const SizedBox(height: 10),
-                
+                const SizedBox(height: 15),
+
                 // Or continue with social account
                 const Text(
                   'Or continue with social account',
@@ -106,9 +101,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     color: Colors.grey,
                   ),
                 ),
-                const SizedBox(height: 10),
-                
-                // Buttons Google và Facebook
+                const SizedBox(height: 15),
+
+                // Buttons Google and Facebook
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -129,28 +124,29 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                
+                const SizedBox(height: 15),
+
                 // Didn't have account? Sign up
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Already have an account?",
+                      "Didn't have an account?",
                       style: TextStyle(
                         fontSize: 16,
                       ),
                     ),
+
                     TextButton(
                       onPressed: () {
-                        // Navigate to sign-up page
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignInPage()),
+                          MaterialPageRoute(builder: (context) => const SignUpPage()), // Replace SignUpPage() with the actual class name
                         );
+                        // Navigate to sign-up page
                       },
                       child: const Text(
-                        'Login',
+                        'Register',
                         style: TextStyle(
                           color: Color(0xFF4b8e4b),
                           fontSize: 16,
@@ -167,3 +163,5 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
+
+
