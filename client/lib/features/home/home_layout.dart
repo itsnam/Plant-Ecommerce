@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plantial/features/address/address_page.dart';
 import 'package:plantial/features/commons/bottom_nav_bar.dart';
-import 'package:plantial/features/cart/cart_page.dart';
 import 'package:plantial/features/favourites/favourites_page.dart';
-import 'package:plantial/features/payment/payment_page.dart';
 import 'package:plantial/features/profile/profile_page.dart';
 import 'package:plantial/features/summary/summary.dart';
 import 'home_page.dart';

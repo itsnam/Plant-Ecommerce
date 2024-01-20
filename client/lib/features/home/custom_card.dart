@@ -22,14 +22,14 @@ class _CustomCardState extends State<CustomCard> {
         Navigator.pushNamed(context, '/product-detail');
       },
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
         child: Card(
           shadowColor: Colors.transparent,
           shape: const ContinuousRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25))),
           surfaceTintColor: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -57,11 +57,11 @@ class _CustomCardState extends State<CustomCard> {
                 Text(
                   category,
                   style: const TextStyle(
-                      fontWeight: FontWeight.w300,
+                      fontWeight: FontWeight.w400,
                       fontSize: 16,
                       color: Color(0xFF9AA09A)),
                 ),
-                const SizedBox(height: 12.0),
+                const SizedBox(height: 8.0),
                 SizedBox(
                   width: 200,
                   child: Expanded(
@@ -83,11 +83,11 @@ class _CustomCardState extends State<CustomCard> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                   backgroundColor: const Color(0xFF4b8e4b)),
-                              onPressed: (){
+                              onPressed: () {
                                 print('Button clicked');
                               },
                               child: const Icon(
-                                Iconsax.arrow_right_3,
+                                Iconsax.shopping_cart,
                                 color: Colors.white,
                                 size: 20,
                               )),

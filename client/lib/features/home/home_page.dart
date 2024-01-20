@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
             child: Text(
               'Find Your Favourite Plants Here',
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 16),
             ),
           ),
           const SizedBox(height: 16),
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(
-            height: 355,
+            height: 345,
             child: ListView(
               padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
               controller: scrollController,
