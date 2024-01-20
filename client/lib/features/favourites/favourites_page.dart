@@ -30,15 +30,10 @@ class _FavouritePageState extends State<FavouritePage> {
           const SizedBox(height: 18),
           const Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'My favourites',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-                ),
-              ],
+            child: Text(
+              'My favourites',
+              textAlign: TextAlign.left,
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
           ),
           Padding(

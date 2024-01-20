@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:plantial/features/custom_text_field/custom_text_field.dart';
-import 'package:plantial/features/custom_button/custom_button.dart';
-import 'package:plantial/features/sign_in/sign_in_page.dart';
+import 'package:plantial/features/commons/custom_text_field.dart';
+import 'package:plantial/features/commons/custom_button.dart';
+import 'sign_in_page.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 Image.asset('assets/images/logo.png', height: 100),
 
                 const Text(
-                  'Register Account',
+                  'Reset your Password',
                   style: TextStyle(
                     fontSize: 30,
                   ),
@@ -54,14 +54,48 @@ class _SignUpPageState extends State<SignUpPage> {
 
                 const SizedBox(height: 10),
                 
-                // Input Name
-                const CustomTextField(
-                  hintText: 'Name',
-                ),
-
                 // Input Email Address
                 const CustomTextField(
                   hintText: 'Email Address',
+                ),
+
+                // Input OTP
+                Container(
+                  width: 320,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: const Color(0xFF4b8e4b),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'OTP',
+                              contentPadding: EdgeInsets.all(10),
+                              isCollapsed: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Add your logic to generate OTP here
+                          // You can use setState to trigger a rebuild or perform any other necessary actions
+                        },
+                        child: const Text('Generate OTP'),
+                      ),
+                    ],
+                  ),
                 ),
 
                 // Input password and visibility icon
@@ -94,7 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   onTap: () {
                     //Handle
                   },
-                  buttonText: 'Register',
+                  buttonText: 'Reset Password',
                 ),
                 const SizedBox(height: 10),
                 

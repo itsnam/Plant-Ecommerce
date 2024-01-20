@@ -10,9 +10,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Profile'),
+        child: TextButton(
+            onPressed: (){
+              Navigator.pushNamed(context, "/auth");
+            },
+            child: const Text("Dang ky")
+        ),
       )
     );
   }

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:plantial/features/commons/icon_with_label.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/commons/custom_button.dart';
-import 'package:plantial/features/address/custom_address_card.dart';
+import 'package:plantial/features/summary/custom_item_card.dart';
 
-class AddressPage extends StatefulWidget {
-  const AddressPage({Key? key}) : super(key: key);
+class SummaryPage extends StatefulWidget {
+  const SummaryPage({Key? key}) : super(key: key);
 
   @override
-  State<AddressPage> createState() => _AddressPageState();
+  State<SummaryPage> createState() => _SummaryPageState();
 }
 
-class _AddressPageState extends State<AddressPage> {
+class _SummaryPageState extends State<SummaryPage> {
   ScrollController scrollController = ScrollController();
 
   @override
@@ -29,16 +29,14 @@ class _AddressPageState extends State<AddressPage> {
             SizedBox(width: 50),
           ],
         ),
-        leading: const BackButton(
-          style: ButtonStyle(
-            shape: MaterialStatePropertyAll(CircleBorder()),
-            iconSize: MaterialStatePropertyAll(24),
-            backgroundColor:
-              MaterialStatePropertyAll(Colors.white)
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Handle back button press here
+          },
         ),
       ),
-
+      
       body: ListView(
         children: [
           const SizedBox(height: 14),
@@ -48,8 +46,8 @@ class _AddressPageState extends State<AddressPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconWithLabel(icon: Iconsax.location, label: 'Address', isGreen: true),
-                IconWithLabel(icon: Iconsax.card, label: 'Payment'),
-                IconWithLabel(icon: Iconsax.document_text, label: 'Summary'),
+                IconWithLabel(icon: Iconsax.card, label: 'Payment', isGreen: true),
+                IconWithLabel(icon: Iconsax.document_text, label: 'Summary', isGreen: true),
               ],
             ),
           ),
@@ -57,7 +55,7 @@ class _AddressPageState extends State<AddressPage> {
           const Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Text(
-              'Address',
+              'Item Details',
               textAlign: TextAlign.left,
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
@@ -69,13 +67,17 @@ class _AddressPageState extends State<AddressPage> {
               controller: scrollController,
               shrinkWrap: true,
               children: const [
-                CustomAddressCard(
-                  title: "aaaa",
-                  subtitle: "asd"
+                CustomItemCard(
+                  imgUrl: 'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg',
+                  name: "Cactus",
+                  price: 59000,
+                  quantity: 2,
                 ),
-                CustomAddressCard(
-                  title: "aaaa",
-                  subtitle: "asd"
+                CustomItemCard(
+                  imgUrl: 'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg',
+                  name: "Cactus2",
+                  price: 59000,
+                  quantity: 3,
                 ),
               ],
             ),
@@ -95,7 +97,7 @@ class _AddressPageState extends State<AddressPage> {
               Expanded(
                 child: CustomButton(
                   onTap: () {
-                    Navigator.pushNamed(context, '/payment');
+                    // Handle button press
                   },
                   buttonText: 'Next',
                 ),
