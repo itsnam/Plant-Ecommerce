@@ -86,7 +86,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
           ],
         ),
         bottomNavigationBar: Container(
-          height: 75,
+          height: 80,
           decoration: const BoxDecoration(color: Colors.white),
           child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),

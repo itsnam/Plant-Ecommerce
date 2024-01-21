@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:plantial/features/commons/bottom_nav_bar.dart';
 import 'package:plantial/features/favourites/favourites_page.dart';
 import 'package:plantial/features/profile/profile_page.dart';
-import 'package:plantial/features/summary/summary_page.dart';
 import 'home_page.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -14,12 +13,17 @@ class HomeLayout extends StatefulWidget {
 
 class _HomeLayoutState extends State<HomeLayout> {
   int index = 0;
-  List<Widget> pages = [const HomePage(), const FavouritePage(), const SummaryPage(), const ProfilePage()];
+  List<Widget> pages = [const HomePage(), const FavouritePage(), const Text("123"), const ProfilePage()];
 
   void onTapped(int i){
-    setState(() {
-      index = i;
-    });
+    if(i == 2){
+      Navigator.pushNamed(context, '/cart');
+    }else{
+      setState(() {
+        index = i;
+      });
+    }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class _HomeLayoutState extends State<HomeLayout> {
               return [
                 SliverAppBar(
                   titleSpacing: 20,
-                  backgroundColor: const Color(0xFFECECEC),
+                  backgroundColor: const Color(0xFFf5f5f5),
                   title: const Text('Plantial', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),),
                   pinned: false,
                   floating: true,

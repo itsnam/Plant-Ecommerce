@@ -8,7 +8,7 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  String name = 'Cactus geg egerg er gerg ergerg ref ds fdsgsdg gdsgs fs sdg';
+  String name = 'Cactuss geg egerg er gerg ergerg ref ds fdsgsdg gdsgs fs sdg';
   String content =
       'fsdgsd gsdigdsgd gdgdsg gkdsghkdsg gkdhsghkdshgk shdgkghkdshg kgskdgh ksdghk sdhgk hsdkgh kdsgh kdshgk sdhkg hdskg hkdshg kdshkg hdskgh kdshgk hdskg hkdshg khdskg hkds';
 
@@ -44,9 +44,9 @@ class _ProductDetailState extends State<ProductDetail> {
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             const Divider(color: Color(0xFFD9E1E1)),
-            const SizedBox(height: 14),
+            const SizedBox(height: 15),
             const Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantial/features/home/custom_card.dart';
-import 'package:plantial/features/home/custom_cart_1.dart';
+import 'package:plantial/features/home/custom_card_1.dart';
 import 'package:plantial/features/search/custom_search_bar.dart';
 
 class HomePage extends StatefulWidget {
