@@ -9,11 +9,12 @@ class CustomCard1 extends StatefulWidget {
 }
 
 class _CustomCard1State extends State<CustomCard1> {
-  String name = 'Cactus geg egerg er gerg ergerg re';
+  String name = 'Long Plant Name Abcdefghiklm';
   String category = 'Indoor Plant';
   int price = 59000;
   String imgUrl =
-      'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg';
+      'https://i.pinimg.com/564x/18/63/11/186311e20163d1d7caa29652d3d5c6a9.jpg';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -69,22 +70,43 @@ class _CustomCard1State extends State<CustomCard1> {
                                 fontWeight: FontWeight.w700, fontSize: 16),
                           ),
                         ),
-                        SizedBox(
-                          height: 35,
-                          width: 35,
-                          child: TextButton(
-                              style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: const Color(0xFF4b8e4b)),
-                              onPressed: null,
-                              child: const Icon(
-                                Iconsax.shopping_cart,
-                                color: Colors.white,
-                                size: 16,
-                              )),
-                        )
+                        Row(children: [
+                          SizedBox(
+                            height: 35,
+                            width: 35,
+                            child: TextButton(
+                                style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    backgroundColor: const Color(0xFFECECEC)),
+                                onPressed: null,
+                                child: const Icon(
+                                  Iconsax.heart5,
+                                  color: Color(0xFF4b8e4b),
+                                  size: 16,
+                                )),
+                          ),
+                          const SizedBox(width: 5.0),
+                          SizedBox(
+                            height: 35,
+                            width: 35,
+                            child: TextButton(
+                                style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    backgroundColor: const Color(0xFF4b8e4b)),
+                                onPressed: null,
+                                child: const Icon(
+                                  Iconsax.shopping_cart,
+                                  color: Colors.white,
+                                  size: 16,
+                                )),
+                          ),
+                        ])
                       ],
                     ),
                   ],
