@@ -16,7 +16,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onPressed: (){
               Navigator.pushNamed(context, "/auth");
             },
-            child: const Text("Dang ky")
+            child: const Text("Sign In")
         ),
       )
     );
