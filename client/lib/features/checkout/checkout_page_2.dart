@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:plantial/features/checkout/address_card.dart';
 import 'package:plantial/features/checkout/payment_card.dart';
 
 class CheckOutPage2 extends StatefulWidget {

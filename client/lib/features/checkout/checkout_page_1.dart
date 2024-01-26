@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/checkout/address_card.dart';
-import 'package:plantial/features/home/custom_card_2.dart';
+
 
 import 'checkout_page_2.dart';
 

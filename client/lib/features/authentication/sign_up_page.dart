@@ -11,7 +11,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,14 +23,12 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 // Logo và dòng chữ "Register Account to Plantial"
                 Image.asset('assets/images/logo.png', height: 100),
-
                 const Text(
                   'Register Account',
                   style: TextStyle(
                     fontSize: 30,
                   ),
                 ),
-
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -51,19 +48,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 10),
-                
                 // Input Name
                 const CustomTextField(
                   hintText: 'Name',
                 ),
-
                 // Input Email Address
                 const CustomTextField(
                   hintText: 'Email Address',
                 ),
-
                 // Input password and visibility icon
                 CustomTextField(
                   hintText: 'Password',
@@ -88,7 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                
+
                 // Button SignUp
                 CustomButton(
                   onTap: () {
@@ -97,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   buttonText: 'Register',
                 ),
                 const SizedBox(height: 10),
-                
+
                 // Or continue with social account
                 const Text(
                   'Or continue with social account',
@@ -107,7 +100,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                
+
                 // Buttons Google và Facebook
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                
+
                 // Didn't have account? Sign up
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +139,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         // Navigate to sign-up page
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignInPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const SignInPage()),
                         );
                       },
                       child: const Text(
