@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:plantial/features/address/address_page.dart';
 import 'package:plantial/features/authentication/sign_in_page.dart';
 import 'package:plantial/features/cart/cart_page.dart';
 import 'package:plantial/features/favourites/favourites_page.dart';
 import 'package:plantial/features/home/home_layout.dart';
-import 'package:plantial/features/payment/payment_page.dart';
 import 'package:plantial/features/product_detail/product_detail_layout.dart';
 import 'features/home/home_page.dart';
 import 'features/profile/profile_page.dart';
@@ -20,7 +18,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int index = 0;
-  List<Widget> pages = [const HomePage(), const FavouritePage(), const AddressPage(), const ProfilePage()];
+  List<Widget> pages = [const HomePage(), const FavouritePage(), const CartPage(), const ProfilePage()];
 
   void onTapped(int i){
     setState(() {
@@ -36,8 +34,6 @@ class _AppState extends State<App> {
         '/home': (context) => const HomeLayout(),
         '/product-detail': (context) => const ProductDetailLayout(),
         '/auth': (context) => const SignInPage(),
-        '/address': (context) => const AddressPage(),
-        '/payment': (context) => const PaymentPage(),
         '/cart': (context) => const CartPage()
       },
       theme: ThemeData(

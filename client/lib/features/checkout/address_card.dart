@@ -48,7 +48,7 @@ class _AddressCardState extends State<AddressCard> {
                 onChanged: (value) => widget.onChanged(value),
                 subtitle: Text(widget.addressDetail, style: const TextStyle(fontSize: 14),),
               ),
-            ),
+            ), 
             const RotatedBox(
               quarterTurns: 1,
               child: SizedBox(

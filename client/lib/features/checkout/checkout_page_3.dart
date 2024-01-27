@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:plantial/features/checkout/address_card_2.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:plantial/features/checkout/payment_card.dart';
-import 'package:plantial/features/checkout/checkout_page_3.dart';
+import 'package:plantial/features/checkout/item_card.dart';
+import 'package:plantial/features/checkout/payment_card_2.dart';
 
-class CheckOutPage2 extends StatefulWidget {
-  final List<String> card;
-  const CheckOutPage2(
-      {super.key, this.card = const ["XXX XXXX XXXX 0701", "XXX XXXX XXXX 5221", 'COD'],});
+class CheckOutPage3 extends StatefulWidget {
+  const CheckOutPage3({Key? key}) : super(key: key);
 
   @override
-  State<CheckOutPage2> createState() => _CheckOutPage2State();
+  State<CheckOutPage3> createState() => _CheckOutPage3State();
 }
 
-class _CheckOutPage2State extends State<CheckOutPage2> {
-  late String? selectedAddress = widget.card[0];
-
-  onChangeAddress(value){
-    setState(() {
-      selectedAddress = value;
-    });
-  }
+class _CheckOutPage3State extends State<CheckOutPage3> {
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +102,7 @@ class _CheckOutPage2State extends State<CheckOutPage2> {
                                   borderRadius: BorderRadius.circular(5)),
                               child: const Icon(
                                 Iconsax.document_text,
-                                color: Color(0xFF262926),
+                                color: Color(0xFF4b8e4b),
                               ),
                             ),
                             const SizedBox(
@@ -137,36 +129,18 @@ class _CheckOutPage2State extends State<CheckOutPage2> {
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    const Text("Save Cards", style: (TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),),
+                    const Text("Item Details", style: (TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),),
                     const SizedBox(height:10),
-                    PaymentCard(
-                      card: widget.card[0], onChanged: onChangeAddress, selectedCard: selectedAddress),
-                    PaymentCard(
-                        card: widget.card[1], onChanged: onChangeAddress, selectedCard: selectedAddress),
-                    SizedBox(
-                      height: 55,
-                      child: TextButton(
-                        onPressed: null,
-                        style: ButtonStyle(
-                            backgroundColor: const MaterialStatePropertyAll(
-                                Color(0xFF4b8e4b)),
-                            shape: MaterialStatePropertyAll(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(7)))),
-                        child: const Text(
-                          "Add New Card",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 25),
-                    const Text("Other Methods", style: (TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),),
+                    const ItemCard(
+                      imgUrl: 'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg', name: 'Long Plant Name', price: 59000, quantity: 2),
+                    const ItemCard(
+                      imgUrl: 'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg', name: 'Long Plant Name', price: 59000, quantity: 2),
+                    const Text("Delivery Address", style: (TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),),
                     const SizedBox(height: 10),
-                    PaymentCard(
-                        card: widget.card[2], onChanged: onChangeAddress, selectedCard: selectedAddress),
+                    const AddressCard2(address: 'Home', detail: '42 Nguyen Thi Thap, Phuong Tan Quy, Quan 7, TP HCM'),
+                    const Text("Payment Details", style: (TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),),
+                    const PaymentCard2(card: "XXX XXXX XXXX 0701"),
+                    const Text("Order Summary", style: (TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),),  
                   ]),
                 ),
               ),
@@ -192,38 +166,35 @@ class _CheckOutPage2State extends State<CheckOutPage2> {
               ),
             ],
           ),
-          child: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    height: 55,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const CheckOutPage3()));
-                      },
-                      style: ButtonStyle(
-                          backgroundColor:
-                          const MaterialStatePropertyAll(Color(0xFF4b8e4b)),
-                          shape: MaterialStatePropertyAll(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(7)))),
-                      child: const Text(
-                        "Next",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  height: 55,
+                  child: TextButton(
+                    onPressed: () {
+                    },
+                    style: ButtonStyle(
+                        backgroundColor:
+                        const MaterialStatePropertyAll(Color(0xFF4b8e4b)),
+                        shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7)))),
+                    child: const Text(
+                      "Pay Now",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         ),
