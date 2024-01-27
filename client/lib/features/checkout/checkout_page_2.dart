@@ -171,12 +171,6 @@ class _CheckOutPage2State extends State<CheckOutPage2> {
                 ),
               ),
             ),
-            const DecoratedSliver(
-              decoration: BoxDecoration(color: Colors.white),
-              sliver: SliverFillRemaining(
-                hasScrollBody: false,
-              ),
-            )
           ],
         ),
         bottomNavigationBar: Container(

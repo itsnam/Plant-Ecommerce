@@ -98,7 +98,7 @@ class _CheckOutPage3State extends State<CheckOutPage3> {
                               height: 50,
                               width: 50,
                               decoration: BoxDecoration(
-                                  color: const Color(0xFFf5f5f5),
+                                  color: const Color(0xFFedf4ed),
                                   borderRadius: BorderRadius.circular(5)),
                               child: const Icon(
                                 Iconsax.document_text,
@@ -139,22 +139,33 @@ class _CheckOutPage3State extends State<CheckOutPage3> {
                     const SizedBox(height: 10),
                     const AddressCard2(address: 'Home', detail: '42 Nguyen Thi Thap, Phuong Tan Quy, Quan 7, TP HCM'),
                     const Text("Payment Details", style: (TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),),
+                    const SizedBox(height: 10),
                     const PaymentCard2(card: "XXX XXXX XXXX 0701"),
-                    const Text("Order Summary", style: (TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),),  
+                    const Text("Order Summary", style: (TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),),
+                    const Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text("Item Total"),
+                            Text("đ285.000")
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text("Item Total"),
+                            Text("đ285.000")
+                          ],
+                        ),
+                      ],
+                    )
                   ]),
                 ),
               ),
             ),
-            const DecoratedSliver(
-              decoration: BoxDecoration(color: Colors.white),
-              sliver: SliverFillRemaining(
-                hasScrollBody: false,
-              ),
-            )
           ],
         ),
         bottomNavigationBar: Container(
-          height: 85,
+          height: 130,
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
@@ -174,6 +185,24 @@ class _CheckOutPage3State extends State<CheckOutPage3> {
                 const SizedBox(
                   height: 15,
                 ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Total",
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      "đ256.000",
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 SizedBox(
                   height: 55,
                   child: TextButton(
@@ -186,7 +215,7 @@ class _CheckOutPage3State extends State<CheckOutPage3> {
                             RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(7)))),
                     child: const Text(
-                      "Pay Now",
+                      "Order Now",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

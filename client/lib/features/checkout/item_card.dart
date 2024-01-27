@@ -32,11 +32,14 @@ class ItemCard extends StatelessWidget {
             ]),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10), // Image border
-              child: SizedBox.fromSize(
-                size: const Size.fromRadius(50), // Image radius
-                child: Image.network(imgUrl, fit: BoxFit.cover),
+            Padding(
+              padding: const EdgeInsets.all(7),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(7), // Image border
+                child: SizedBox.fromSize(
+                  size: const Size.fromRadius(40), // Image radius
+                  child: Image.network(imgUrl, fit: BoxFit.cover),
+                ),
               ),
             ),
             Expanded(
