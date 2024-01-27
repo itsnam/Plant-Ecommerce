@@ -43,7 +43,7 @@ class _PaymentCardState extends State<PaymentCard> {
                         Iconsax.dollar_square,
                         size: 20,
                       )
-                    : const Icon(
+                    : const Icon( 
                         Iconsax.card,
                         size: 20,
                       )),
