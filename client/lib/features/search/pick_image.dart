@@ -35,9 +35,9 @@ class _PickImageState extends State<PickImage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 5),
+            const SizedBox(height: 10),
             SizedBox(
-              height: 50,
+              height: 55,
               width: 300,
               child: TextButton(
                 onPressed: () {
@@ -60,7 +60,7 @@ class _PickImageState extends State<PickImage> {
             ),
             const SizedBox(height: 5),
             SizedBox(
-              height: 50,
+              height: 55,
               width: 300,
               child: TextButton(
                 onPressed: () {
@@ -81,13 +81,20 @@ class _PickImageState extends State<PickImage> {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            image != null ? Image.file(image!) : const Text("Please selected an image"),
+            const SizedBox(height: 5),
+            image != null
+                ? Expanded(
+                    child: Image.file(
+                      image!,
+                      fit: BoxFit.cover, // Adjust this based on your needs
+                    ),
+                  )
+                : const Text("Please select an image"),
           ],
         ),
       ),
       bottomNavigationBar: Container(
-          height: 60,
+          height: 85,
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
@@ -101,12 +108,15 @@ class _PickImageState extends State<PickImage> {
           ),
           child: Expanded(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
                   SizedBox(
-                    height: 50,
+                    height: 55,
                     child: TextButton(
                       onPressed: () {
                       },
