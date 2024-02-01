@@ -1,3 +1,4 @@
+
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -5,8 +6,9 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const cors = require("cors");
 const connect = require("./config/connect");
+
 const app = express();
-port = 3000;
+const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,6 +33,9 @@ const plantRouter = require("./routes/plant");
 
 app.use("/api/auth", authRouter);
 app.use("/api/plants", plantRouter);
+
+const plantRoutes = require('./routes/plants');
+app.use('/plants', plantRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on: http://localhost:${port}`);

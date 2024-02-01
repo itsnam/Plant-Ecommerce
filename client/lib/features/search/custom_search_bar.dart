@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:plantial/features/search/pick_image.dart';
 
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return const SearchBar(
+    return SearchBar(
       hintText: 'Search',
-      hintStyle: MaterialStatePropertyAll(TextStyle(color: Color(0xFFAEB3AE))),
-      padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0)),
-      surfaceTintColor: MaterialStatePropertyAll(Colors.transparent),
-      backgroundColor: MaterialStatePropertyAll(Color(0xFFFFFFFF)),
-      shape: MaterialStatePropertyAll(ContinuousRectangleBorder(
+      hintStyle: const MaterialStatePropertyAll(TextStyle(color: Color(0xFFAEB3AE))),
+      padding: const MaterialStatePropertyAll(EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0)),
+      surfaceTintColor: const MaterialStatePropertyAll(Colors.transparent),
+      backgroundColor: const MaterialStatePropertyAll(Color(0xFFFFFFFF)),
+      shape: const MaterialStatePropertyAll(ContinuousRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20))
       )),
-      shadowColor: MaterialStatePropertyAll(Colors.transparent),
-      leading: IconButton(
+      shadowColor: const MaterialStatePropertyAll(Colors.transparent),
+      leading: const IconButton(
         icon: Icon(Iconsax.search_normal, size: 20, color: Colors.black,),
         onPressed: null,
       ),
       trailing: [
         IconButton(
-            onPressed: null,
-            icon: Icon(Iconsax.camera, color: Colors.black,)
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const PickImage()));
+            },
+            icon: const Icon(Iconsax.camera, color: Colors.black,)
         )
       ],
     );
   }
+
 }

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const plantSchema = new mongoose.Schema({
+
   name: {
     type: String,
   },
@@ -24,5 +25,6 @@ const plantSchema = new mongoose.Schema({
     type: Number,
   },
 });
+
 
 module.exports = mongoose.model("Plant", plantSchema);

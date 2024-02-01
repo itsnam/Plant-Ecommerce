@@ -2,19 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class CustomCard1 extends StatefulWidget {
-  const CustomCard1({super.key});
+  final String name;
+  final String category;
+  final int price;
+  final String imgUrl;
+
+  const CustomCard1({
+    Key? key,
+    required this.name,
+    required this.category,
+    required this.price,
+    required this.imgUrl,
+  }) : super(key: key);
 
   @override
   State<CustomCard1> createState() => _CustomCard1State();
 }
 
 class _CustomCard1State extends State<CustomCard1> {
-  String name = 'Long Plant Name Abcdefghiklm';
-  String category = 'Indoor Plant';
-  int price = 59000;
-  String imgUrl =
-      'https://i.pinimg.com/564x/18/63/11/186311e20163d1d7caa29652d3d5c6a9.jpg';
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,7 +38,7 @@ class _CustomCard1State extends State<CustomCard1> {
                 borderRadius: BorderRadius.circular(10), // Image border
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(45), // Image radius
-                  child: Image.network(imgUrl, fit: BoxFit.cover),
+                  child: Image.network(widget.imgUrl, fit: BoxFit.cover),
                 ),
               ),
               const SizedBox(width: 15.0),
@@ -42,7 +47,7 @@ class _CustomCard1State extends State<CustomCard1> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      widget.name,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: const TextStyle(
@@ -50,7 +55,7 @@ class _CustomCard1State extends State<CustomCard1> {
                     ),
                     const SizedBox(height: 4.0),
                     Text(
-                      category,
+                      widget.category,
                       style: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
@@ -63,7 +68,7 @@ class _CustomCard1State extends State<CustomCard1> {
                       children: [
                         Flexible(
                           child: Text(
-                            'đ$price',
+                            'đ${widget.price}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
