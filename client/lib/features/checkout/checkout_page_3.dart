@@ -145,19 +145,22 @@ class _CheckOutPage3State extends State<CheckOutPage3> {
                     const Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Item Total"),
-                            Text("đ285.000")
+                            Text("đ285.000"),
                           ],
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Item Total"),
-                            Text("đ285.000")
+                            Text("đ285.000"),
                           ],
                         ),
                       ],
                     )
+
                   ]),
                 ),
               ),

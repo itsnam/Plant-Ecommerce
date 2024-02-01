@@ -19,6 +19,9 @@ const plantSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
+    },
+    category:{
+        type: String,
     }
 })
 
