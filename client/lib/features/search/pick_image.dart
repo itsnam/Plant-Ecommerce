@@ -86,7 +86,7 @@ class _PickImageState extends State<PickImage> {
                 ? Expanded(
                     child: Image.file(
                       image!,
-                      fit: BoxFit.cover, // Adjust this based on your needs
+                      fit: BoxFit.cover,
                     ),
                   )
                 : const Text("Please select an image"),
@@ -102,7 +102,7 @@ class _PickImageState extends State<PickImage> {
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 5,
                 blurRadius: 7,
-                offset: const Offset(0, 0), // changes position of shadow
+                offset: const Offset(0, 0),
               ),
             ],
           ),
