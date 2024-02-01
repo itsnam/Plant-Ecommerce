@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantial/features/home/custom_card_1.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({super.key});
@@ -9,35 +11,66 @@ class FavouritePage extends StatefulWidget {
 }
 
 class _FavouritePageState extends State<FavouritePage> {
-  final ScrollController scrollController = ScrollController();
+
+
+  Future<List<dynamic>> fetchData() async {
+    const String apiUrl = 'https://jsonplaceholder.typicode.com/photos';
+
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: ListView(
-        children: [
-          const Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Text(
-              'My favourites',
-              textAlign: TextAlign.left,
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: ListView(
-              controller: scrollController,
-              shrinkWrap: true,
-              children: const [
-                CustomCard1(),
-                CustomCard1(),
-                CustomCard1(),
+      body: FutureBuilder<List<dynamic>>(
+        future: fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No data available'));
+          } else {
+            List<dynamic> data = snapshot.data!;
+            return ListView(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Text(
+                    'My favourites',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  height: 700,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CustomCard1(
+                        name: data[index]['title'], 
+                        category: data[index]['title'],
+                        price: data[index]['id'],
+                        imgUrl: data[index]['thumbnailUrl']
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 12),
               ],
-            ),
-          ),
-        ],
+            );
+          }
+        },
       ),
     );
   }
