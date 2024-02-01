@@ -14,7 +14,7 @@ const generateOTP = async (req, res) => {
         const OTP = otp.generateOTP();
         user.OTP = OTP;
 
-        await  user.save();
+        await user.save();
 
         otp.sendOTP(email, OTP);
         res.status(200).send('OTP sent successfully');
