@@ -28,12 +28,12 @@ class _PickImageState extends State<PickImage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pick Image'),
+        title: const Text('Find with Image'),
       ),
       body: Align(
         alignment: Alignment.topCenter,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 10),
             SizedBox(
