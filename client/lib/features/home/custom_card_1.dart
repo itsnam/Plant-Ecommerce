@@ -31,13 +31,13 @@ class _CustomCard1State extends State<CustomCard1> {
         shape: const ContinuousRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(25))),
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: Row(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10), // Image border
                 child: SizedBox.fromSize(
-                  size: const Size.fromRadius(45), // Image radius
+                  size: const Size.fromRadius(50), // Image radius
                   child: Image.network(widget.imgUrl, fit: BoxFit.cover),
                 ),
               ),
@@ -56,6 +56,8 @@ class _CustomCard1State extends State<CustomCard1> {
                     const SizedBox(height: 4.0),
                     Text(
                       widget.category,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
