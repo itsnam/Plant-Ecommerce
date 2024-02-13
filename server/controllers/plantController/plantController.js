@@ -43,9 +43,9 @@ const predict = async (req, res) => {
   try {
     const result = await predictPlant(
       req.files["image"][0].buffer,
-      [1, 3, 224, 224],
+      [1, 3, 299, 299],
     );
-    return res.status(200).json("Successfully");
+    return res.status(200).json(result);
   } catch (e) {
     console.log(e);
   }

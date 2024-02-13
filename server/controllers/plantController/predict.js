@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const Jimp = require("jimp");
 const ort = require("onnxruntime-node");
-
+const pClasses = require("../../data/classes");
 const predictPlant = async (file, dims) => {
   try {
     const session = await ort.InferenceSession.create(
@@ -31,13 +31,11 @@ const predictPlant = async (file, dims) => {
     const inputTensor = new ort.Tensor("float32", float32Data, dims);
     const output = await session.run({ "input.1": inputTensor });
     const outputSoftmax = softmax(output["889"].cpuData);
-
-    return output;
+    return getTopProbabilitiy(outputSoftmax);
   } catch (e) {
     console.log(e);
   }
 };
-
 const softmax = (array) => {
   const largestNumber = Math.max(...array);
   const sumOfExp = array
@@ -48,28 +46,14 @@ const softmax = (array) => {
   });
 };
 
-const imagenetClassesTopK = (classProbabilities, k = 5) => {
-  const probs = _.isTypedArray(classProbabilities)
-    ? Array.prototype.slice.call(classProbabilities)
-    : classProbabilities;
-
-  const sorted = _.reverse(
-    _.sortBy(
-      probs.map((prob, index) => [prob, index]),
-      (probIndex) => probIndex[0],
-    ),
-  );
-
-  const topK = _.take(sorted, k).map((probIndex) => {
-    const iClass = imagenetClasses[probIndex[1]];
-    return {
-      id: iClass[0],
-      index: parseInt(probIndex[1].toString(), 10),
-      name: iClass[1].replace(/_/g, " "),
-      probability: probIndex[0],
-    };
-  });
-  return topK;
+const getTopProbabilitiy = (array) => {
+  const max = Math.max(...array);
+  const index = array.indexOf(max);
+  return {
+    id: pClasses[index][0],
+    name: pClasses[index][1],
+    probability: max,
+  };
 };
 
 module.exports = predictPlant;
