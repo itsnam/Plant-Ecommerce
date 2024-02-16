@@ -5,6 +5,7 @@ const uploadToLocal = require("../controllers/plantController/uploadToLocal");
 const uploadToMemory = require("../controllers/plantController/uploadToMemory");
 
 router.get("/", plantController.getAllPlants);
+router.get("/:_id", plantController.getPlantById);
 router.post("/", uploadToLocal, plantController.createPlant);
 router.post("/predict", uploadToMemory, plantController.predict);
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:plantial/features/Url/url.dart';
 import 'package:plantial/features/home/custom_card.dart';
 import 'package:plantial/features/home/custom_card_1.dart';
 import 'package:plantial/features/search/custom_search_bar.dart';
@@ -16,20 +17,28 @@ class _HomePageState extends State<HomePage> {
 
   final ScrollController mainListController = ScrollController();
 
-    final List<CustomCard> list = [
-      const CustomCard(),
-      const CustomCard(),
-      const CustomCard(),
-      const CustomCard(),
-    ];
-
-  Future<List<dynamic>> fetchData() async {
-    const String apiUrl = 'https://jsonplaceholder.typicode.com/photos';
-
-    final response = await http.get(Uri.parse(apiUrl));
+  Future<List<dynamic>> fetchSoldSortedData() async {
+    final response = await http.get(Uri.parse(apiPlants));
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      List<dynamic> data = json.decode(response.body);
+      data.sort((a, b) =>
+          b['sold'].compareTo(a['sold']));
+      return data;
+    } else {
+      throw Exception('Failed to load sold sorted data');
+    }
+  }
+
+  Future<List<dynamic>> fetchData() async {
+
+    final response = await http.get(Uri.parse(apiPlants));
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      data.sort((a, b) =>
+          DateTime.parse(b['createdAt']).compareTo(DateTime.parse(a['createdAt'])));
+      return data;
     } else {
       throw Exception('Failed to load data');
     }
@@ -39,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
-        future: fetchData(),
+        future: Future.wait([fetchSoldSortedData(), fetchData()]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -48,7 +57,8 @@ class _HomePageState extends State<HomePage> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No data available'));
           } else {
-            List<dynamic> data = snapshot.data!;
+            List<dynamic> soldSortedData = snapshot.data![0];
+            List<dynamic> data = snapshot.data![1];
             return ListView(
               children: [
                 const Padding(
@@ -86,11 +96,19 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(
                   height: 345,
-                  child: ListView(
+                  child: ListView.builder(
                     padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
+                    itemCount: soldSortedData.length,
                     controller: mainListController,
                     scrollDirection: Axis.horizontal,
-                    children: list,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CustomCard(
+                        name: soldSortedData[index]['name'], 
+                        type: soldSortedData[index]['type'],
+                        price: soldSortedData[index]['price'],
+                        imgUrl: soldSortedData[index]['image']
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -123,10 +141,11 @@ class _HomePageState extends State<HomePage> {
                     itemCount: data.length,
                     itemBuilder: (BuildContext context, int index) {
                       return CustomCard1(
-                        name: data[index]['title'], 
-                        category: data[index]['title'],
-                        price: data[index]['id'],
-                        imgUrl: data[index]['thumbnailUrl']
+                        id: data[index]['_id'],
+                        name: data[index]['name'], 
+                        type: data[index]['type'],
+                        price: data[index]['price'],
+                        imgUrl: data[index]['image']
                       );
                     },
                   ),

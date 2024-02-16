@@ -81,7 +81,13 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
             ),
             const SliverFillRemaining(
               hasScrollBody: false,
-              child: ProductDetail(),
+              child: ProductDetail(
+                name: "Name plant akjsdhkhjasd",
+                description: "description some thign kjdhaskjhasdkjhasd",
+                type: "Outdoor",
+                size: "Medium",
+                price: 59000
+              )
             ),
           ],
         ),

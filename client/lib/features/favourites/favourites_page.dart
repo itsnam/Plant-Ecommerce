@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantial/features/Url/url.dart';
 import 'package:plantial/features/home/custom_card_1.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -14,9 +15,7 @@ class _FavouritePageState extends State<FavouritePage> {
 
 
   Future<List<dynamic>> fetchData() async {
-    const String apiUrl = 'https://jsonplaceholder.typicode.com/photos';
-
-    final response = await http.get(Uri.parse(apiUrl));
+    final response = await http.get(Uri.parse(apiPlants));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -58,10 +57,11 @@ class _FavouritePageState extends State<FavouritePage> {
                     itemCount: data.length,
                     itemBuilder: (BuildContext context, int index) {
                       return CustomCard1(
-                        name: data[index]['title'], 
-                        category: data[index]['title'],
-                        price: data[index]['id'],
-                        imgUrl: data[index]['thumbnailUrl']
+                        id: data[index]['_id'],
+                        name: data[index]['name'], 
+                        type: data[index]['type'],
+                        price: data[index]['price'],
+                        imgUrl: data[index]['image']
                       );
                     },
                   ),
