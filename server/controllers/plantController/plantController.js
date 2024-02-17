@@ -21,6 +21,7 @@ let createPlant = async (req, res) => {
       description: req.body.description,
       quantity: req.body.quantity,
       price: req.body.price,
+      status: req.body.status,
     });
     return res.status(200).json("Plant created successfully");
   } catch (error) {
@@ -32,7 +33,7 @@ let createPlant = async (req, res) => {
 const getAllPlants = async (req, res) => {
   try {
     const plants = await Plant.find();
-    res.json(plants);
+    res.status(200).json(plants);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

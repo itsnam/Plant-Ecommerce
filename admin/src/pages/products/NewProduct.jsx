@@ -5,6 +5,13 @@ import { ArrowUpTrayIcon } from "@heroicons/react/24/outline/index.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import getCroppedImage from "./ImageUpload.jsx";
+<<<<<<< Updated upstream
+=======
+import "./style.css";
+import FormValidate from "./FormValidate.jsx";
+import plantClasses from "./PlantType.js";
+import plantType from "./PlantType.js";
+>>>>>>> Stashed changes
 
 const NewProduct = ({ title, defaultValue }) => {
   const [formState, setFormState] = React.useState(
@@ -52,7 +59,12 @@ const NewProduct = ({ title, defaultValue }) => {
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("name", formState.name);
+<<<<<<< Updated upstream
     formData.append("category", formState.category);
+=======
+    formData.append("type", formState.type);
+    formData.append("status", parseInt(formState.status));
+>>>>>>> Stashed changes
     formData.append("description", formState.description);
     formData.append("price", parseInt(formState.price));
     formData.append("quantity", parseInt(formState.quantity));
@@ -71,13 +83,18 @@ const NewProduct = ({ title, defaultValue }) => {
       data: formData,
     }).then((res) => {
       navigate("/products/");
-      console.log(res.data);
     });
   };
 
   return (
+<<<<<<< Updated upstream
     <div className={"flex flex-col"}>
       <div className={"flex justify-center gap-5"}>
+=======
+    <div className={"flex flex-col p-10"}>
+      <div className={"text-lg font-bold"}>{title}</div>
+      <div className={"mt-3 flex w-full gap-5"}>
+>>>>>>> Stashed changes
         <div className={"flex w-1/2 flex-col"}>
           <div className={"w-1/2 text-lg font-semibold"}>{title}</div>
           <div className={"flex gap-5"}>
@@ -115,9 +132,9 @@ const NewProduct = ({ title, defaultValue }) => {
                   "mt-1 w-full rounded-md border-0 px-3 py-2.5 text-sm leading-6 text-gray-900 ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2"
                 }
               >
-                <option value="1">Available</option>
-                <option value="2">Pending</option>
-                <option value="0">None</option>
+                {plantType.map((item) => (
+                  <option value={item[0]}>{item[1]}</option>
+                ))}
               </select>
             </div>
           </div>
