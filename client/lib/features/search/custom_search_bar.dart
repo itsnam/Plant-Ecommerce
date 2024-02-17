@@ -14,7 +14,7 @@ class CustomSearchBar extends StatelessWidget {
       surfaceTintColor: const MaterialStatePropertyAll(Colors.transparent),
       backgroundColor: const MaterialStatePropertyAll(Color(0xFFFFFFFF)),
       shape: const MaterialStatePropertyAll(ContinuousRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(20))
+        borderRadius: BorderRadius.all(Radius.circular(15))
       )),
       shadowColor: const MaterialStatePropertyAll(Colors.transparent),
       leading: const IconButton(

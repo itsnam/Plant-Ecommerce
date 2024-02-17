@@ -13,21 +13,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final ScrollController mainListController = ScrollController();
 
-    final List<CustomCard> list = [
-      const CustomCard(),
-      const CustomCard(),
-      const CustomCard(),
-      const CustomCard(),
-    ];
+  final List<CustomCard> list = [
+    const CustomCard(),
+    const CustomCard(),
+    const CustomCard(),
+    const CustomCard(),
+  ];
 
   Future<List<dynamic>> fetchData() async {
     const String apiUrl = 'https://jsonplaceholder.typicode.com/photos';
-
     final response = await http.get(Uri.parse(apiUrl));
-
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -42,7 +39,10 @@ class _HomePageState extends State<HomePage> {
         future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
+            ));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -56,11 +56,13 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     'Find Your Favourite Plants Here',
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 0), child: CustomSearchBar()),
+                const Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: CustomSearchBar()),
                 const SizedBox(height: 18),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -70,7 +72,8 @@ class _HomePageState extends State<HomePage> {
                       const Text(
                         'Most Popular',
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 18),
                       ),
                       TextButton(
                           style: TextButton.styleFrom(
@@ -79,13 +82,16 @@ class _HomePageState extends State<HomePage> {
                           onPressed: null,
                           child: const Text(
                             'View all',
-                            style: TextStyle(color: Color(0xFF4b8e4b)),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18,
+                                color: Color(0xFF4b8e4b)),
                           ))
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 345,
+                  height: 360,
                   child: ListView(
                     padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
                     controller: mainListController,
@@ -102,7 +108,8 @@ class _HomePageState extends State<HomePage> {
                       const Text(
                         'New products',
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 18),
                       ),
                       TextButton(
                           style: TextButton.styleFrom(
@@ -111,23 +118,26 @@ class _HomePageState extends State<HomePage> {
                           onPressed: null,
                           child: const Text(
                             'View all',
-                            style: TextStyle(color: Color(0xFF4b8e4b)),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18,
+                                color: Color(0xFF4b8e4b)),
                           ))
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 345,
+                  height: 400,
                   child: ListView.builder(
+                    shrinkWrap: true,
                     padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
                     itemCount: data.length,
                     itemBuilder: (BuildContext context, int index) {
                       return CustomCard1(
-                        name: data[index]['title'], 
-                        category: data[index]['title'],
-                        price: data[index]['id'],
-                        imgUrl: data[index]['thumbnailUrl']
-                      );
+                          name: data[index]['title'],
+                          category: data[index]['title'],
+                          price: data[index]['id'],
+                          imgUrl: data[index]['thumbnailUrl']);
                     },
                   ),
                 ),

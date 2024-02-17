@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plantial/features/home/custom_card_1.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({super.key});
@@ -15,8 +15,7 @@ class _FavouritePageState extends State<FavouritePage> {
 
   Future<List<dynamic>> fetchData() async {
     const String apiUrl = 'https://jsonplaceholder.typicode.com/photos';
-
-    final response = await http.get(Uri.parse(apiUrl));
+    Response response = await get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -27,13 +26,14 @@ class _FavouritePageState extends State<FavouritePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: FutureBuilder<List<dynamic>>(
         future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
+            ));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

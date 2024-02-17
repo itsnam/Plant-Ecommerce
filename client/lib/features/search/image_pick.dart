@@ -1,13 +1,9 @@
 import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 
 class ImagePick{
-
   ImageSource source;
-
   ImagePick({required this.source});
-
   pick({onPick}) async{
     final ImagePicker picker = ImagePicker();
     final image = await picker.pickImage(source: source);

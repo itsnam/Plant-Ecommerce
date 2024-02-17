@@ -29,21 +29,21 @@ class _CustomCard1State extends State<CustomCard1> {
         color: Colors.white,
         surfaceTintColor: Colors.white,
         shape: const ContinuousRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(25))),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10), // Image border
-                child: SizedBox.fromSize(
-                  size: const Size.fromRadius(50), // Image radius
-                  child: Image.network(widget.imgUrl, fit: BoxFit.cover),
-                ),
+            borderRadius: BorderRadius.all(Radius.circular(7))),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(7), bottomLeft: Radius.circular(7)), // Image border
+              child: SizedBox.fromSize(
+                size: const Size.fromRadius(60), // Image radius
+                child: Image.network(widget.imgUrl, fit: BoxFit.cover),
               ),
-              const SizedBox(width: 15.0),
-              Expanded(
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(15),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -51,19 +51,9 @@ class _CustomCard1State extends State<CustomCard1> {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: const TextStyle(
-                          fontWeight: FontWeight.w700, fontSize: 16),
+                          fontWeight: FontWeight.w400, fontSize: 20),
                     ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      widget.category,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                          color: Color(0xFF9AA09A)),
-                    ),
-                    const SizedBox(height: 8.0),
+                    const SizedBox(height: 20.0),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,38 +69,38 @@ class _CustomCard1State extends State<CustomCard1> {
                         ),
                         Row(children: [
                           SizedBox(
-                            height: 35,
-                            width: 35,
+                            height: 40,
+                            width: 40,
                             child: TextButton(
                                 style: TextButton.styleFrom(
                                     padding: EdgeInsets.zero,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                            BorderRadius.circular(5)),
                                     backgroundColor: const Color(0xFFECECEC)),
                                 onPressed: null,
                                 child: const Icon(
                                   Iconsax.heart5,
                                   color: Color(0xFF4b8e4b),
-                                  size: 16,
+                                  size: 20,
                                 )),
                           ),
-                          const SizedBox(width: 5.0),
+                          const SizedBox(width: 7.0),
                           SizedBox(
-                            height: 35,
-                            width: 35,
+                            height: 40,
+                            width: 40,
                             child: TextButton(
                                 style: TextButton.styleFrom(
                                     padding: EdgeInsets.zero,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                            BorderRadius.circular(5)),
                                     backgroundColor: const Color(0xFF4b8e4b)),
                                 onPressed: null,
                                 child: const Icon(
                                   Iconsax.shopping_cart,
                                   color: Colors.white,
-                                  size: 16,
+                                  size: 20,
                                 )),
                           ),
                         ])
@@ -119,8 +109,8 @@ class _CustomCard1State extends State<CustomCard1> {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
