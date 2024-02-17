@@ -3,7 +3,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/search/pick_image.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({super.key});
+  final Function(String) onSearch;
+
+  const CustomSearchBar({Key? key, required this.onSearch}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,9 @@ class CustomSearchBar extends StatelessWidget {
             icon: const Icon(Iconsax.camera, color: Colors.black,)
         )
       ],
+      onChanged: (value) {
+        onSearch(value);
+      },
     );
   }
 

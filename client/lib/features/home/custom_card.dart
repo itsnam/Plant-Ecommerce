@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:plantial/features/product_detail/product_detail_layout.dart';
 
 class CustomCard extends StatefulWidget {
   final String name;
   final String type;
   final int price;
   final String imgUrl;
+  final String id;
 
   const CustomCard({
     Key? key,
@@ -13,6 +15,7 @@ class CustomCard extends StatefulWidget {
     required this.type,
     required this.price,
     required this.imgUrl,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -20,20 +23,17 @@ class CustomCard extends StatefulWidget {
 }
 
 class _CustomCardState extends State<CustomCard> {
-
-  String name = 'Xương rồng';
-  String category = 'Indoor Plant';
-  int price = 59000;
-  String imgUrl =
-      'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg';
-
-
   @override
   Widget build(BuildContext context) {
     const itemWidth = 240.0;
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/product-detail');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailLayout(productId: widget.id),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
@@ -51,7 +51,7 @@ class _CustomCardState extends State<CustomCard> {
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(7)), // Image border
                   child: SizedBox.fromSize(
                     size: const Size.fromRadius(120), // Image radius
-                    child: Image.network(imgUrl, fit: BoxFit.cover),
+                    child: Image.network(widget.imgUrl, fit: BoxFit.cover),
 
                   ),
                 ),
@@ -63,7 +63,7 @@ class _CustomCardState extends State<CustomCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          widget.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
 
@@ -76,7 +76,7 @@ class _CustomCardState extends State<CustomCard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'đ$price',
+                              'đ${widget.price}',
                               style: const TextStyle(
                                   fontWeight: FontWeight.w700, fontSize: 20),
                             ),

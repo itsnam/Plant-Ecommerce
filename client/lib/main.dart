@@ -32,7 +32,6 @@ class _AppState extends State<App> {
       initialRoute: '/home',
       routes: {
         '/home': (context) => const HomeLayout(),
-        '/product-detail': (context) => const ProductDetailLayout(),
         '/auth': (context) => const SignInPage(),
         '/cart': (context) => const CartPage()
       },

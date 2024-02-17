@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class ProductDetail extends StatefulWidget {
   final String name;
   final String description;
-  final String type;
-  final String size;
+  final int sold;
+  final int quantity;
   final int price;
 
   const ProductDetail({
     Key? key,
     required this.name,
     required this.description,
-    required this.type,
-    required this.size,
+    required this.sold,
+    required this.quantity,
     required this.price,
   }) : super(key: key);
 
@@ -62,13 +62,13 @@ class _ProductDetailState extends State<ProductDetail> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Size",
+                    const Text("Đã bán",
                         style: TextStyle(
                             color: Color(0xFFAEB3AE),
                             fontSize: 12,
                             fontWeight: FontWeight.w500)),
                     const SizedBox(height: 6),
-                    Text(widget.size,
+                    Text(widget.sold.toString(),
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600))
                   ],
@@ -77,13 +77,13 @@ class _ProductDetailState extends State<ProductDetail> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Type",
+                    const Text("Kho",
                         style: TextStyle(
                             color: Color(0xFFAEB3AE),
                             fontSize: 12,
                             fontWeight: FontWeight.w500)),
                     const SizedBox(height: 6),
-                    Text(widget.type,
+                    Text(widget.quantity.toString(),
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600))
                   ],

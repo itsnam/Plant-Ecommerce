@@ -15,8 +15,8 @@ class _FavouritePageState extends State<FavouritePage> {
 
 
   Future<List<dynamic>> fetchData() async {
-    const String apiUrl = 'https://jsonplaceholder.typicode.com/photos';
-    Response response = await get(Uri.parse(apiUrl));
+    final response = await get(Uri.parse(apiPlants));
+
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
