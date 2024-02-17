@@ -5,13 +5,8 @@ import { ArrowUpTrayIcon } from "@heroicons/react/24/outline/index.js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import getCroppedImage from "./ImageUpload.jsx";
-<<<<<<< Updated upstream
-=======
 import "./style.css";
-import FormValidate from "./FormValidate.jsx";
-import plantClasses from "./PlantType.js";
 import plantType from "./PlantType.js";
->>>>>>> Stashed changes
 
 const NewProduct = ({ title, defaultValue }) => {
   const [formState, setFormState] = React.useState(
@@ -59,12 +54,8 @@ const NewProduct = ({ title, defaultValue }) => {
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append("name", formState.name);
-<<<<<<< Updated upstream
-    formData.append("category", formState.category);
-=======
     formData.append("type", formState.type);
     formData.append("status", parseInt(formState.status));
->>>>>>> Stashed changes
     formData.append("description", formState.description);
     formData.append("price", parseInt(formState.price));
     formData.append("quantity", parseInt(formState.quantity));
@@ -87,14 +78,9 @@ const NewProduct = ({ title, defaultValue }) => {
   };
 
   return (
-<<<<<<< Updated upstream
-    <div className={"flex flex-col"}>
-      <div className={"flex justify-center gap-5"}>
-=======
     <div className={"flex flex-col p-10"}>
       <div className={"text-lg font-bold"}>{title}</div>
       <div className={"mt-3 flex w-full gap-5"}>
->>>>>>> Stashed changes
         <div className={"flex w-1/2 flex-col"}>
           <div className={"w-1/2 text-lg font-semibold"}>{title}</div>
           <div className={"flex gap-5"}>
