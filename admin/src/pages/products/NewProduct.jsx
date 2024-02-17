@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import getCroppedImage from "./ImageUpload.jsx";
 import "./style.css";
 import FormValidate from "./FormValidate.jsx";
+import plantType from "./PlantType.js";
 
 const NewProduct = ({ title, defaultValue }) => {
   const [formState, setFormState] = React.useState(
@@ -77,7 +78,6 @@ const NewProduct = ({ title, defaultValue }) => {
       data: formData,
     }).then((res) => {
       navigate("/products/");
-      console.log(res.data);
     });
   };
 
@@ -111,9 +111,9 @@ const NewProduct = ({ title, defaultValue }) => {
                 onChange={handleChange}
                 className={"input py-2.5 text-sm"}
               >
-                <option value="1">Available</option>
-                <option value="2">Pending</option>
-                <option value="0">None</option>
+                {plantType.map((item) => (
+                  <option value={item[0]}>{item[1]}</option>
+                ))}
               </select>
             </div>
             <div className={"mt-6 w-1/3"}>

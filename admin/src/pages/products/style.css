@@ -9,4 +9,7 @@
     .label{
         @apply block font-medium leading-6 text-custom_gray-600
     }
+    .table-label{
+        @apply px-6 py-3 text-left font-medium uppercase text-gray-500
+    }
 }

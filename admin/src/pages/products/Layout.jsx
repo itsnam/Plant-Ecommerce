@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import NewProduct from "./NewProduct.jsx";
 import { Link, matchPath, Route, Routes, useLocation } from "react-router-dom";
+import Products from "./Products.jsx";
 
-const ProductPage = () => {
+const Layout = () => {
   const [active, setActive] = useState(1);
   const location = useLocation();
 
@@ -39,15 +40,16 @@ const ProductPage = () => {
           </button>
         </Link>
       </div>
-      <div className={"h-full w-full rounded-md border bg-white p-10"}>
+      <div className={"h-full w-full rounded-md border bg-white"}>
         <Routes>
           <Route
             path="/add-product"
             element={<NewProduct title={"Add New Product"} />}
           />
+          <Route path={"/"} element={<Products />} />
         </Routes>
       </div>
     </div>
   );
 };
-export default ProductPage;
+export default Layout;
