@@ -13,11 +13,11 @@ let createPlant = async (req, res) => {
     if (!file) {
       return res.json({ msg: "Invalid file" });
     }
-    console.log(file["img"][0]);
+    console.log(file["image"][0]);
     const app = await Plant.create({
       name: req.body.name,
       type: req.body.type,
-      image: file["img"][0].path,
+      image: file["image"][0].path,
       description: req.body.description,
       quantity: req.body.quantity,
       price: req.body.price,

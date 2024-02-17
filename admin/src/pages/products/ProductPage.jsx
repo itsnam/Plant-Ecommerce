@@ -39,7 +39,7 @@ const ProductPage = () => {
           </button>
         </Link>
       </div>
-      <div className={"h-full w-full rounded-md border bg-white p-8"}>
+      <div className={"h-full w-full rounded-md border bg-white p-10"}>
         <Routes>
           <Route
             path="/add-product"

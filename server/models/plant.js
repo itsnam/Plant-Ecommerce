@@ -14,8 +14,8 @@ const plantSchema = new mongoose.Schema({
     type: String,
   },
   status: {
-    type: Boolean,
-    default: true,
+    type: Number,
+    default: 1,
   },
   quantity: {
     type: Number,
@@ -29,7 +29,7 @@ const plantSchema = new mongoose.Schema({
   },
   sold: {
     type: Number,
-  }
+  },
 });
 
 module.exports = mongoose.model("Plant", plantSchema);
