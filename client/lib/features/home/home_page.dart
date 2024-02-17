@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<dynamic>> fetchSoldSortedData() async {
     final response = await http.get(Uri.parse(apiPlants));
-
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       data.sort((a, b) =>
@@ -105,8 +104,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(
                   height: 360,
-                  child: ListView(
-
+                  child: ListView.builder(
                     padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
                     itemCount: soldSortedData.length,
                     controller: mainListController,

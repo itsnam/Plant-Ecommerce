@@ -46,16 +46,17 @@ class _ResultState extends State<Result> {
                     ),
                     CustomCard1(
                         name: 'name',
-                        category: 'category',
+                        type: 'category',
                         price: 20,
                         imgUrl:
-                        'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg'),
+                        'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg',
+                      id: '',),
                     CustomCard1(
                         name: 'name',
-                        category: 'category',
+                        type: 'category',
                         price: 20,
                         imgUrl:
-                        'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg')
+                        'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg', id: '',)
                   ],
                 ),
               ),
