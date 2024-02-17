@@ -39,6 +39,19 @@ const getAllPlants = async (req, res) => {
   }
 };
 
+const getPlantById = async (req, res) => {
+  try {
+    const plant = await Plant.findById(req.params._id);
+    if (!plant) {
+      return res.status(404).json({ error: "Plant not found" });
+    }
+    res.json(plant);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const predict = async (req, res) => {
   try {
     const result = await predictPlant(
@@ -51,4 +64,4 @@ const predict = async (req, res) => {
   }
 };
 
-module.exports = { predict, getAllPlants, createPlant };
+module.exports = { predict, getAllPlants, createPlant, getPlantById };

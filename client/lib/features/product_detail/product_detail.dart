@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 
 class ProductDetail extends StatefulWidget {
-  const ProductDetail({super.key});
+  final String name;
+  final String description;
+  final String type;
+  final String size;
+  final int price;
+
+  const ProductDetail({
+    Key? key,
+    required this.name,
+    required this.description,
+    required this.type,
+    required this.size,
+    required this.price,
+  }) : super(key: key);
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  String name = 'Cactuss geg egerg er gerg ergerg ref ds fdsgsdg gdsgs fs sdg';
-  String content =
-      'fsdgsd gsdigdsgd gdgdsg gkdsghkdsg gkdhsghkdshgk shdgkghkdshg kgskdgh ksdghk sdhgk hsdkgh kdsgh kdshgk sdhkg hdskg hkdshg kdshkg hdskgh kdshgk hdskg hkdshg khdskg hkds';
-
   @override
   Widget build(BuildContext context) {
     double screenSize = MediaQuery.of(context).size.width;
@@ -26,56 +35,56 @@ class _ProductDetailState extends State<ProductDetail> {
             LimitedBox(
               maxWidth: screenSize,
               child: Text(
-                name,
+                widget.name,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                    fontSize: 24, fontWeight: FontWeight.w600),
               ),
             ),
             const SizedBox(height: 24),
             LimitedBox(
               maxWidth: screenSize,
               child: Text(
-                content,
+                widget.description,
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                style: const TextStyle(
+                    fontSize: 14, fontWeight: FontWeight.w400),
               ),
             ),
             const SizedBox(height: 15),
             const Divider(color: Color(0xFFD9E1E1)),
             const SizedBox(height: 15),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Size",
+                    const Text("Size",
                         style: TextStyle(
                             color: Color(0xFFAEB3AE),
                             fontSize: 12,
                             fontWeight: FontWeight.w500)),
-                    SizedBox(height: 6),
-                    Text("Medium",
-                        style: TextStyle(
+                    const SizedBox(height: 6),
+                    Text(widget.size,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600))
                   ],
                 ),
-                SizedBox(width: 18),
+                const SizedBox(width: 18),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Type",
+                    const Text("Type",
                         style: TextStyle(
                             color: Color(0xFFAEB3AE),
                             fontSize: 12,
                             fontWeight: FontWeight.w500)),
-                    SizedBox(height: 6),
-                    Text("Outdoor",
-                        style: TextStyle(
+                    const SizedBox(height: 6),
+                    Text(widget.type,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600))
                   ],
                 ),
@@ -86,9 +95,9 @@ class _ProductDetailState extends State<ProductDetail> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text("đ89.000",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+                Text('${widget.price}',
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w700)),
                 Row(
                   children: [
                     SizedBox(

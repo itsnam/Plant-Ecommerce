@@ -3,16 +3,18 @@ import 'package:iconsax/iconsax.dart';
 
 class CustomCard1 extends StatefulWidget {
   final String name;
-  final String category;
+  final String type;
   final int price;
   final String imgUrl;
+  final String id;
 
   const CustomCard1({
     Key? key,
     required this.name,
-    required this.category,
+    required this.type,
     required this.price,
     required this.imgUrl,
+    required this.id,
   }) : super(key: key);
 
   @override

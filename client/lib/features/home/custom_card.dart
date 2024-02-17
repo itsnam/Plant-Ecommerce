@@ -2,18 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class CustomCard extends StatefulWidget {
-  const CustomCard({super.key});
+  final String name;
+  final String type;
+  final int price;
+  final String imgUrl;
+
+  const CustomCard({
+    Key? key,
+    required this.name,
+    required this.type,
+    required this.price,
+    required this.imgUrl,
+  }) : super(key: key);
 
   @override
   State<CustomCard> createState() => _CustomCardState();
 }
 
 class _CustomCardState extends State<CustomCard> {
+
   String name = 'Xương rồng';
   String category = 'Indoor Plant';
   int price = 59000;
   String imgUrl =
       'https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg';
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +52,7 @@ class _CustomCardState extends State<CustomCard> {
                   child: SizedBox.fromSize(
                     size: const Size.fromRadius(120), // Image radius
                     child: Image.network(imgUrl, fit: BoxFit.cover),
+
                   ),
                 ),
                 LimitedBox(
@@ -52,6 +66,7 @@ class _CustomCardState extends State<CustomCard> {
                           name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
+
                           style: const TextStyle(
                               fontSize: 20),
                         ),
