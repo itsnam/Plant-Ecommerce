@@ -6,11 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import getCroppedImage from "./ImageUpload.jsx";
 import "./style.css";
-<<<<<<< Updated upstream
 import FormValidate from "./FormValidate.jsx";
-=======
-import plantType from "./PlantType.js";
->>>>>>> Stashed changes
 
 const NewProduct = ({ title, defaultValue }) => {
   const [formState, setFormState] = React.useState(
@@ -63,11 +59,7 @@ const NewProduct = ({ title, defaultValue }) => {
     const formData = new FormData();
     formData.append("name", formState.name);
     formData.append("type", formState.type);
-<<<<<<< Updated upstream
-    formData.append("status", formState.status);
-=======
     formData.append("status", parseInt(formState.status));
->>>>>>> Stashed changes
     formData.append("description", formState.description);
     formData.append("price", parseInt(formState.price));
     formData.append("quantity", parseInt(formState.quantity));
@@ -90,11 +82,7 @@ const NewProduct = ({ title, defaultValue }) => {
   };
 
   return (
-<<<<<<< Updated upstream
-    <div className={"flex flex-col"}>
-=======
     <div className={"flex flex-col p-10"}>
->>>>>>> Stashed changes
       <div className={"text-lg font-bold"}>{title}</div>
       <div className={"mt-3 flex w-full gap-5"}>
         <div className={"flex w-1/2 flex-col"}>
