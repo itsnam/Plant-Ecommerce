@@ -45,7 +45,7 @@ class _CustomCard1State extends State<CustomCard1> {
           child: Row(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(7), bottomLeft: Radius.circular(7)), // Image border
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(7), bottomLeft: Radius.circular(7)), // Image border
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(60), // Image radius
                   child: Image.network(widget.imgUrl, fit: BoxFit.cover),

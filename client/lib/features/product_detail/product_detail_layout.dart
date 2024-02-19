@@ -14,7 +14,14 @@ class ProductDetailLayout extends StatefulWidget {
 }
 
 class _ProductDetailLayoutState extends State<ProductDetailLayout> {
-  
+  int _quantity = 1;
+
+  void updateQuantity(int newQuantity) {
+    setState(() {
+      _quantity = newQuantity;
+    });
+  }
+
   dynamic data; 
 
   Future<void> fetchSingleData() async {
@@ -81,7 +88,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                     bottom: 0,
                     child: Image(
                       fit: BoxFit.cover,
-                      image: NetworkImage(data['image']),
+                      image: NetworkImage('http://10.0.2.2:3000/${data['image']}'),
                     ),
                   ),
                   Positioned(
@@ -109,6 +116,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                 sold: data['sold'],
                 quantity: data['quantity'],
                 price: data['price'],
+                onQuantityUpdated: updateQuantity,
               ),
             ),
           ],
@@ -136,7 +144,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                     "Add to Cart",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -148,10 +156,10 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                     width: 20,
                   ),
                   Text(
-                    data['price'].toString(),
+                    (data['price'] * _quantity).toString(),
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

@@ -9,6 +9,7 @@ const connect = require("./config/connect");
 const app = express();
 const port = 3000;
 
+app.use('/plants', express.static(path.join(__dirname, 'public', 'plants')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -37,11 +38,11 @@ app.use("/api/plants", plantRouter);
 /*
 const Plant = require("./models/plant")
 const newPlant = new Plant({
-  name: "Cây nha đam",
-  image: "https://i.pinimg.com/564x/4c/b7/8f/4cb78f96241714fb1d7447bbdacc3162.jpg",
-  description: "Đây là cây nha đam",
-  type: "Cây trong nhà và ngoài trời",
-  status: true,
+  name: "Lan hồ điệp chậu nhỏ",
+  image: 'public\\plants\\0_1708191794519.jpg',
+  description: "Đây là cây Lan hồ điệp chậu nhỏ",
+  type: "lan_ho_diep",
+  status: 1,
   quantity: 65,
   price: 65000, 
   sold: 78 

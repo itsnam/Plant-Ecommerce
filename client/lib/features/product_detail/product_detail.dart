@@ -6,6 +6,7 @@ class ProductDetail extends StatefulWidget {
   final int sold;
   final int quantity;
   final int price;
+  final Function(int) onQuantityUpdated;
 
   const ProductDetail({
     Key? key,
@@ -14,6 +15,7 @@ class ProductDetail extends StatefulWidget {
     required this.sold,
     required this.quantity,
     required this.price,
+    required this.onQuantityUpdated,
   }) : super(key: key);
 
   @override
@@ -21,6 +23,8 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
+  int _quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     double screenSize = MediaQuery.of(context).size.width;
@@ -38,8 +42,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 widget.name,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 24, fontWeight: FontWeight.w600),
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
               ),
             ),
             const SizedBox(height: 24),
@@ -49,8 +52,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 widget.description,
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.w400),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
               ),
             ),
             const SizedBox(height: 15),
@@ -65,12 +67,11 @@ class _ProductDetailState extends State<ProductDetail> {
                     const Text("Đã bán",
                         style: TextStyle(
                             color: Color(0xFFAEB3AE),
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500)),
                     const SizedBox(height: 6),
                     Text(widget.sold.toString(),
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600))
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600))
                   ],
                 ),
                 const SizedBox(width: 18),
@@ -80,12 +81,11 @@ class _ProductDetailState extends State<ProductDetail> {
                     const Text("Kho",
                         style: TextStyle(
                             color: Color(0xFFAEB3AE),
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500)),
                     const SizedBox(height: 6),
                     Text(widget.quantity.toString(),
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600))
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600))
                   ],
                 ),
               ],
@@ -96,8 +96,7 @@ class _ProductDetailState extends State<ProductDetail> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text('${widget.price}',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w700)),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 Row(
                   children: [
                     SizedBox(
@@ -112,15 +111,20 @@ class _ProductDetailState extends State<ProductDetail> {
                               ),
                               borderRadius: BorderRadius.circular(10)),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            if (_quantity > 1) _quantity--; // Giảm số lượng
+                            widget.onQuantityUpdated(_quantity);
+                          });
+                        },
                         child: const Text("-"),
                       ),
                     ),
-                    const SizedBox(
-                        width: 30,
-                        child: Center(
-                          child: Text("1"),
-                        )
+                    SizedBox(
+                      width: 30,
+                      child: Center(
+                        child: Text('$_quantity'),
+                      ),
                     ),
                     SizedBox(
                       height: 35,
@@ -134,7 +138,12 @@ class _ProductDetailState extends State<ProductDetail> {
                               ),
                               borderRadius: BorderRadius.circular(10)),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            _quantity++; // Tăng số lượng
+                            widget.onQuantityUpdated(_quantity);
+                          });
+                        },
                         child: const Text("+"),
                       ),
                     ),

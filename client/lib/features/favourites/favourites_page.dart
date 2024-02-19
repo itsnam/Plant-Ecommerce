@@ -30,14 +30,14 @@ class _FavouritePageState extends State<FavouritePage> {
       body: FutureBuilder<List<dynamic>>(
         future: fetchData(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No data available'));
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
             ));
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No data available'));
           } else {
             List<dynamic> data = snapshot.data!;
             return ListView(
@@ -47,12 +47,12 @@ class _FavouritePageState extends State<FavouritePage> {
                   child: Text(
                     'My favourites',
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 20),
                 SizedBox(
-                  height: 700,
+                  height: 650,
                   child: ListView.builder(
                     padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
                     itemCount: data.length,
@@ -62,7 +62,7 @@ class _FavouritePageState extends State<FavouritePage> {
                         name: data[index]['name'], 
                         type: data[index]['type'],
                         price: data[index]['price'],
-                        imgUrl: data[index]['image']
+                        imgUrl: 'http://10.0.2.2:3000/${data[index]['image']}'
                       );
                     },
                   ),
@@ -76,5 +76,3 @@ class _FavouritePageState extends State<FavouritePage> {
     );
   }
 }
-
-
