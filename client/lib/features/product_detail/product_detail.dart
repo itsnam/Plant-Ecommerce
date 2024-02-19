@@ -113,7 +113,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         ),
                         onPressed: () {
                           setState(() {
-                            if (_quantity > 1) _quantity--; // Giảm số lượng
+                            if (_quantity > 1) _quantity--;
                             widget.onQuantityUpdated(_quantity);
                           });
                         },
@@ -140,7 +140,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         ),
                         onPressed: () {
                           setState(() {
-                            _quantity++; // Tăng số lượng
+                            _quantity++; 
                             widget.onQuantityUpdated(_quantity);
                           });
                         },

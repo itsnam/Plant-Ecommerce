@@ -24,7 +24,32 @@ const generateOTP = async (req, res) => {
     }
 }
 
+const verifyOTPAndLogin = async (req, res) => {
+    const { email, otpCode } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Người dùng không tồn tại' });
+        }
+
+        if (user.OTP !== otpCode) {
+            return res.status(400).json({ message: 'Mã OTP không hợp lệ' });
+        }
+
+        user.isLoggedIn = true;
+        await user.save();
+
+        return res.status(200).json({ message: 'Đăng nhập thành công' });
+    } catch (error) {
+        console.error('Lỗi đăng nhập:', error);
+        return res.status(500).json({ message: 'Lỗi server' });
+    }
+}
+
 const test = (req, res) => {
     res.status(200).send('hello');
 }
-module.exports = {generateOTP, test}
+
+module.exports = {generateOTP, test, verifyOTPAndLogin,}
