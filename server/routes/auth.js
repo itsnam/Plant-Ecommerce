@@ -8,4 +8,3 @@ router.post('/login', authController.verifyOTPAndLogin);
 router.post('/logout', authController.logout);
 
 module.exports = router;
-
