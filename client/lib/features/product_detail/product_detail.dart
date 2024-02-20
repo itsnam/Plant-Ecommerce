@@ -107,13 +107,13 @@ class _ProductDetailState extends State<ProductDetail> {
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
                               side: const BorderSide(
-                                color: Color(0xFFD9E1E1), // your color here
+                                color: Color(0xFFD9E1E1),
                               ),
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
                           setState(() {
-                            if (_quantity > 1) _quantity--; // Giảm số lượng
+                            if (_quantity > 1) _quantity--;
                             widget.onQuantityUpdated(_quantity);
                           });
                         },
@@ -134,13 +134,13 @@ class _ProductDetailState extends State<ProductDetail> {
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
                               side: const BorderSide(
-                                color: Color(0xFFD9E1E1), // your color here
+                                color: Color(0xFFD9E1E1),
                               ),
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
                           setState(() {
-                            _quantity++; // Tăng số lượng
+                            _quantity++; 
                             widget.onQuantityUpdated(_quantity);
                           });
                         },

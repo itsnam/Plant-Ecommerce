@@ -24,7 +24,44 @@ const generateOTP = async (req, res) => {
     }
 }
 
+const verifyOTPAndLogin = async (req, res) => {
+    const { email, OTP } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (user.OTP !== OTP) {
+            return res.status(400).send('OTP không hợp lệ');
+        }
+
+        user.isBlocked = true;
+        await user.save();
+
+        res.status(200).send('Login successful');
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('Server error');
+    }
+}
+
+const logout = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+
+        user.isBlocked = false;
+        await user.save();
+
+        res.status(200).send('Logout successful');
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('Server error');
+    }
+}
+
 const test = (req, res) => {
     res.status(200).send('hello');
 }
-module.exports = {generateOTP, test}
+
+module.exports = {generateOTP, test, verifyOTPAndLogin, logout}

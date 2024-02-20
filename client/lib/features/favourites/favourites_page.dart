@@ -13,7 +13,6 @@ class FavouritePage extends StatefulWidget {
 
 class _FavouritePageState extends State<FavouritePage> {
 
-
   Future<List<dynamic>> fetchData() async {
     final response = await get(Uri.parse(apiPlants));
 
@@ -30,14 +29,15 @@ class _FavouritePageState extends State<FavouritePage> {
       body: FutureBuilder<List<dynamic>>(
         future: fetchData(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No data available'));
-          } else if (snapshot.hasError) {
+          if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
             ));
+          }
+          else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No data available'));
           } else {
             List<dynamic> data = snapshot.data!;
             return ListView(

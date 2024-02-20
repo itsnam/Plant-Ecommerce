@@ -1,8 +1,7 @@
 const nodemailer = require('nodemailer');
-const crypto = require('crypto');
 
 const generateOTP = () => {
-    return crypto.randomBytes(3).toString('hex')
+    return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
 const sendOTP = (email, OTP) => {
