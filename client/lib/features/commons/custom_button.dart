@@ -35,7 +35,7 @@ class CustomButton extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: Icon(
-                Iconsax.call5,
+                Iconsax.sms,
                 color: Colors.white,
               ),
             ),

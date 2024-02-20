@@ -107,7 +107,7 @@ class _ProductDetailState extends State<ProductDetail> {
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
                               side: const BorderSide(
-                                color: Color(0xFFD9E1E1), // your color here
+                                color: Color(0xFFD9E1E1),
                               ),
                               borderRadius: BorderRadius.circular(10)),
                         ),
@@ -134,7 +134,7 @@ class _ProductDetailState extends State<ProductDetail> {
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
                               side: const BorderSide(
-                                color: Color(0xFFD9E1E1), // your color here
+                                color: Color(0xFFD9E1E1),
                               ),
                               borderRadius: BorderRadius.circular(10)),
                         ),

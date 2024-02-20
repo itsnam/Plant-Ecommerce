@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plantial/features/authentication/sign_in_with_phone_number.dart';
+import 'package:plantial/features/authentication/sign_in_with_email.dart';
 import 'package:plantial/features/commons/custom_button.dart';
 
 class SignInPage extends StatefulWidget {
@@ -10,7 +10,6 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  bool hideText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +47,9 @@ class _SignInPageState extends State<SignInPage> {
                 children: [
                   CustomButton(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignInWithPhoneNumber()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignInWithEmail()));
                     },
-                    buttonText: 'Continue with phone number',
+                    buttonText: 'Tiếp tục với email',
                   ),
                 ],
               ),

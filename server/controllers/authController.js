@@ -25,26 +25,38 @@ const generateOTP = async (req, res) => {
 }
 
 const verifyOTPAndLogin = async (req, res) => {
-    const { email, otpCode } = req.body;
+    const { email, OTP } = req.body;
 
     try {
         const user = await User.findOne({ email });
 
-        if (!user) {
-            return res.status(404).json({ message: 'Người dùng không tồn tại' });
+        if (user.OTP !== OTP) {
+            return res.status(400).send('OTP không hợp lệ');
         }
 
-        if (user.OTP !== otpCode) {
-            return res.status(400).json({ message: 'Mã OTP không hợp lệ' });
-        }
-
-        user.isLoggedIn = true;
+        user.isBlocked = true;
         await user.save();
 
-        return res.status(200).json({ message: 'Đăng nhập thành công' });
-    } catch (error) {
-        console.error('Lỗi đăng nhập:', error);
-        return res.status(500).json({ message: 'Lỗi server' });
+        res.status(200).send('Login successful');
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('Server error');
+    }
+}
+
+const logout = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+
+        user.isBlocked = false;
+        await user.save();
+
+        res.status(200).send('Logout successful');
+    } catch (e) {
+        console.log(e);
+        res.status(500).send('Server error');
     }
 }
 
@@ -52,4 +64,4 @@ const test = (req, res) => {
     res.status(200).send('hello');
 }
 
-module.exports = {generateOTP, test, verifyOTPAndLogin,}
+module.exports = {generateOTP, test, verifyOTPAndLogin, logout}

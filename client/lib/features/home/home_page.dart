@@ -65,8 +65,8 @@ class _HomePageState extends State<HomePage> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        body: data.isEmpty ? const Center(child: Text('No data available'))
-            : isLoading ? const Center(child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),))
+        body: isLoading ? const Center(child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),))
+            : data.isEmpty ? const Center(child: Text('No data available'))
             : NotificationListener<ScrollNotification>(
                 onNotification: (notification) {
                   if (notification is ScrollUpdateNotification) {

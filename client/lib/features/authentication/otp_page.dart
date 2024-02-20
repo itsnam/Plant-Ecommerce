@@ -1,8 +1,117 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:flutter/services.dart';
+import 'package:plantial/features/Url/url.dart';
 
-class OTPPage extends StatelessWidget {
-  const OTPPage({super.key});
+
+class OTPPage extends StatefulWidget {
+  final String email;
+
+  const OTPPage({Key? key, required this.email}) : super(key: key);
+
+  @override
+  State<OTPPage> createState() => _OTPPageState();
+}
+
+class _OTPPageState extends State<OTPPage> {
+  final TextEditingController otpController = TextEditingController();
+  bool isOTPValid = true;
+
+  Future<void> verifyOTP(BuildContext context, String otp) async {
+    final response = await post(
+      Uri.parse('$apiAuth/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': widget.email,
+        'OTP': otp,
+      }),
+    );
+
+    if (!context.mounted) return;
+
+    if (response.statusCode == 200) {
+      Navigator.popUntil(context, ModalRoute.withName('/home'));
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Lỗi'),
+            content: Text(response.body),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+  
+  Future<void> generateOTP(BuildContext context) async {
+    final response = await post(
+      Uri.parse('$apiAuth/generate-otp'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': widget.email,
+      }),
+    );
+
+    if (!context.mounted) return;
+
+    if (response.statusCode == 200) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('OTP'),
+            content: const Text('Đã gửi OTP'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Lỗi'),
+            content: Text(response.body),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  bool _validateOTP(String otp) {
+    String otpRegex = r'^[0-9]{6}$';
+    RegExp regExp = RegExp(otpRegex);
+    return regExp.hasMatch(otp);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,34 +125,45 @@ class OTPPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Enter the 6-digit code sent to 99123456 by SMS",
-              style: TextStyle(fontWeight: FontWeight.w400),
+            Text(
+              "Nhập mã OTP với 6 chữ số đã được gửi tới ${widget.email}",
+              style: const TextStyle(fontWeight: FontWeight.w400),
             ),
             TextField(
-                decoration: const InputDecoration(
-                  hintText: '000000',
-                  hintStyle: TextStyle(color: Color(0xFFd9e1e1), fontSize: 18),
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ]),
+              controller: otpController,
+              decoration: const InputDecoration(
+                hintText: '000000',
+                hintStyle: TextStyle(color: Color(0xFFd9e1e1), fontSize: 18),
+              ),
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(6),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  isOTPValid = _validateOTP(value);
+                });
+              },
+            ),
             const SizedBox(
               height: 20.0,
             ),
             Align(
               alignment: Alignment.center,
               child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Resend SMS",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )),
+                onPressed: () {
+                  generateOTP(context);
+                },
+                child: const Text(
+                  "Gửi lại OTP",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
             ),
             Expanded(child: Container()),
             Container(
@@ -54,18 +174,21 @@ class OTPPage extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(7)),
               ),
               child: TextButton(
-                  onPressed: () {
-                    Navigator.popUntil(context, ModalRoute.withName('/home'));
-                  },
-                  child: const Text(
-                    "Next",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )),
-            )
+                onPressed: () {
+                  if (otpController.text.isNotEmpty && isOTPValid) {
+                    verifyOTP(context, otpController.text.trim());
+                  }
+                },
+                child: const Text(
+                  "Tiếp tục",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
