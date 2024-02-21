@@ -9,13 +9,7 @@ const connect = require("./config/connect");
 const app = express();
 const port = 3000;
 
-app.use(
-  cors({
-    credentials: true,
-    origin: true,
-  }),
-);
-app.use("/plants", express.static(path.join(__dirname, "public", "plants")));
+app.use('/plants', express.static(path.join(__dirname, 'public', 'plants')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -26,12 +20,21 @@ app.use(
     saveUninitialized: true,
   }),
 );
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+    optionSuccessStatus: 200,
+  }),
+);
 
 const authRouter = require("./routes/auth");
 const plantRouter = require("./routes/plants");
+const favoriteRouter = require("./routes/favorites");
 
 app.use("/api/auth", authRouter);
 app.use("/api/plants", plantRouter);
+app.use("/api/favorites", favoriteRouter);
 
 // Thêm cây
 /*

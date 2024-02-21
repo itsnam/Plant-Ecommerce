@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plantial/features/Url/url.dart';
-
 
 class OTPPage extends StatefulWidget {
   final String email;
@@ -17,6 +17,12 @@ class OTPPage extends StatefulWidget {
 class _OTPPageState extends State<OTPPage> {
   final TextEditingController otpController = TextEditingController();
   bool isOTPValid = true;
+
+  Future<void> saveLoginState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', true);
+    prefs.setString('email', widget.email);
+  }
 
   Future<void> verifyOTP(BuildContext context, String otp) async {
     final response = await post(
@@ -33,7 +39,10 @@ class _OTPPageState extends State<OTPPage> {
     if (!context.mounted) return;
 
     if (response.statusCode == 200) {
+      await saveLoginState(); 
+      if (!context.mounted) return;
       Navigator.popUntil(context, ModalRoute.withName('/home'));
+      Navigator.pushReplacementNamed(context, "/home");
     } else {
       showDialog(
         context: context,
@@ -54,7 +63,7 @@ class _OTPPageState extends State<OTPPage> {
       );
     }
   }
-  
+
   Future<void> generateOTP(BuildContext context) async {
     final response = await post(
       Uri.parse('$apiAuth/generate-otp'),
@@ -107,7 +116,7 @@ class _OTPPageState extends State<OTPPage> {
     }
   }
 
-  bool _validateOTP(String otp) {
+  bool validateOTP(String otp) {
     String otpRegex = r'^[0-9]{6}$';
     RegExp regExp = RegExp(otpRegex);
     return regExp.hasMatch(otp);
@@ -142,7 +151,7 @@ class _OTPPageState extends State<OTPPage> {
               ],
               onChanged: (value) {
                 setState(() {
-                  isOTPValid = _validateOTP(value);
+                  isOTPValid = validateOTP(value);
                 });
               },
             ),
