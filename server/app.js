@@ -9,7 +9,13 @@ const connect = require("./config/connect");
 const app = express();
 const port = 3000;
 
-app.use('/plants', express.static(path.join(__dirname, 'public', 'plants')));
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  }),
+);
+app.use("/plants", express.static(path.join(__dirname, "public", "plants")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -18,13 +24,6 @@ app.use(
   session({
     secret: "my-key",
     saveUninitialized: true,
-  }),
-);
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    credentials: true,
-    optionSuccessStatus: 200,
   }),
 );
 

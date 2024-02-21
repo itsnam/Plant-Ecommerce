@@ -9,9 +9,10 @@ import "./style.css";
 import FormValidate from "./FormValidate.jsx";
 import plantType from "./PlantType.js";
 
-const NewProduct = ({ title, defaultValue }) => {
+const NewProduct = ({ title, defaultValue, p, isEdit, onSubmit }) => {
   const [formState, setFormState] = React.useState(
     defaultValue || {
+      _id: "",
       name: "",
       type: "0",
       description: "",
@@ -58,6 +59,7 @@ const NewProduct = ({ title, defaultValue }) => {
       return;
     }
     const formData = new FormData();
+    formData.append("_id", formState._id);
     formData.append("name", formState.name);
     formData.append("type", formState.type);
     formData.append("status", parseInt(formState.status));
@@ -68,21 +70,35 @@ const NewProduct = ({ title, defaultValue }) => {
       const img = await getCroppedImage(formState.image, completedCrop);
       formData.append("image", img, "0");
     }
-    axios({
-      method: "post",
-      url: "http://localhost:3000/api/plants",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      withCredentials: true,
-      data: formData,
-    }).then((res) => {
-      navigate("/products/");
-    });
+    if (isEdit) {
+      axios({
+        method: "put",
+        url: "http://localhost:3000/api/plants",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+        data: formData,
+      }).then((res) => {
+        onSubmit(res.data);
+      });
+    } else {
+      axios({
+        method: "post",
+        url: "http://localhost:3000/api/plants",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+        data: formData,
+      }).then((res) => {
+        navigate("/products/");
+      });
+    }
   };
 
   return (
-    <div className={"flex flex-col p-10"}>
+    <div className={`flex flex-col ${p}`}>
       <div className={"text-lg font-bold"}>{title}</div>
       <div className={"mt-3 flex w-full gap-5"}>
         <div className={"flex w-1/2 flex-col"}>
@@ -111,8 +127,10 @@ const NewProduct = ({ title, defaultValue }) => {
                 onChange={handleChange}
                 className={"input py-2.5 text-sm"}
               >
-                {plantType.map((item) => (
-                  <option value={item[0]}>{item[1]}</option>
+                {plantType.map((item, index) => (
+                  <option key={index} value={item[0]}>
+                    {item[1]}
+                  </option>
                 ))}
               </select>
             </div>
@@ -254,7 +272,7 @@ const NewProduct = ({ title, defaultValue }) => {
           "mt-6 w-fit cursor-pointer rounded-md bg-primary px-6 py-3 font-medium text-white hover:bg-blue-700"
         }
       >
-        Add Product
+        Submit
       </div>
     </div>
   );
