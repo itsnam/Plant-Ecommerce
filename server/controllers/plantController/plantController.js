@@ -13,8 +13,7 @@ let createPlant = async (req, res) => {
     if (!file) {
       return res.json({ msg: "Invalid file" });
     }
-    console.log(file["image"][0]);
-    const app = await Plant.create({
+    await Plant.create({
       name: req.body.name,
       type: req.body.type,
       image: file["image"][0].path,
@@ -24,6 +23,38 @@ let createPlant = async (req, res) => {
       status: req.body.status,
     });
     return res.status(200).json("Plant created successfully");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+};
+
+const updatePlant = async (req, res) => {
+  try {
+    let file = req.files;
+    if (!file) {
+      return res.json({ msg: "Invalid file" });
+    }
+    const plant = await Plant.findById(req.body._id);
+    if (!plant) return;
+
+    const path = "./" + plant.image;
+    try {
+      fs.unlink(path, (err) => {
+        if (err) throw err;
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    plant.name = req.body.name;
+    plant.type = req.body.type;
+    plant.image = file["image"][0].path;
+    plant.description = req.body.description;
+    plant.quantity = req.body.quantity;
+    plant.price = req.body.price;
+    plant.status = req.body.status;
+    await plant.save();
+    return res.status(200).json(plant);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");
@@ -65,4 +96,10 @@ const predict = async (req, res) => {
   }
 };
 
-module.exports = { predict, getAllPlants, createPlant, getPlantById };
+module.exports = {
+  predict,
+  getAllPlants,
+  createPlant,
+  getPlantById,
+  updatePlant,
+};
