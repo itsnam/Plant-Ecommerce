@@ -90,7 +90,8 @@ const predict = async (req, res) => {
       req.files["image"][0].buffer,
       [1, 3, 299, 299],
     );
-    return res.status(200).json(result);
+    let plants = await Plant.find({ type: result });
+    return res.status(200).json(plants);
   } catch (e) {
     console.log(e);
   }

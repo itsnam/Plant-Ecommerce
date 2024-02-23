@@ -9,7 +9,7 @@ const connect = require("./config/connect");
 const app = express();
 const port = 3000;
 
-app.use('/plants', express.static(path.join(__dirname, 'public', 'plants')));
+app.use("/plants", express.static(path.join(__dirname, "public", "plants")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -31,10 +31,12 @@ app.use(
 const authRouter = require("./routes/auth");
 const plantRouter = require("./routes/plants");
 const favoriteRouter = require("./routes/favorites");
+const orderRouter = require("./routes/orders");
 
 app.use("/api/auth", authRouter);
 app.use("/api/plants", plantRouter);
 app.use("/api/favorites", favoriteRouter);
+app.use("/api/orders", orderRouter);
 
 // Thêm cây
 /*

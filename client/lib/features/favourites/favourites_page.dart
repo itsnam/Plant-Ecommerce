@@ -33,7 +33,6 @@ class _FavouritePageState extends State<FavouritePage> {
 
   Future<List<dynamic>> fetchData() async {
     final response = await get(Uri.parse('$apiFavorites/$email'));
-
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {

@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         data = jsonData;
         data.sort((a, b) => DateTime.parse(b['createdAt']).compareTo(DateTime.parse(a['createdAt'])));
-        soldSortedData = List.from(data); 
+        soldSortedData = List.from(data);
         soldSortedData.sort((a, b) => b['sold'].compareTo(a['sold']));
         filteredData = List.from(data);
         isLoading = false; 

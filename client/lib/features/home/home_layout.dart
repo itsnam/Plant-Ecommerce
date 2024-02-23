@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plantial/features/commons/bottom_nav_bar.dart';
 import 'package:plantial/features/favourites/favourites_page.dart';
 import 'package:plantial/features/profile/profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home_page.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -20,9 +21,21 @@ class _HomeLayoutState extends State<HomeLayout> {
     const ProfilePage()
   ];
 
-  void onTapped(int i) {
+  Future<bool> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isLoggedIn') ?? false;
+
+  }
+
+  Future<void> onTapped(int i) async {
     if (i == 2) {
-      Navigator.pushNamed(context, '/cart');
+      if(await checkLoginStatus()){
+        if (!context.mounted) return;
+        Navigator.pushNamed(context, '/cart');
+      }else{
+        if (!context.mounted) return;
+        Navigator.pushNamed(context, '/auth');
+      }
     } else {
       setState(() {
         index = i;

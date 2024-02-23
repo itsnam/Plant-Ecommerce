@@ -2,19 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class CustomCard2 extends StatefulWidget {
-  const CustomCard2({super.key});
+  final String name;
+  final String type;
+  final int price;
+  final String imgUrl;
+  final String id;
+  final int quantity;
+
+  const CustomCard2(
+      {super.key,
+      required this.name,
+      required this.type,
+      required this.price,
+      required this.imgUrl,
+      required this.id,
+      required this.quantity});
 
   @override
   State<CustomCard2> createState() => _CustomCard2State();
 }
 
 class _CustomCard2State extends State<CustomCard2> {
-  String name = 'Long Plant Name Abcdefghiklm';
-  String category = 'Indoor Plant';
-  int price = 59000;
-  String imgUrl =
-      'https://i.pinimg.com/564x/18/63/11/186311e20163d1d7caa29652d3d5c6a9.jpg';
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -36,7 +44,7 @@ class _CustomCard2State extends State<CustomCard2> {
                   borderRadius: BorderRadius.circular(10), // Image border
                   child: SizedBox.fromSize(
                     size: const Size.fromRadius(50), // Image radius
-                    child: Image.network(imgUrl, fit: BoxFit.cover),
+                    child: Image.network(widget.imgUrl, fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -47,7 +55,7 @@ class _CustomCard2State extends State<CustomCard2> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    widget.name,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
@@ -55,7 +63,7 @@ class _CustomCard2State extends State<CustomCard2> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'đ$price',
+                    'đ${widget.price * widget.quantity}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -66,7 +74,8 @@ class _CustomCard2State extends State<CustomCard2> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Row(
+                      Flexible(
+                          child: Row(
                         children: [
                           SizedBox(
                               height: 25,
@@ -88,21 +97,25 @@ class _CustomCard2State extends State<CustomCard2> {
                               )),
                           Container(
                             decoration: const BoxDecoration(
-                              border: Border(
-                                top: BorderSide( //                   <--- left side
-                                  color: Color(0xFFaeb3ae),
-                                  width: 1,
-                                ),
-                                bottom: BorderSide( //                   <--- left side
-                                  color: Color(0xFFaeb3ae),
-                                  width: 1,
-                                ),
-                              )
-                            ),
+                                border: Border(
+                              top: BorderSide(
+                                //                   <--- left side
+                                color: Color(0xFFaeb3ae),
+                                width: 1,
+                              ),
+                              bottom: BorderSide(
+                                //                   <--- left side
+                                color: Color(0xFFaeb3ae),
+                                width: 1,
+                              ),
+                            )),
                             height: 25,
                             width: 30,
-                            child: const Center(
-                              child: Text("1", style: TextStyle(fontSize: 12),),
+                            child: Center(
+                              child: Text(
+                                '${widget.quantity}',
+                                style: const TextStyle(fontSize: 12),
+                              ),
                             ),
                           ),
                           SizedBox(

@@ -23,13 +23,14 @@ const plantSchema = new mongoose.Schema({
   price: {
     type: Number,
   },
-  plantCreatedTime: {
+  createdAt: {
     type: Date,
     default: Date.now,
   },
   sold: {
     type: Number,
+    default: 0,
   },
 });
 
-module.exports = mongoose.model('Plant', plantSchema);
+module.exports = mongoose.model("Plant", plantSchema);

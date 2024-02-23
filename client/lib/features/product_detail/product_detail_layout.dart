@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/Url/url.dart';
 import 'package:plantial/features/product_detail/product_detail.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailLayout extends StatefulWidget {
   final String productId;
@@ -31,6 +33,29 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
       setState(() {
         data = json.decode(response.body);
       });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<void> addToCart(String productId, int quantity) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('email') == null){
+      if (!context.mounted) return;
+      Navigator.pushNamed(context,'/auth');
+    }
+    var body = {
+    'email': prefs.getString('email'),
+    'productId' : productId,
+    'quantity': quantity,
+    };
+    var jsonString  = json.encode(body);
+    final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+    final response = await post(Uri.parse(apiOrders), headers: headers, body: jsonString);
+    if (response.statusCode == 200) {
+      data = json.decode(response.body);
+      if (!context.mounted) return;
+      Navigator.pop(context);
     } else {
       throw Exception('Failed to load data');
     }
@@ -100,7 +125,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(50),
+                          top: Radius.circular(40),
                         ),
                       ),
                     ),
@@ -128,7 +153,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
             padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
             child: TextButton(
               onPressed: () {
-                // Handle add to cart button tap
+                addToCart(widget.productId, _quantity);
               },
               style: ButtonStyle(
                 backgroundColor:

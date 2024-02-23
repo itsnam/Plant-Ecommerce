@@ -140,7 +140,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         ),
                         onPressed: () {
                           setState(() {
-                            _quantity++; 
+                            if(_quantity < widget.quantity) _quantity++;
                             widget.onQuantityUpdated(_quantity);
                           });
                         },

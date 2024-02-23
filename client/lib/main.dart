@@ -36,7 +36,7 @@ class _AppState extends State<App> {
       },
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFf5f5f5),
-        fontFamily: 'Poppins',
+        fontFamily: 'Roboto',
         textTheme: const TextTheme(
           bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
           bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)

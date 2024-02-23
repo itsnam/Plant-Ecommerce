@@ -233,7 +233,7 @@ class _CustomCard1State extends State<CustomCard1> {
                                       backgroundColor: const Color(0xFF4b8e4b)),
                                   onPressed: null,
                                   child: const Icon(
-                                    Icons.shopping_cart,
+                                    Iconsax.shopping_cart,
                                     color: Colors.white,
                                     size: 20,
                                   )),
