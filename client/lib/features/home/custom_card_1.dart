@@ -12,6 +12,7 @@ class CustomCard1 extends StatefulWidget {
   final int price;
   final String imgUrl;
   final String id;
+  final Function()? onFavoriteRemoved; 
 
   const CustomCard1({
     Key? key,
@@ -20,6 +21,7 @@ class CustomCard1 extends StatefulWidget {
     required this.price,
     required this.imgUrl,
     required this.id,
+    this.onFavoriteRemoved,
   }) : super(key: key);
 
   @override
@@ -108,13 +110,16 @@ class _CustomCard1State extends State<CustomCard1> {
           duration: Duration(seconds: 1),
         ),
       );
+      if (widget.onFavoriteRemoved != null) {
+        widget.onFavoriteRemoved!();
+      }
     }else if (response.statusCode == 201) {
       ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Đã thêm vào mục yêu thích'),
-        duration: Duration(seconds: 1),
-      ),
-    );
+        const SnackBar(
+          content: Text('Đã thêm vào mục yêu thích'),
+          duration: Duration(seconds: 1),
+        ),
+      );
     }else {
       showDialog(
         context: context,

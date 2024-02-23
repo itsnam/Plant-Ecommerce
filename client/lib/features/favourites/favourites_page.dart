@@ -15,6 +15,7 @@ class FavouritePage extends StatefulWidget {
 class _FavouritePageState extends State<FavouritePage> {
   bool isLoggedIn = false;
   String? email;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -40,6 +41,17 @@ class _FavouritePageState extends State<FavouritePage> {
     }
   }
 
+  void onFavoriteRemoved() {
+    setState(() {
+      isLoading = true;
+    });
+    fetchData().then((_) {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,17 +61,20 @@ class _FavouritePageState extends State<FavouritePage> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
+                } else if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                       child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
                   ));
+                } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                  return const Center(
+                    child: Text('Chưa có cây yêu thích'),
+                  );
                 } else {
                   List<dynamic> data = snapshot.data!;
                   return ListView(
                     children: [
-                      const   Padding(
+                      const Padding(
                         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Text(
                           'My favourites',
@@ -76,12 +91,14 @@ class _FavouritePageState extends State<FavouritePage> {
                           itemCount: data.length,
                           itemBuilder: (BuildContext context, int index) {
                             return CustomCard1(
-                                id: data[index]['plantId']['_id'],
-                                name: data[index]['plantId']['name'],
-                                type: data[index]['plantId']['type'],
-                                price: data[index]['plantId']['price'],
-                                imgUrl:
-                                    'http://10.0.2.2:3000/${data[index]['plantId']['image']}');
+                              id: data[index]['plantId']['_id'],
+                              name: data[index]['plantId']['name'],
+                              type: data[index]['plantId']['type'],
+                              price: data[index]['plantId']['price'],
+                              imgUrl:
+                                  'http://10.0.2.2:3000/${data[index]['plantId']['image']}',
+                              onFavoriteRemoved: onFavoriteRemoved,
+                            );
                           },
                         ),
                       ),
