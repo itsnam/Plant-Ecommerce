@@ -74,8 +74,7 @@ class _CustomCard2State extends State<CustomCard2> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(
-                          child: Row(
+                      Flexible(child: Row(
                         children: [
                           SizedBox(
                               height: 25,
@@ -99,12 +98,10 @@ class _CustomCard2State extends State<CustomCard2> {
                             decoration: const BoxDecoration(
                                 border: Border(
                               top: BorderSide(
-                                //                   <--- left side
                                 color: Color(0xFFaeb3ae),
                                 width: 1,
                               ),
                               bottom: BorderSide(
-                                //                   <--- left side
                                 color: Color(0xFFaeb3ae),
                                 width: 1,
                               ),

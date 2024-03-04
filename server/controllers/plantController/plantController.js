@@ -90,7 +90,19 @@ const predict = async (req, res) => {
       req.files["image"][0].buffer,
       [1, 3, 299, 299],
     );
-    let plants = await Plant.find({ type: result });
+    let plants = await Plant.find({ type: result.name });
+    console.log(result);
+    return res.status(200).json(plants);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const search = async (req, res) => {
+  try {
+    const plants = await Plant.find({
+      name: { $regex: req.body.keywords, $options: "i" },
+    });
     return res.status(200).json(plants);
   } catch (e) {
     console.log(e);
@@ -98,6 +110,7 @@ const predict = async (req, res) => {
 };
 
 module.exports = {
+  search,
   predict,
   getAllPlants,
   createPlant,

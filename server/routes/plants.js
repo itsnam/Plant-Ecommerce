@@ -9,5 +9,6 @@ router.get("/:_id", plantController.getPlantById);
 router.post("/", uploadToLocal, plantController.createPlant);
 router.post("/predict", uploadToMemory, plantController.predict);
 router.put("/", uploadToLocal, plantController.updatePlant);
+router.post("/search", plantController.search);
 
 module.exports = router;

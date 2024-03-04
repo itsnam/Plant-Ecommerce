@@ -10,7 +10,7 @@ Future upload(File image) async {
       filename: "image", contentType: MediaType('image', 'jpeg')));
   var response = await request.send();
   if (response.statusCode == 200) {
-    print(json.decode(await response.stream.bytesToString()));
+    return json.decode(await response.stream.bytesToString());
   }else{
     throw Exception('Server error!');
   }

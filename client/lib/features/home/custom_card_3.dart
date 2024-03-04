@@ -6,8 +6,9 @@ import 'package:plantial/features/Url/url.dart';
 import 'package:plantial/features/styles/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plantial/features/product_detail/product_detail_layout.dart';
+import 'package:intl/intl.dart';
 
-class CustomCard1 extends StatefulWidget {
+class CustomCard3 extends StatefulWidget {
   final String name;
   final String type;
   final int price;
@@ -15,7 +16,7 @@ class CustomCard1 extends StatefulWidget {
   final String id;
   final Function()? onFavoriteRemoved;
 
-  const CustomCard1({
+  const CustomCard3({
     Key? key,
     required this.name,
     required this.type,
@@ -26,10 +27,10 @@ class CustomCard1 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomCard1> createState() => _CustomCard1State();
+  State<CustomCard3> createState() => _CustomCard3State();
 }
 
-class _CustomCard1State extends State<CustomCard1> {
+class _CustomCard3State extends State<CustomCard3> {
   bool isLoggedIn = false;
   String? email;
   bool isFavorite = false;
@@ -200,6 +201,7 @@ class _CustomCard1State extends State<CustomCard1> {
 
   @override
   Widget build(BuildContext context) {
+    final f = NumberFormat.currency(locale: "vi_VN");
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -209,108 +211,78 @@ class _CustomCard1State extends State<CustomCard1> {
           ),
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-        child: Card(
-          shadowColor: Colors.transparent,
-          color: Colors.white,
-          surfaceTintColor: Colors.white,
-          shape: const ContinuousRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15))),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(7),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(55),
-                    child: Image.network(widget.imgUrl, fit: BoxFit.cover),
+      child: Card(
+        shadowColor: Colors.transparent,
+        color: Colors.transparent,
+        surfaceTintColor: Colors.white,
+        shape: const ContinuousRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        child: Column(
+          children: [
+            Stack(children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
+                child: SizedBox.fromSize(
+                  size: const Size.fromRadius(90),
+                  child: Image.network(widget.imgUrl, fit: BoxFit.cover),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: SizedBox(
+                    height: 35,
+                    width: 35,
+                    child: TextButton(
+                        style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50)),
+                            backgroundColor: primary),
+                        onPressed: () {
+                          addOrder(email!, widget.id, 1);
+                        },
+                        child: const Icon(
+                          Iconsax.add,
+                          color: Colors.white,
+                          size: 20,
+                        )),
                   ),
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 15, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            ]),
+            const SizedBox(
+              height: 5,
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.name,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 16),
+                  ),
+                  Row(
                     children: [
                       Text(
-                        widget.name,
-                        overflow: TextOverflow.ellipsis,
+                        f.format(widget.price),
                         maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 18),
-                      ),
-                      const SizedBox(height: 30.0),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              'đ${widget.price}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 20),
-                            ),
-                          ),
-                          Row(children: [
-                            SizedBox(
-                              height: 35,
-                              width: 35,
-                              child: TextButton(
-                                  style: TextButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      backgroundColor: isFavorite
-                                          ? favourite
-                                          : unselectedMenuItem),
-                                  onPressed: () {
-                                    setState(() {
-                                      isFavorite = !isFavorite;
-                                    });
-                                    addToFavorites(email!, widget.id);
-                                  },
-                                  child: const Icon(
-                                    Iconsax.heart5,
-                                    color: Colors.white,
-                                    size: 20,
-                                  )),
-                            ),
-                            const SizedBox(width: 7.0),
-                            SizedBox(
-                              height: 35,
-                              width: 35,
-                              child: TextButton(
-                                  style: TextButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      backgroundColor: primary),
-                                  onPressed: () {
-                                    addOrder(email!, widget.id, 1);
-                                  },
-                                  child: const Icon(
-                                    Iconsax.add,
-                                    color: Colors.white,
-                                    size: 20,
-                                  )),
-                            ),
-                          ])
-                        ],
+                            fontWeight: FontWeight.w700, fontSize: 16),
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

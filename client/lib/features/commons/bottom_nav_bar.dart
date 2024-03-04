@@ -1,48 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../styles/styles.dart';
+
 class BottomNavBar extends StatelessWidget {
   final int index;
   final ValueChanged<int> onTapped;
+
   BottomNavBar({super.key, required this.onTapped, required this.index});
 
   final List<BottomNavigationBarItem> navItems = [
     const BottomNavigationBarItem(
-        icon :Icon(Iconsax.home_2),
+        icon: Icon(Iconsax.home_25),
         activeIcon: Icon(Iconsax.home_25),
-        label: 'Home'
-    ),
+        label: 'Home'),
     const BottomNavigationBarItem(
-        icon: Icon(Iconsax.heart),
+        icon: Icon(Iconsax.heart5),
         activeIcon: Icon(Iconsax.heart5),
-        label: 'Favourites'
-    ),
+        label: 'Favourites'),
     const BottomNavigationBarItem(
-        icon: Icon(Iconsax.shopping_cart),
+        icon: Icon(Iconsax.shopping_cart5),
         activeIcon: Icon(Iconsax.shopping_cart5),
-        label: 'Cart'
-    ),
+        label: 'Cart'),
     const BottomNavigationBarItem(
-        icon: Icon(Iconsax.profile_circle),
+        icon: Icon(Iconsax.profile_circle5),
         activeIcon: Icon(Iconsax.profile_circle5),
-        label: 'Profile'
-    ),
+        label: 'Profile'),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 72,
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 7,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        )
+      ]),
       child: BottomNavigationBar(
-        backgroundColor: const Color(0xFFffffff),
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
-        iconSize: 24,
+        iconSize: 26,
         items: navItems,
         onTap: onTapped,
         currentIndex: index,
-        selectedItemColor: const Color(0xFF4b8e4b),
-        unselectedItemColor: const Color(0xFF0e110e),
-        showSelectedLabels: true,
+        selectedItemColor: primary,
+        unselectedItemColor: unselectedMenuItem,
+        showSelectedLabels: false,
         showUnselectedLabels: false,
       ),
     );

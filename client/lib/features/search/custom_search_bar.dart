@@ -1,40 +1,94 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:plantial/features/search/pick_image.dart';
+import 'package:plantial/features/styles/styles.dart';
 
-class CustomSearchBar extends StatelessWidget {
-  final Function(String) onSearch;
+class CustomSearchBar extends StatefulWidget {
+  final Function(String) onInput;
 
-  const CustomSearchBar({Key? key, required this.onSearch}) : super(key: key);
+  const CustomSearchBar({
+    Key? key,
+    required this.onInput,
+  }) : super(key: key);
+
+  @override
+  State<CustomSearchBar> createState() => _CustomSearchBarState();
+}
+
+class _CustomSearchBarState extends State<CustomSearchBar> {
+  final myController = TextEditingController();
+  Timer? _debounce;
+  bool _visibility = false;
+
+  @override
+  void initState() {
+    super.initState();
+    myController.addListener(() {
+      if (myController.text.isEmpty) {
+        setState(() {
+          _visibility = false;
+        });
+      } else {
+        if (_debounce?.isActive ?? false) _debounce?.cancel();
+        _debounce = Timer(const Duration(milliseconds: 500), () {
+          widget.onInput(myController.text);
+        });
+        setState(() {
+          _visibility = true;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    myController.dispose();
+    _debounce?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SearchBar(
-      hintText: 'Search',
-      hintStyle: const MaterialStatePropertyAll(TextStyle(color: Color(0xFFAEB3AE))),
-      padding: const MaterialStatePropertyAll(EdgeInsets.fromLTRB(0.0, 5.0, 5.0, 5.0)),
-      surfaceTintColor: const MaterialStatePropertyAll(Colors.transparent),
-      backgroundColor: const MaterialStatePropertyAll(Color(0xFFFFFFFF)),
-      shape: const MaterialStatePropertyAll(ContinuousRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15))
-      )),
-      shadowColor: const MaterialStatePropertyAll(Colors.transparent),
-      leading: const IconButton(
-        icon: Icon(Iconsax.search_normal, size: 20, color: Colors.black,),
-        onPressed: null,
+    return Container(
+      width: double.infinity,
+      height: 40,
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      child: Center(
+        child: TextField(
+          controller: myController,
+          cursorColor: Colors.black,
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+              isDense: true,
+              suffixIcon: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Visibility(
+                    visible: _visibility,
+                    child: IconButton(
+                        onPressed: () {
+                          myController.clear();
+                        },
+                        icon: const Icon(
+                          Iconsax.close_circle5,
+                          color: unselectedMenuItem,
+                          size: 20,
+                        )),
+                  ),
+                ],
+              ),
+              hintText: "Lan hồ điệp...",
+              hintStyle:
+                  const TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+              border: InputBorder.none),
+        ),
       ),
-      trailing: [
-        IconButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const PickImage()));
-            },
-            icon: const Icon(Iconsax.camera, color: Colors.black,)
-        )
-      ],
-      onChanged: (value) {
-        onSearch(value);
-      },
     );
   }
-
 }

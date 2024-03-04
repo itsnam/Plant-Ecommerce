@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Url/url.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+  const CartPage({Key? key}) : super(key: key);
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -16,7 +16,6 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   bool isLoggedIn = false;
   String? email;
-  bool isLoading = true;
 
   @override
   void initState() {
@@ -36,11 +35,20 @@ class _CartPageState extends State<CartPage> {
     final response = await get(Uri.parse('$apiOrders/$email'));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      print(data["plants"][0]);
       return data["plants"];
     } else {
       throw Exception('Failed to load data');
     }
+  }
+
+  int calculateItemTotal(List<dynamic> data) {
+    int total = 0;
+    for (int i = 0; i < data.length; i++) {
+      int price = data[i]['_id']['price'];
+      int quantity = data[i]['quantity'];
+      total += (price * quantity).round(); 
+    }
+    return total;
   }
 
   @override
@@ -51,7 +59,10 @@ class _CartPageState extends State<CartPage> {
           future: fetchData(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
+              return const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
+                  ));
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                   child: CircularProgressIndicator(
@@ -63,6 +74,10 @@ class _CartPageState extends State<CartPage> {
               );
             } else {
               List<dynamic> data = snapshot.data!;
+              int itemTotal = calculateItemTotal(data);
+              int shippingCharge = 20000; 
+              int total = itemTotal + shippingCharge;
+
               return Scaffold(
                 body: CustomScrollView(
                   slivers: [
@@ -73,7 +88,7 @@ class _CartPageState extends State<CartPage> {
                         child: BackButton(),
                       ),
                       centerTitle: true,
-                      title: Text("My Cart",
+                      title: Text("Giỏ hàng",
                           style: TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 20)),
                       pinned: false,
@@ -97,30 +112,30 @@ class _CartPageState extends State<CartPage> {
                         },
                       ),
                     ),
-                    const SliverFillRemaining(
+                     SliverFillRemaining(
                         hasScrollBody: false,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                           child: Column(
                             children: [
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Item Total"),
-                                  Text("đ236.000")
+                                  const Text("Item Total"),
+                                  Text("đ${itemTotal.toString()}"),
                                 ],
                               ),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Shipping Charge"),
-                                  Text("đ20.000")
+                                  const Text("Shipping Charge"),
+                                  Text("đ${shippingCharge.toString()}"),
                                 ],
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                             ],
                           ),
                         )),
@@ -149,17 +164,17 @@ class _CartPageState extends State<CartPage> {
                           const SizedBox(
                             height: 15,
                           ),
-                          const Row(
+                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "Total",
+                              const Text(
+                                "Tổng cộng",
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w700),
                               ),
                               Text(
-                                "đ256.000",
-                                style: TextStyle(
+                                "đ${total.toString()}",
+                                style: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w700),
                               ),
                             ],
@@ -179,12 +194,14 @@ class _CartPageState extends State<CartPage> {
                               },
                               style: ButtonStyle(
                                   backgroundColor:
-                                      const MaterialStatePropertyAll(
-                                          Color(0xFF4b8e4b)),
-                                  shape: MaterialStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(7)))),
+                                      MaterialStateProperty.all<Color>(
+                                          const Color(0xFF4b8e4b)),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                  )),
                               child: const Text(
                                 "Mua hàng",
                                 style: TextStyle(

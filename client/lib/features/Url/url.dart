@@ -3,3 +3,4 @@ const apiPlants = '$url/plants';
 const apiAuth = '$url/auth';
 const apiFavorites = '$url/favorites';
 const apiOrders = '$url/orders';
+const apiSearchPlants = '$url/plants/search';

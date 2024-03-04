@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:plantial/features/search/image_pick.dart';
 import 'package:plantial/features/search/result.dart';
 
+import '../styles/styles.dart';
+
 class PickImage extends StatefulWidget {
   const PickImage({Key? key}) : super(key: key);
 
@@ -44,7 +46,7 @@ class _PickImageState extends State<PickImage> {
                 },
                 style: ButtonStyle(
                     backgroundColor:
-                        const MaterialStatePropertyAll(Color(0xFF4b8e4b)),
+                        const MaterialStatePropertyAll(primary),
                     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7)))),
                 child: const Text(
@@ -66,7 +68,7 @@ class _PickImageState extends State<PickImage> {
                 },
                 style: ButtonStyle(
                     backgroundColor:
-                        const MaterialStatePropertyAll(Color(0xFF4b8e4b)),
+                        const MaterialStatePropertyAll(primary),
                     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7)))),
                 child: const Text(

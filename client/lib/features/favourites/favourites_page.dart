@@ -54,6 +54,11 @@ class _FavouritePageState extends State<FavouritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        title: const Text('Yêu thích', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
+      ),
       body: isLoggedIn
           ? FutureBuilder<List<dynamic>>(
               future: fetchData(),
@@ -73,20 +78,11 @@ class _FavouritePageState extends State<FavouritePage> {
                   List<dynamic> data = snapshot.data!;
                   return ListView(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Text(
-                          'My favourites',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 18),
-                        ),
-                      ),
                       const SizedBox(height: 20),
                       SizedBox(
                         height: 650,
                         child: ListView.builder(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           itemCount: data.length,
                           itemBuilder: (BuildContext context, int index) {
                             return CustomCard1(

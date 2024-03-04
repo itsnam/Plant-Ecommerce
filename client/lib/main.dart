@@ -35,11 +35,11 @@ class _AppState extends State<App> {
         '/cart': (context) => const CartPage()
       },
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFf5f5f5),
+        scaffoldBackgroundColor: const Color(0xFFececee),
         fontFamily: 'Roboto',
         textTheme: const TextTheme(
-          bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
-          bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)
+          bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)
         )
       ),
     );
