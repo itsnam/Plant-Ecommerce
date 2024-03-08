@@ -71,6 +71,22 @@ const getAllPlants = async (req, res) => {
   }
 };
 
+const getPlants = async (req, res) => {
+  try {
+    const sortBy = req.params.sortBy;
+    const page = req.params.page;
+    const perPage = req.params.perPage;
+    const plants = await Plant.find({ status: 1 })
+      .limit(perPage)
+      .skip(page * perPage)
+      .sort({ sortBy: "desc" });
+    res.status(200).json(plants);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const getPlantById = async (req, res) => {
   try {
     const plant = await Plant.findById(req.params._id);
@@ -110,6 +126,7 @@ const search = async (req, res) => {
 };
 
 module.exports = {
+  getPlants,
   search,
   predict,
   getAllPlants,

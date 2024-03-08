@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plantial/features/authentication/sign_in_with_email.dart';
+import 'package:plantial/features/commons/custom_back_button.dart';
 import 'package:plantial/features/commons/custom_button.dart';
+import 'package:plantial/features/styles/styles.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -13,38 +15,58 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return ScrollConfiguration(
       behavior: const ScrollBehavior().copyWith(overscroll: false),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: const BackButton(),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Column(
-              children: [
-                Image.asset('assets/images/logo.png', height: 85),
-                const Text(
-                  'Plantial',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Color(0xFF4b8e4b),
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
+      child: Stack(
+        children: [
+          ClipRRect(
+            child: SizedBox(
+              width: width,
+              child: Image.asset("assets/images/bg.jpg", fit: BoxFit.cover,)
             ),
-            const SizedBox(height: 50,),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20 , 0),
+          ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              toolbarHeight: 70,
+              backgroundColor: Colors.transparent,
+              leading: const CustomBackButton(),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 40),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  const SizedBox(
+                    height: 1,
+                  ),
+                  const Row(
+                    children: [
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Welcome to",
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white
+                            ),
+                          ),
+                          Text(
+                            'Plantial',
+                            style: TextStyle(
+                              height: 0,
+                              fontSize: 75,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                   CustomButton(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignInWithEmail()));
@@ -54,8 +76,8 @@ class _SignInPageState extends State<SignInPage> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

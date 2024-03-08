@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:plantial/features/Url/url.dart';
 import 'package:plantial/features/authentication/otp_page.dart';
+import 'package:plantial/features/commons/custom_back_button.dart';
+import 'package:plantial/features/styles/styles.dart';
 
 class SignInWithEmail extends StatefulWidget {
   const SignInWithEmail({Key? key}) : super(key: key);
@@ -59,8 +61,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
 
   bool _validateEmail(String email) {
     String emailRegex =
-        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'; 
-
+        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
     RegExp regExp = RegExp(emailRegex);
     return regExp.hasMatch(email);
   }
@@ -71,11 +72,12 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        toolbarHeight: 70,
         backgroundColor: Colors.white,
-        leading: const BackButton(),
+        leading: const CustomBackButton(color: Colors.black,),
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -84,11 +86,16 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             TextField(
+              autofocus: true,
+              cursorColor: Colors.black,
               controller: emailController,
               decoration: InputDecoration(
                 hintText: 'example@gmail.com',
                 hintStyle: const TextStyle(color: Color(0xFFd9e1e1)),
                 errorText: isEmailValid ? null : 'Invalid email format',
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
               ),
               onChanged: (value) {
                 setState(() {
@@ -98,10 +105,10 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
             ),
             Expanded(child: Container()),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 5),
+              height: 55,
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: Color(0xFF4b8e4b),
+                color: primary,
                 borderRadius: BorderRadius.all(Radius.circular(7)),
               ),
               child: TextButton(

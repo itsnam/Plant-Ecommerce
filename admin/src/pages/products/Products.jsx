@@ -12,14 +12,12 @@ const Products = () => {
     axios({
       method: "get",
       url: "http://localhost:3000/api/plants",
-      withCredentials: true,
     }).then((res) => {
       if (res.status === 200) {
         res.data.map((item) => {
           item.image = "http://localhost:3000/" + item.image;
         });
         setList(res.data);
-        console.log(res.data);
       }
     });
   }, [1]);

@@ -27,20 +27,22 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) => const HomeLayout(),
-        '/auth': (context) => const SignInPage(),
-        '/cart': (context) => const CartPage()
-      },
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFececee),
-        fontFamily: 'Roboto',
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-          bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)
-        )
+    return SafeArea(
+      child: MaterialApp(
+        initialRoute: '/home',
+        routes: {
+          '/home': (context) => const HomeLayout(),
+          '/auth': (context) => const SignInPage(),
+          '/cart': (context) => const CartPage()
+        },
+        theme: ThemeData(
+          scaffoldBackgroundColor: const Color(0xFFececee),
+          fontFamily: 'Roboto',
+          textTheme: const TextTheme(
+            bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+            bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)
+          )
+        ),
       ),
     );
   }

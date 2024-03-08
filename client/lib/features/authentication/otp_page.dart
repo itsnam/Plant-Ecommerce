@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart';
+import 'package:plantial/features/commons/custom_back_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plantial/features/Url/url.dart';
 
@@ -15,8 +17,8 @@ class OTPPage extends StatefulWidget {
 }
 
 class _OTPPageState extends State<OTPPage> {
-  final TextEditingController otpController = TextEditingController();
   bool isOTPValid = true;
+  bool clearText = false;
 
   Future<void> saveLoginState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -39,7 +41,7 @@ class _OTPPageState extends State<OTPPage> {
     if (!context.mounted) return;
 
     if (response.statusCode == 200) {
-      await saveLoginState(); 
+      await saveLoginState();
       if (!context.mounted) return;
       Navigator.popUntil(context, ModalRoute.withName('/home'));
       Navigator.pushReplacementNamed(context, "/home");
@@ -48,14 +50,18 @@ class _OTPPageState extends State<OTPPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Lỗi'),
+            backgroundColor: Colors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(7))
+            ),
+            title: const Text('Thất bại'),
             content: Text(response.body),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK'),
+                child: const Text('CLOSE', style: TextStyle(color: Colors.black, fontSize: 18),),
               ),
             ],
           );
@@ -83,7 +89,7 @@ class _OTPPageState extends State<OTPPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('OTP'),
-            content: const Text('Đã gửi OTP'),
+            content: const Text('Đã gửi lại mã OTP'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -100,6 +106,10 @@ class _OTPPageState extends State<OTPPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(7))
+            ),
+            backgroundColor: Colors.white,
             title: const Text('Lỗi'),
             content: Text(response.body),
             actions: [
@@ -127,74 +137,76 @@ class _OTPPageState extends State<OTPPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: const BackButton(),
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 70,
+        leading: const CustomBackButton(
+          color: Colors.black,
+        ),
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Nhập mã OTP với 6 chữ số đã được gửi tới ${widget.email}",
-              style: const TextStyle(fontWeight: FontWeight.w400),
-            ),
-            TextField(
-              controller: otpController,
-              decoration: const InputDecoration(
-                hintText: '000000',
-                hintStyle: TextStyle(color: Color(0xFFd9e1e1), fontSize: 18),
+            RichText(
+              text: TextSpan(
+                style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                    fontSize: 16),
+                children: <TextSpan>[
+                  const TextSpan(
+                      text: "Nhập mã OTP với 6 chữ số đã được gửi tới "),
+                  TextSpan(
+                      text: widget.email,
+                      style: const TextStyle(fontWeight: FontWeight.w700)),
+                ],
               ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            OtpTextField(
               keyboardType: TextInputType.number,
+              cursorColor: Colors.black,
+              numberOfFields: 6,
+              borderWidth: 3.0,
+              fieldWidth: 50,
+              clearText: clearText,
+              styles: [
+                Theme.of(context).textTheme.headlineSmall,
+                Theme.of(context).textTheme.headlineSmall,
+                Theme.of(context).textTheme.headlineSmall,
+                Theme.of(context).textTheme.headlineSmall,
+                Theme.of(context).textTheme.headlineSmall,
+                Theme.of(context).textTheme.headlineSmall,
+              ],
+              borderColor: const Color(0xFF512DA8),
+              showFieldAsBox: true,
+              focusedBorderColor: Colors.black,
+              onCodeChanged: (String code) {},
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly,
                 LengthLimitingTextInputFormatter(6),
               ],
-              onChanged: (value) {
-                setState(() {
-                  isOTPValid = validateOTP(value);
-                });
+              onSubmit: (String verificationCode) {
+                print(1123214);
+                if (isOTPValid) {
+                  verifyOTP(context, verificationCode);
+                }
+              }, // end onSubmit
+            ),
+            const SizedBox(height: 10,),
+            TextButton(
+              onPressed: () {
+                generateOTP(context);
               },
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: TextButton(
-                onPressed: () {
-                  generateOTP(context);
-                },
-                child: const Text(
-                  "Gửi lại OTP",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-            Expanded(child: Container()),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: Color(0xFF4b8e4b),
-                borderRadius: BorderRadius.all(Radius.circular(7)),
-              ),
-              child: TextButton(
-                onPressed: () {
-                  if (otpController.text.isNotEmpty && isOTPValid) {
-                    verifyOTP(context, otpController.text.trim());
-                  }
-                },
-                child: const Text(
-                  "Tiếp tục",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
+              child: const Text(
+                "Gửi lại OTP",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),

@@ -8,13 +8,14 @@ import getCroppedImage from "./ImageUpload.jsx";
 import "./style.css";
 import FormValidate from "./FormValidate.jsx";
 import plantType from "./PlantType.js";
+import PlantType from "./PlantType.js";
 
 const NewProduct = ({ title, defaultValue, p, isEdit, onSubmit }) => {
   const [formState, setFormState] = React.useState(
     defaultValue || {
       _id: "",
       name: "",
-      type: "0",
+      type: PlantType[0][0],
       description: "",
       quantity: "0",
       price: "0",
@@ -77,7 +78,6 @@ const NewProduct = ({ title, defaultValue, p, isEdit, onSubmit }) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        withCredentials: true,
         data: formData,
       }).then((res) => {
         onSubmit(res.data);
@@ -89,7 +89,6 @@ const NewProduct = ({ title, defaultValue, p, isEdit, onSubmit }) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        withCredentials: true,
         data: formData,
       }).then((res) => {
         navigate("/products/");

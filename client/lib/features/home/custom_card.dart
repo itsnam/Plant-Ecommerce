@@ -285,31 +285,37 @@ class _CustomCardState extends State<CustomCard> {
                     Positioned(
                       bottom: 0,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 7, 20, 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    widget.name,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        color: Color(0xFFf9f9f9),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    f.format(widget.price),
-                                    style: const TextStyle(
-                                        color: Color(0xFFf9f9f9),
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 20),
-                                  ),
-                                ]),
-                          ],
+                        padding: const EdgeInsets.fromLTRB(15, 7,30, 10),
+                        child: Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: itemWidth-75,
+                                      child: Text(
+                                        widget.name,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: Color(0xFFf9f9f9),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Text(
+                                      f.format(widget.price),
+                                      style: const TextStyle(
+                                          color: Color(0xFFf9f9f9),
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 20),
+                                    ),
+                                  ]),
+                            ],
+                          ),
                         ),
                       ),
                     ),
