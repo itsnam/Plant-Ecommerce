@@ -4,10 +4,7 @@ import 'package:http/http.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/Url/url.dart';
 import 'package:plantial/features/home/custom_card.dart';
-import 'package:plantial/features/home/custom_card_1.dart';
-import 'package:plantial/features/home/custom_card_2.dart';
 import 'package:plantial/features/home/custom_card_3.dart';
-import 'package:plantial/features/search/custom_search_bar.dart';
 import 'package:plantial/features/search/search_button.dart';
 import 'package:plantial/features/styles/styles.dart';
 

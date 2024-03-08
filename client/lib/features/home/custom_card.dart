@@ -252,37 +252,6 @@ class _CustomCardState extends State<CustomCard> {
                       ),
                     ),
                     Positioned(
-                      right: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        child: SizedBox(
-                          height: 35,
-                          width: 35,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50)),
-                                backgroundColor:
-                                    isFavorite ? favourite : Colors.white),
-                            onPressed: () {
-                              setState(() {
-                                isFavorite = !isFavorite;
-                              });
-                              addToFavorites(email!, widget.id);
-                            },
-                            child: Icon(
-                              Iconsax.heart5,
-                              color: isFavorite
-                                  ? Colors.white
-                                  : unselectedMenuItem,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
                       bottom: 0,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(15, 7,30, 10),

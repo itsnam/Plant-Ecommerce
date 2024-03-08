@@ -37,7 +37,8 @@ class _CheckOutPage1State extends State<CheckOutPage1> {
         body: CustomScrollView(
           slivers: [
             const SliverAppBar(
-              backgroundColor: Colors.white,
+              toolbarHeight: 70,
+              backgroundColor: Colors.transparent,
               leading: Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: BackButton(),

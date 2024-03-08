@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:plantial/features/home/custom_card_2.dart';
+import 'package:intl/intl.dart';
+import 'package:plantial/features/commons/custom_back_button.dart';
+import 'package:plantial/features/cart/cart_item.dart';
 import 'package:plantial/features/checkout/checkout_page_1.dart';
+import 'package:plantial/features/styles/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Url/url.dart';
 
@@ -46,13 +49,14 @@ class _CartPageState extends State<CartPage> {
     for (int i = 0; i < data.length; i++) {
       int price = data[i]['_id']['price'];
       int quantity = data[i]['quantity'];
-      total += (price * quantity).round(); 
+      total += (price * quantity).round();
     }
     return total;
   }
 
   @override
   Widget build(BuildContext context) {
+    final f = NumberFormat.currency(locale: "vi_VN");
     return ScrollConfiguration(
       behavior: const ScrollBehavior().copyWith(overscroll: false),
       child: FutureBuilder(
@@ -61,8 +65,8 @@ class _CartPageState extends State<CartPage> {
             if (snapshot.hasError) {
               return const Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
-                  ));
+                valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
+              ));
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                   child: CircularProgressIndicator(
@@ -75,23 +79,25 @@ class _CartPageState extends State<CartPage> {
             } else {
               List<dynamic> data = snapshot.data!;
               int itemTotal = calculateItemTotal(data);
-              int shippingCharge = 20000; 
+              int shippingCharge = 30000;
               int total = itemTotal + shippingCharge;
-
               return Scaffold(
                 body: CustomScrollView(
                   slivers: [
                     const SliverAppBar(
-                      backgroundColor: Color(0xFFf5f5f5),
+                      toolbarHeight: 70,
+                      backgroundColor: background,
                       leading: Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: BackButton(),
+                        child: CustomBackButton(
+                          color: Colors.black,
+                        ),
                       ),
                       centerTitle: true,
                       title: Text("Giỏ hàng",
                           style: TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 20)),
-                      pinned: false,
+                      pinned: true,
                       floating: true,
                       snap: false,
                     ),
@@ -101,6 +107,11 @@ class _CartPageState extends State<CartPage> {
                         itemCount: data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return CustomCard2(
+                            updateQuantity: () {
+                              setState(() {
+
+                              });
+                            },
                             id: data[index]['_id']["_id"],
                             name: data[index]['_id']['name'],
                             type: data[index]['_id']['type'],
@@ -112,18 +123,30 @@ class _CartPageState extends State<CartPage> {
                         },
                       ),
                     ),
-                     SliverFillRemaining(
+
+                    SliverFillRemaining(
                         hasScrollBody: false,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
                           child: Column(
                             children: [
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text("Item Total"),
-                                  Text("đ${itemTotal.toString()}"),
+                                  const Text("Item Total",
+                                      style: TextStyle(
+                                          height: 0,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400)),
+                                  Text(
+                                      f.format(
+                                        itemTotal,
+                                      ),
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          height: 0,
+                                          fontWeight: FontWeight.w400)),
                                 ],
                               ),
                               const SizedBox(height: 5),
@@ -131,8 +154,20 @@ class _CartPageState extends State<CartPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text("Shipping Charge"),
-                                  Text("đ${shippingCharge.toString()}"),
+                                  const Text(
+                                    "Shipping Charge",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        height: 0,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    f.format(shippingCharge),
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        height: 0,
+                                        fontWeight: FontWeight.w400),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 20),
@@ -164,16 +199,16 @@ class _CartPageState extends State<CartPage> {
                           const SizedBox(
                             height: 15,
                           ),
-                           Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
                                 "Tổng cộng",
                                 style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w700),
+                                    fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                "đ${total.toString()}",
+                                f.format(total),
                                 style: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w700),
                               ),
@@ -194,8 +229,7 @@ class _CartPageState extends State<CartPage> {
                               },
                               style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          const Color(0xFF4b8e4b)),
+                                      MaterialStateProperty.all<Color>(primary),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
@@ -206,8 +240,8 @@ class _CartPageState extends State<CartPage> {
                                 "Mua hàng",
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                           )

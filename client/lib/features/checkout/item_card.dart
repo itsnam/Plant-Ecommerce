@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ItemCard extends StatelessWidget {
   final String imgUrl;
@@ -16,6 +17,7 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final f = NumberFormat.currency(locale: "vi_VN");
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
       child: Container(
@@ -57,7 +59,7 @@ class ItemCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'đ$price',
+                      f.format(price),
                       style: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
