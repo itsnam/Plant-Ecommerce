@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../home/custom_card_3.dart';
+
 class FavouritePage extends StatefulWidget {
   const FavouritePage({Key? key}) : super(key: key);
 
@@ -55,6 +57,7 @@ class _FavouritePageState extends State<FavouritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 70,
         centerTitle: true,
         backgroundColor: Colors.transparent,
         title: const Text('Yêu thích', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
@@ -78,24 +81,27 @@ class _FavouritePageState extends State<FavouritePage> {
                   List<dynamic> data = snapshot.data!;
                   return ListView(
                     children: [
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        height: 650,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          itemCount: data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return CustomCard1(
-                              id: data[index]['plantId']['_id'],
-                              name: data[index]['plantId']['name'],
-                              type: data[index]['plantId']['type'],
-                              price: data[index]['plantId']['price'],
-                              imgUrl:
-                                  'http://10.0.2.2:3000/${data[index]['plantId']['image']}',
-                              onFavoriteRemoved: onFavoriteRemoved,
-                            );
-                          },
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 5, 15, 15),
+                        child: GridView.builder(
+                            physics: const ScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: (1 / 1.35),
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 5,
+                                crossAxisCount: 2),
+                            itemCount: data.length,
+                            itemBuilder: (_, index) {
+                              return CustomCard3(
+                                  id: data[index]['plantId']['_id'],
+                                  name: data[index]['plantId']['name'],
+                                  type: data[index]['plantId']['type'],
+                                  price: data[index]['plantId']['price'],
+                                  imgUrl:
+                                  'http://10.0.2.2:3000/${data[index]['plantId']['image']}');
+                            }),
                       ),
                       const SizedBox(height: 12),
                     ],
