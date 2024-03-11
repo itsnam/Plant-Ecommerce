@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+import 'package:plantial/features/cart/cart_model.dart';
+import 'package:provider/provider.dart';
 
 class CustomCard2 extends StatefulWidget {
   final String name;
@@ -9,7 +11,7 @@ class CustomCard2 extends StatefulWidget {
   final String imgUrl;
   final String id;
   int quantity;
-  final Function updateQuantity;
+
 
 
   CustomCard2(
@@ -19,8 +21,7 @@ class CustomCard2 extends StatefulWidget {
       required this.price,
       required this.imgUrl,
       required this.id,
-      this.quantity = 0,
-      required this.updateQuantity});
+      this.quantity = 0,});
 
   @override
   State<CustomCard2> createState() => _CustomCard2State();
@@ -124,9 +125,8 @@ class _CustomCard2State extends State<CustomCard2> {
                                       padding: EdgeInsets.zero,
                                     ),
                                     onPressed: () {
-                                      setState(() {
-                                        widget.quantity += 1;
-                                      });
+                                      Provider.of<CartModel>(context, listen: true)
+                                          .add(widget.id);
                                     },
                                     child: const Icon(
                                       Iconsax.add,
