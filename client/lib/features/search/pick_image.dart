@@ -50,7 +50,7 @@ class _PickImageState extends State<PickImage> {
                     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7)))),
                 child: const Text(
-                  "Tìm bằng camera",
+                  "Tìm bằng máy ảnh",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

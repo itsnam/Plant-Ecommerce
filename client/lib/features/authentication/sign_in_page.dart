@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:plantial/features/authentication/sign_in_with_email.dart';
 import 'package:plantial/features/commons/custom_back_button.dart';
 import 'package:plantial/features/commons/custom_button.dart';
-import 'package:plantial/features/styles/styles.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);

@@ -15,6 +15,7 @@ class CustomCard3 extends StatefulWidget {
   final String imgUrl;
   final String id;
   final Function()? onFavoriteRemoved;
+  final bool showFavoriteIcon;
 
   const CustomCard3({
     Key? key,
@@ -24,6 +25,7 @@ class CustomCard3 extends StatefulWidget {
     required this.imgUrl,
     required this.id,
     this.onFavoriteRemoved,
+    this.showFavoriteIcon = true,
   }) : super(key: key);
 
   @override
@@ -54,21 +56,16 @@ class _CustomCard3State extends State<CustomCard3> {
   }
 
   Future<void> checkIsFavorite() async {
-    final response = await get(
-      Uri.parse('$apiFavorites/$email'),
-    );
-
+    final response = await get(Uri.parse('$apiFavorites/$email'));
     if (response.statusCode == 200) {
-      List<dynamic> favoriteList = json.decode(response.body);
-
-      if (mounted) {
-        setState(() {
-          isFavorite = favoriteList
-              .any((favorite) => favorite['plantId']['_id'] == widget.id);
-        });
-      }
+      final data = json.decode(response.body);
+      final List<dynamic> favoriteList = data['plants'];
+      setState(() {
+        isFavorite = favoriteList.any((plant) => plant['_id']['_id'] == widget.id);
+      });
     }
   }
+
 
   void addToFavorites(String email, String id) async {
     if (!isLoggedIn) {
@@ -96,7 +93,7 @@ class _CustomCard3State extends State<CustomCard3> {
     final response = await post(
       Uri.parse('$apiFavorites/add'),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({'userEmail': email, 'plantId': id}),
+      body: json.encode({'email': email, 'productId': id}),
     );
 
     if (!context.mounted) return;
@@ -104,7 +101,7 @@ class _CustomCard3State extends State<CustomCard3> {
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Đã loại sản phẩm ra khỏi mục yêu thích '),
+          content: Text('Đã loại sản phẩm ra khỏi mục yêu thích'),
           duration: Duration(seconds: 1),
         ),
       );
@@ -227,6 +224,7 @@ class _CustomCard3State extends State<CustomCard3> {
                   child: Image.network(widget.imgUrl, fit: BoxFit.cover),
                 ),
               ),
+              if (widget.showFavoriteIcon)
               Positioned(
                 right: 0,
                 child: Container(
@@ -242,9 +240,11 @@ class _CustomCard3State extends State<CustomCard3> {
                           backgroundColor:
                           isFavorite ? favourite : Colors.white),
                       onPressed: () {
+                      if (isLoggedIn) {
                         setState(() {
                           isFavorite = !isFavorite;
                         });
+                      }
                         addToFavorites(email!, widget.id);
                       },
                       child: Icon(

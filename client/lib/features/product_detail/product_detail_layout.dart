@@ -17,6 +17,17 @@ class ProductDetailLayout extends StatefulWidget {
 
 class _ProductDetailLayoutState extends State<ProductDetailLayout> {
   int _quantity = 1;
+  bool isLoggedIn = false;
+  String? email;
+
+
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+      email = prefs.getString('email');
+    });
+  }
 
   void updateQuantity(int newQuantity) {
     setState(() {
@@ -39,6 +50,28 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
   }
 
   Future<void> addToCart(String productId, int quantity) async {
+    if (!isLoggedIn) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Yêu cầu đăng nhập'),
+            content: const Text(
+                'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.getString('email') == null){
       if (!context.mounted) return;
@@ -65,6 +98,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
   void initState() {
     super.initState();
     fetchSingleData();
+    checkLoginStatus();
   }
 
   @override
@@ -166,7 +200,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Add to Cart",
+                    "Thêm vào giỏ hàng",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

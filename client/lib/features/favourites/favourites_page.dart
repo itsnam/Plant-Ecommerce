@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:plantial/features/Url/url.dart';
-import 'package:plantial/features/home/custom_card_1.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:plantial/features/styles/styles.dart';
 import '../home/custom_card_3.dart';
 
 class FavouritePage extends StatefulWidget {
@@ -31,12 +30,14 @@ class _FavouritePageState extends State<FavouritePage> {
       isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
       email = prefs.getString('email');
     });
+
   }
 
   Future<List<dynamic>> fetchData() async {
     final response = await get(Uri.parse('$apiFavorites/$email'));
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      final data = json.decode(response.body);
+      return data['plants'];
     } else {
       throw Exception('Failed to load data');
     }
@@ -95,12 +96,13 @@ class _FavouritePageState extends State<FavouritePage> {
                             itemCount: data.length,
                             itemBuilder: (_, index) {
                               return CustomCard3(
-                                  id: data[index]['plantId']['_id'],
-                                  name: data[index]['plantId']['name'],
-                                  type: data[index]['plantId']['type'],
-                                  price: data[index]['plantId']['price'],
+                                  id: data[index]['_id']['_id'],
+                                  name: data[index]['_id']['name'],
+                                  type: data[index]['_id']['type'],
+                                  price: data[index]['_id']['price'],
                                   imgUrl:
-                                  'http://10.0.2.2:3000/${data[index]['plantId']['image']}');
+                                  'http://10.0.2.2:3000/${data[index]['_id']['image']}',
+                                  onFavoriteRemoved: onFavoriteRemoved,);
                             }),
                       ),
                       const SizedBox(height: 12),
@@ -110,12 +112,31 @@ class _FavouritePageState extends State<FavouritePage> {
               },
             )
           : Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/auth");
-                },
-                child: const Text('Sign In to view favourites'),
-              ),
+              child: SizedBox(
+                height: 55,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/auth");
+                  },
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(
+                              primary),
+                      shape: MaterialStateProperty.all<
+                          RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      )),
+                  child: const Text(
+                    "Đăng nhập để xem giỏ hàng",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              )
             ),
     );
   }

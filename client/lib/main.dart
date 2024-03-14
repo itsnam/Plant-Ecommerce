@@ -29,6 +29,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         initialRoute: '/home',
         routes: {
           '/home': (context) => const HomeLayout(),

@@ -1,16 +1,21 @@
 const mongoose = require("mongoose");
 
 const favoriteSchema = new mongoose.Schema({
-  userEmail: {
+  plants: [
+    {
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Plant",
+        require: true,
+      },
+    },
+  ],
+  email: {
     type: String,
-    required: true,
+    ref: "User",
+    require: true,
   },
-  plantId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Plant",
-    required: true,
-  },
-  favoriteCreatedTime: {
+  createdAt: {
     type: Date,
     default: Date.now,
   },

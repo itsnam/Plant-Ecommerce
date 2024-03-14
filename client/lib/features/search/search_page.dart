@@ -64,7 +64,8 @@ class _SearchPageState extends State<SearchPage> {
                   name: result[index]['name'],
                   type: result[index]['type'],
                   price: result[index]['price'],
-                  imgUrl: 'http://10.0.2.2:3000/${result[index]['image']}');
+                  imgUrl: 'http://10.0.2.2:3000/${result[index]['image']}',
+                  showFavoriteIcon: false,);
             },
           ),
         ),

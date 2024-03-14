@@ -20,7 +20,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  bool isLoggedIn = false;
   String? email;
 
   @override
@@ -32,7 +31,6 @@ class _CartPageState extends State<CartPage> {
   Future<void> checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
       email = prefs.getString('email');
     });
   }
@@ -83,7 +81,7 @@ class _CartPageState extends State<CartPage> {
               List<dynamic> data = snapshot.data!;
               final cart = CartModel();
               int itemTotal = calculateItemTotal(data);
-              int shippingCharge = 30000;
+              int shippingCharge = 50000;
               int total = itemTotal + shippingCharge;
               return ChangeNotifierProvider(
                 create: (BuildContext context) {
@@ -144,7 +142,7 @@ class _CartPageState extends State<CartPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text("Item Total",
+                                    const Text("Tổng tiền sản phẩm",
                                         style: TextStyle(
                                             height: 0,
                                             fontSize: 14,
@@ -165,7 +163,7 @@ class _CartPageState extends State<CartPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     const Text(
-                                      "Shipping Charge",
+                                      "Phí giao hàng",
                                       style: TextStyle(
                                           fontSize: 14,
                                           height: 0,

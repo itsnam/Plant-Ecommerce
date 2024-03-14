@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:plantial/features/home/custom_card_1.dart';
 import 'package:plantial/features/home/custom_card_3.dart';
 import 'package:plantial/features/search/upload.dart';
 
@@ -57,7 +56,7 @@ class _ResultState extends State<Result> {
                       type: data[index]['type'],
                       price: data[index]['price'],
                       imgUrl: 'http://10.0.2.2:3000/${data[index]['image']}',
-                      onFavoriteRemoved: null,
+                      showFavoriteIcon: false,
                     );
                   },
                 ),
