@@ -190,7 +190,6 @@ class _OTPPageState extends State<OTPPage> {
                 LengthLimitingTextInputFormatter(6),
               ],
               onSubmit: (String verificationCode) {
-                print(1123214);
                 if (isOTPValid) {
                   verifyOTP(context, verificationCode);
                 }

@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
-import 'package:plantial/features/cart/cart_model.dart';
-import 'package:plantial/features/cart/product_model.dart';
+import 'package:plantial/features/cart/cart_provider.dart';
+import 'package:plantial/features/cart/product.dart';
 import 'package:plantial/features/commons/custom_back_button.dart';
-import 'package:plantial/features/cart/cart_item.dart';
+import 'package:plantial/features/cart/cart_item_card.dart';
 import 'package:plantial/features/checkout/checkout_page_1.dart';
 import 'package:plantial/features/styles/styles.dart';
 import 'package:provider/provider.dart';
@@ -35,24 +37,14 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-  Future<List<dynamic>> fetchData() async {
+  Future<Map<String, dynamic>> fetchData() async {
     final response = await get(Uri.parse('$apiOrders/$email'));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      return data["plants"];
+      return data;
     } else {
       throw Exception('Failed to load data');
     }
-  }
-
-  int calculateItemTotal(List<dynamic> data) {
-    int total = 0;
-    for (int i = 0; i < data.length; i++) {
-      int price = data[i]['_id']['price'];
-      int quantity = data[i]['quantity'];
-      total += (price * quantity).round();
-    }
-    return total;
   }
 
   @override
@@ -66,27 +58,22 @@ class _CartPageState extends State<CartPage> {
             if (snapshot.hasError) {
               return const Center(
                   child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
+                valueColor: AlwaysStoppedAnimation(primary),
               ));
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                   child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
+                valueColor: AlwaysStoppedAnimation(primary),
               ));
             } else if (snapshot.hasData && snapshot.data!.isEmpty) {
               return const Center(
                 child: Text('Empty'),
               );
             } else {
-              List<dynamic> data = snapshot.data!;
-              final cart = CartModel();
-              int itemTotal = calculateItemTotal(data);
               int shippingCharge = 50000;
-              int total = itemTotal + shippingCharge;
               return ChangeNotifierProvider(
-                create: (BuildContext context) {
-                  CartModel();
-                },
+                create: (BuildContext context) =>
+                    CartProvider.fromJson(snapshot.data!),
                 child: Scaffold(
                   body: CustomScrollView(
                     slivers: [
@@ -107,25 +94,64 @@ class _CartPageState extends State<CartPage> {
                         floating: true,
                         snap: false,
                       ),
-                      Consumer(
-                        builder: (BuildContext context, value, Widget? child) {
-                          final cart = CartModel();
-                          for(dynamic p in data){
-                            Product newProduct = Product(id: p['_id']['_id'], name: p['_id']['name'], type: p['_id']['type'], price: p['_id']['price'], imgUrl: p['_id']['image'], quantity: p['quantity']);
-                            cart.items.add(newProduct);
-                          }
+                      Consumer<CartProvider>(
+                        builder:
+                            (BuildContext context, instance, Widget? child) {
                           return SliverPadding(
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             sliver: SliverList.builder(
-                              itemCount: cart.items.length,
+                              itemCount: instance.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return CustomCard2(
-                                  id: cart.items[index].id,
-                                  name: cart.items[index].name,
-                                  type: cart.items[index].type,
-                                  price: cart.items[index].price,
-                                  imgUrl: 'http://10.0.2.2:3000/${cart.items[index].imgUrl}',
-                                  quantity: cart.items[index].quantity,
+                                return Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Stack(
+                                    children: [
+                                      Positioned.fill(
+                                        child: Padding(
+                                              padding: const EdgeInsets
+                                                  .fromLTRB(15, 0, 15, 0),
+                                              child: Container(
+                                                color: Colors.redAccent,
+                                              ),
+                                            ),
+                                      ),
+                                      Slidable(
+                                        key: ValueKey(index),
+                                        endActionPane: ActionPane(
+                                          extentRatio: 0.25,
+                                          motion: const StretchMotion(),
+                                          children: [
+                                            SlidableAction(
+                                              onPressed: (context) {
+                                                instance.removeCartItem(instance.cartItems[index].product.id);
+                                              } ,
+                                              backgroundColor: Colors.redAccent,
+                                              foregroundColor: Colors.white,
+                                              icon: Iconsax.trash,
+                                              borderRadius: const BorderRadius.only(
+                                                topRight: Radius.circular(10),
+                                                bottomRight:
+                                                    Radius.circular(10),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        child: CustomCard2(
+                                          id: instance.items[index].product.id,
+                                          name: instance
+                                              .items[index].product.name,
+                                          type: instance
+                                              .items[index].product.type,
+                                          price: instance
+                                              .items[index].product.price,
+                                          imgUrl: instance
+                                              .items[index].product.imgUrl,
+                                          quantity:
+                                              instance.items[index].quantity,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 );
                               },
                             ),
@@ -142,19 +168,24 @@ class _CartPageState extends State<CartPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text("Tổng tiền sản phẩm",
+                                    const Text("Tạm tính",
                                         style: TextStyle(
                                             height: 0,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400)),
-                                    Text(
-                                        f.format(
-                                          itemTotal,
-                                        ),
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            height: 0,
-                                            fontWeight: FontWeight.w400)),
+                                    Consumer<CartProvider>(
+                                      builder: (BuildContext context,
+                                          CartProvider value, Widget? child) {
+                                        return Text(
+                                            f
+                                                .format(value.getTotalPrice())
+                                                .replaceFirst("VND", ""),
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                height: 0,
+                                                fontWeight: FontWeight.w400));
+                                      },
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 5),
@@ -169,12 +200,18 @@ class _CartPageState extends State<CartPage> {
                                           height: 0,
                                           fontWeight: FontWeight.w400),
                                     ),
-                                    Text(
-                                      f.format(shippingCharge),
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          height: 0,
-                                          fontWeight: FontWeight.w400),
+                                    Consumer<CartProvider>(
+                                      builder: (BuildContext context, CartProvider value, Widget? child) {
+                                        return Text(
+                                          f
+                                              .format(value.getShippingCharge())
+                                              .replaceFirst("VND", ""),
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              height: 0,
+                                              fontWeight: FontWeight.w400),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -216,12 +253,18 @@ class _CartPageState extends State<CartPage> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400),
                                 ),
-                                Text(
-                                  f.format(total),
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700),
-                                ),
+                                Consumer<CartProvider>(
+                                  builder: (BuildContext context,
+                                      CartProvider value, Widget? child) {
+                                    return Text(
+                                      f.format(value.getTotalPrice() +
+                                          value.getShippingCharge()),
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700),
+                                    );
+                                  },
+                                )
                               ],
                             ),
                             const SizedBox(
