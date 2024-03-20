@@ -29,7 +29,7 @@ class CheckOutPage1 extends StatefulWidget {
 
 class _CheckOutPage1State extends State<CheckOutPage1> {
   AddressList addressList = AddressList();
-  late Address selectedAddress;
+  Address? selectedAddress;
   Future? _future;
 
   onChangeAddress(value) {
@@ -50,9 +50,13 @@ class _CheckOutPage1State extends State<CheckOutPage1> {
     );
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      addressList = AddressList.fromJson(data);
-      selectedAddress = addressList.items[0];
-      return;
+      if (data.length > 0) {
+        setState(() {
+          addressList = AddressList.fromJson(data);
+          selectedAddress = addressList.items[0];
+        });
+      }
+      return "success";
     }
   }
 
@@ -98,14 +102,6 @@ class _CheckOutPage1State extends State<CheckOutPage1> {
                     );
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
-                    return const SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Center(
-                          child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(primary),
-                      )),
-                    );
-                  } else if (snapshot.hasData && snapshot.data!.isEmpty) {
                     return const SliverFillRemaining(
                       hasScrollBody: false,
                       child: Center(
@@ -197,18 +193,18 @@ class _CheckOutPage1State extends State<CheckOutPage1> {
                 SizedBox(
                   height: 55,
                   child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PaymentPage(
-                                    cartItems: widget.cartItems,
-                                    address: selectedAddress,
-                                  ))).then((value) => refreshPage());
+                    onPressed: (selectedAddress == null) ? null : () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PaymentPage(
+                                      cartItems: widget.cartItems,
+                                      address: selectedAddress,
+                                    ))).then((value) => refreshPage());
                     },
                     style: ButtonStyle(
                         backgroundColor:
-                            const MaterialStatePropertyAll(primary),
+                        (selectedAddress == null) ? const MaterialStatePropertyAll(Colors.black26) : const MaterialStatePropertyAll(primary),
                         shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7)))),
                     child: const Text(

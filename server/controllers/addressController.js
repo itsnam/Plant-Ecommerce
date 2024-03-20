@@ -14,6 +14,9 @@ exports.getAddress = async (req, res) => {
     let addressList = await Address.findOne({
       email: email,
     });
+    if (!addressList) {
+      return res.status(200).json([]);
+    }
     return res.status(200).json(addressList);
   } catch (e) {}
 };

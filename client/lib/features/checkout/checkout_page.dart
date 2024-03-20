@@ -20,7 +20,7 @@ import '../cart/cart_item.dart';
 
 class CheckOutPage extends StatefulWidget {
   final List<CartItem> cartItems;
-  final Address address;
+  final Address? address;
   final PaymentMethod paymentMethod;
 
   const CheckOutPage({Key? key,
@@ -209,7 +209,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   height: 55,
                   child: TextButton(
                     onPressed: () {
-                     
+
                     },
                     style: ButtonStyle(
                         backgroundColor:

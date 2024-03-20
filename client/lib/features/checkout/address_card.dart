@@ -4,7 +4,7 @@ import 'package:plantial/features/address/address.dart';
 import 'package:plantial/features/styles/styles.dart';
 
 class CheckOutAddressCard extends StatelessWidget {
-  final Address address;
+  final Address? address;
 
   const CheckOutAddressCard({
     Key? key,
@@ -41,17 +41,17 @@ class CheckOutAddressCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      address.name,
+                      address!.name,
                       style: const TextStyle(
                           fontWeight: FontWeight.w500, fontSize: 14),
                     ),
                     Text(
-                      address.phone,
+                      address!.phone,
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      "${address.street}, ${(address.ward[1]).toLowerCase()} ${address.ward[0]}, ${(address.district[1]).toLowerCase()} ${(address.district[0])}, ${(address.province[1]).toLowerCase()} ${address.province[0]}",
+                      "${address!.street}, ${(address!.ward[1]).toLowerCase()} ${address!.ward[0]}, ${(address!.district[1]).toLowerCase()} ${(address!.district[0])}, ${(address?.province[1]).toLowerCase()} ${address!.province[0]}",
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w400),
                     ),

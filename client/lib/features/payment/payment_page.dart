@@ -11,7 +11,7 @@ import '../cart/cart_item.dart';
 
 class PaymentPage extends StatefulWidget {
   final List<CartItem> cartItems;
-  final Address address;
+  final Address? address;
 
   const PaymentPage({
     super.key,
