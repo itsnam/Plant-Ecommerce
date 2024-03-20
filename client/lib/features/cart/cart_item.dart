@@ -12,4 +12,9 @@ class CartItem {
       quantity: json['quantity'],
     );
   }
+
+  Map toJson() => {
+    'product': product.toJson(),
+    'quantity': quantity
+  };
 }

@@ -1,4 +1,5 @@
 const Order = require("../models/order");
+const { ObjectId, Types } = require("mongoose");
 
 exports.getCurrentOrderByEmail = async (req, res) => {
   const { userEmail } = req.params;
@@ -55,4 +56,24 @@ exports.addOrder = async (req, res) => {
   } catch (e) {
     console.log(e);
   }
+};
+
+exports.updateOrder = async (req, res) => {
+  try {
+    const data = req.body;
+    const cartItems = data.cartItems;
+    const email = data.email;
+    const order = await Order.findOne({ email: email, status: 1 });
+    if (order) {
+      plants = [];
+      cartItems.map((item) => {
+        plants.push({
+          _id: new Types.ObjectId(item.product._id),
+          quantity: item.quantity,
+        });
+      });
+      order.plants = plants;
+      await order.save();
+    }
+  } catch (e) {}
 };

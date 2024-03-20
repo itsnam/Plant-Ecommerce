@@ -52,7 +52,7 @@ class _CustomCard2State extends State<CustomCard2> {
                 ),
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(40), // Image radius
-                  child: Image.network(widget.imgUrl, fit: BoxFit.cover),
+                  child: Image.network('http://10.0.2.2:3000/${widget.imgUrl}', fit: BoxFit.cover),
                 ),
               ),
             ),

@@ -72,7 +72,7 @@ class _FavouritePageState extends State<FavouritePage> {
                 } else if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                       child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation(Color(0xFF4b8e4b)),
+                    valueColor: AlwaysStoppedAnimation(primary),
                   ));
                 } else if (snapshot.hasData && snapshot.data!.isEmpty) {
                   return const Center(

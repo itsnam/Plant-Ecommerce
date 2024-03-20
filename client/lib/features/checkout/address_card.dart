@@ -1,63 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:plantial/features/address/address.dart';
+import 'package:plantial/features/styles/styles.dart';
 
-class AddressCard extends StatefulWidget {
-  final String address;
-  final String? selectedAddress;
-  final Function onChanged;
-  final String addressDetail;
+class CheckOutAddressCard extends StatelessWidget {
+  final Address address;
 
-  const AddressCard({
-    super.key,
+  const CheckOutAddressCard({
+    Key? key,
     required this.address,
-    required this.onChanged,
-    required this.selectedAddress, required this.addressDetail,
-  });
+  }) : super(key: key);
 
-  @override
-  State<AddressCard> createState() => _AddressCardState();
-}
-
-class _AddressCardState extends State<AddressCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                spreadRadius: 1,
-                blurRadius: 7,
-                offset: const Offset(0, 3), // changes position of shadow
-              )
-            ]),
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          border: Border.all(
+            color: unselectedMenuItem,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 7,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: RadioListTile(
-                title: Text(
-                  widget.address,
-                  style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      address.name,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 14),
+                    ),
+                    Text(
+                      address.phone,
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                    Text(
+                      "${address.street}, ${(address.ward[1]).toLowerCase()} ${address.ward[0]}, ${(address.district[1]).toLowerCase()} ${(address.district[0])}, ${(address.province[1]).toLowerCase()} ${address.province[0]}",
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                  ],
                 ),
-                value: widget.address,
-                groupValue: widget.selectedAddress,
-                onChanged: (value) => widget.onChanged(value),
-                subtitle: Text(widget.addressDetail, style: const TextStyle(fontSize: 14),),
               ),
-            ), 
-            const RotatedBox(
-              quarterTurns: 1,
-              child: SizedBox(
-                  height: 30,
-                  child: Icon(
-                    Iconsax.more,
-                    size: 20,
-                  )),
-            )
+            ),
           ],
         ),
       ),

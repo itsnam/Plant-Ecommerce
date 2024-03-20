@@ -5,10 +5,9 @@ import 'package:http/http.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:plantial/features/cart/cart_provider.dart';
-import 'package:plantial/features/cart/product.dart';
-import 'package:plantial/features/commons/custom_back_button.dart';
 import 'package:plantial/features/cart/cart_item_card.dart';
-import 'package:plantial/features/checkout/checkout_page_1.dart';
+import 'package:plantial/features/address/address_page.dart';
+import 'package:plantial/features/commons/custom_back_button_with_function.dart';
 import 'package:plantial/features/styles/styles.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,24 +69,31 @@ class _CartPageState extends State<CartPage> {
                 child: Text('Empty'),
               );
             } else {
-              int shippingCharge = 50000;
               return ChangeNotifierProvider(
                 create: (BuildContext context) =>
                     CartProvider.fromJson(snapshot.data!),
                 child: Scaffold(
                   body: CustomScrollView(
                     slivers: [
-                      const SliverAppBar(
+                      SliverAppBar(
                         toolbarHeight: 70,
                         backgroundColor: background,
                         leading: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: CustomBackButton(
-                            color: Colors.black,
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: Consumer<CartProvider>(
+                            builder: (BuildContext context, CartProvider value, Widget? child) {  
+                              return CustomBackButtonWithFunction(
+                                color: Colors.black,
+                                onPressed: () {
+                                  value.updateOrder(email!);
+                                  Navigator.of(context).pop();
+                                },
+                              );
+                            },
                           ),
                         ),
                         centerTitle: true,
-                        title: Text("Giỏ hàng",
+                        title: const Text("Giỏ hàng",
                             style: TextStyle(
                                 fontWeight: FontWeight.w700, fontSize: 20)),
                         pinned: true,
@@ -235,72 +241,75 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ],
                     ),
-                    child: Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Tổng cộng",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                Consumer<CartProvider>(
-                                  builder: (BuildContext context,
-                                      CartProvider value, Widget? child) {
-                                    return Text(
-                                      f.format(value.getTotalPrice() +
-                                          value.getShippingCharge()),
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700),
-                                    );
-                                  },
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                              height: 55,
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const CheckOutPage1()));
-                                },
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            primary),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(7),
-                                      ),
-                                    )),
-                                child: const Text(
-                                  "Mua hàng",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
-                                ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Tổng cộng",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
                               ),
-                            )
-                          ],
-                        ),
+                              Consumer<CartProvider>(
+                                builder: (BuildContext context,
+                                    CartProvider value, Widget? child) {
+                                  return Text(
+                                    f.format(value.getTotalPrice() +
+                                        value.getShippingCharge()),
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700),
+                                  );
+                                },
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Consumer<CartProvider>(
+                            builder: (BuildContext context, CartProvider value, Widget? child) {
+                              return SizedBox(
+                                height: 55,
+                                child: TextButton(
+                                  onPressed: () {
+                                    value.updateOrder(email!);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                            CheckOutPage1(email: email!, cartItems: value.items,)));
+                                  },
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          primary),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(7),
+                                        ),
+                                      )),
+                                  child: const Text(
+                                    "Xác nhận",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        ],
                       ),
                     ),
                   ),

@@ -12,5 +12,9 @@ class Product {
     name= json['name'],
     type=json['type'],
     price=json['price'],
-    imgUrl='http://10.0.2.2:3000/${json['image']}';
+    imgUrl=json['image'];
+
+  Map toJson() => {
+    '_id' : id,
+  };
 }

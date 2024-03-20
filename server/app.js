@@ -30,11 +30,13 @@ const authRouter = require("./routes/auth");
 const plantRouter = require("./routes/plants");
 const favoriteRouter = require("./routes/favorites");
 const orderRouter = require("./routes/orders");
+const addressRouter = require("./routes/address");
 
 app.use("/api/auth", authRouter);
 app.use("/api/plants", plantRouter);
 app.use("/api/favorites", favoriteRouter);
 app.use("/api/orders", orderRouter);
+app.use("/api/addresses", addressRouter);
 
 app.listen(port, () => {
   console.log(`Server running on: http://localhost:${port}`);

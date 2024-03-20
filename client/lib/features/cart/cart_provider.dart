@@ -1,15 +1,14 @@
+import 'dart:convert';
 import 'dart:core';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart';
 import 'package:plantial/features/cart/cart_item.dart';
-import 'package:plantial/features/cart/product.dart';
-import 'package:plantial/features/checkout/item_card.dart';
+import '../Url/url.dart';
 
 class CartProvider extends ChangeNotifier {
   List<CartItem> cartItems = [];
-
   CartProvider(this.cartItems);
-
   List<CartItem> get items => cartItems;
   int get length => cartItems.length;
 
@@ -21,10 +20,14 @@ class CartProvider extends ChangeNotifier {
     return total;
   }
 
-  void updateOrder(String email) {
-
+  void updateOrder(String email) async {
+    final response = await put(
+      Uri.parse(apiOrders),
+      headers: {'Content-Type': 'application/json'},
+      body:
+      json.encode({'email': email, 'cartItems': cartItems}),
+    );
   }
-
 
   CartProvider.fromJson(Map<String, dynamic> json) {
     if (json['plants'] != null) {
