@@ -8,26 +8,22 @@ import 'package:plantial/features/address/addressList.dart';
 import 'package:plantial/features/address/address_detail_page.dart';
 import 'package:plantial/features/address/address_card.dart';
 import 'package:plantial/features/commons/custom_back_button.dart';
+import 'package:plantial/features/profile/profile_page.dart';
 import 'package:plantial/features/styles/styles.dart';
 
-import '../cart/cart_item.dart';
-import '../payment/payment_page.dart';
-
-class CheckOutPage1 extends StatefulWidget {
+class UpdateAddressPage extends StatefulWidget {
   final String email;
-  final List<CartItem> cartItems;
 
-  const CheckOutPage1({
+  const UpdateAddressPage({
     super.key,
     required this.email,
-    required this.cartItems,
   });
 
   @override
-  State<CheckOutPage1> createState() => _CheckOutPage1State();
+  State<UpdateAddressPage> createState() => _UpdateAddressPageState();
 }
 
-class _CheckOutPage1State extends State<CheckOutPage1> {
+class _UpdateAddressPageState extends State<UpdateAddressPage> {
   AddressList addressList = AddressList();
   Address? selectedAddress;
   Future? _future;
@@ -194,18 +190,12 @@ class _CheckOutPage1State extends State<CheckOutPage1> {
                 SizedBox(
                   height: 55,
                   child: TextButton(
-                    onPressed: (selectedAddress == null) ? null : () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PaymentPage(
-                                      cartItems: widget.cartItems,
-                                      address: selectedAddress,
-                                    ))).then((value) => refreshPage());
+                    onPressed: () {
+                      Navigator.pop(context);
                     },
                     style: ButtonStyle(
                         backgroundColor:
-                        (selectedAddress == null) ? const MaterialStatePropertyAll(Colors.black26) : const MaterialStatePropertyAll(primary),
+                        const MaterialStatePropertyAll(primary),
                         shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7)))),
                     child: const Text(

@@ -68,7 +68,7 @@ class _FavouritePageState extends State<FavouritePage> {
               future: fetchData(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return const Center(child: Text('Chưa có cây yêu thích'));
                 } else if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                       child: CircularProgressIndicator(

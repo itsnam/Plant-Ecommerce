@@ -14,6 +14,8 @@ const generateOTP = async (req, res) => {
     const OTP = otp.generateOTP();
     user.OTP = OTP;
 
+    user.OTPCreatedAt = new Date();
+
     await user.save();
 
     otp.sendOTP(email, OTP);
@@ -30,8 +32,20 @@ const verifyOTPAndLogin = async (req, res) => {
   try {
     const user = await User.findOne({ email });
 
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
     if (user.OTP !== OTP) {
       return res.status(400).send("OTP không hợp lệ");
+    }
+
+    const OTP_EXPIRATION_TIME = 5 * 60 * 1000;
+    const currentTime = new Date();
+    const timeDifference = currentTime - user.OTPCreatedAt;
+
+    if (timeDifference > OTP_EXPIRATION_TIME) {
+      return res.status(400).send("OTP đã hết hạn");
     }
 
     res.status(200).send("Login successful");

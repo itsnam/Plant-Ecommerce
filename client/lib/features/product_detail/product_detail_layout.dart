@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/Url/url.dart';
 import 'package:plantial/features/product_detail/product_detail.dart';
 import 'package:http/http.dart';
+import 'package:plantial/features/styles/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailLayout extends StatefulWidget {
@@ -19,6 +20,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
   int _quantity = 1;
   bool isLoggedIn = false;
   String? email;
+  bool isFavorite = false;
 
 
   Future<void> checkLoginStatus() async {
@@ -27,6 +29,93 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
       isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
       email = prefs.getString('email');
     });
+
+    if (isLoggedIn){
+      checkIsFavorite();
+    }
+  }
+
+ Future<void> checkIsFavorite() async {
+    final response = await get(Uri.parse('$apiFavorites/$email'));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final List<dynamic> favoriteList = data['plants'];
+      setState(() {
+        isFavorite = favoriteList.any((plant) => plant['_id']['_id'] == widget.productId);
+      });
+    }
+  }
+
+  void addToFavorites(String email, String id) async {
+    if (!isLoggedIn) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Yêu cầu đăng nhập'),
+            content: const Text(
+                'Vui lòng đăng nhập để thêm sản phẩm vào mục yêu thích.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Huỷ'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/auth");
+                },
+                child: const Text("Đăng nhập"),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    final response = await post(
+      Uri.parse('$apiFavorites/add'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'email': email, 'productId': id}),
+    );
+
+    if (!context.mounted) return;
+
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Đã loại sản phẩm ra khỏi mục yêu thích'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    } else if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Đã thêm vào mục yêu thích'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Lỗi'),
+            content: Text(response.body),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void updateQuantity(int newQuantity) {
@@ -72,13 +161,8 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
       return;
     }
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.getString('email') == null){
-      if (!context.mounted) return;
-      Navigator.pushNamed(context,'/auth');
-    }
     var body = {
-    'email': prefs.getString('email'),
+    'email': email,
     'productId' : productId,
     'quantity': quantity,
     };
@@ -129,11 +213,16 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    // Handle heart icon tap
+                    if (isLoggedIn) {
+                      setState(() {
+                        isFavorite = !isFavorite;
+                      });
+                    }
+                      addToFavorites(email!, widget.productId);
                   },
-                  icon: const Icon(
-                    Iconsax.heart,
-                    color: Colors.black,
+                  icon: Icon(
+                    isFavorite ? Iconsax.heart5 : Iconsax.heart,
+                    color: isFavorite ? favourite :Colors.black,
                     size: 24,
                   ),
                 ),

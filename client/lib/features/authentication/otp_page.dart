@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -19,6 +20,33 @@ class OTPPage extends StatefulWidget {
 class _OTPPageState extends State<OTPPage> {
   bool isOTPValid = true;
   bool clearText = false;
+  bool isResendEnabled = false;
+  int resendTimer = 30;
+  
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    startResendTimer();
+  }
+
+  void startResendTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
+      
+      if (resendTimer > 0) {
+        setState(() {
+          resendTimer--;
+        });
+      } else {
+        setState(() {
+          isResendEnabled = true;
+          _timer.cancel();
+        });
+      }
+    });
+  }
 
   Future<void> saveLoginState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -195,16 +223,21 @@ class _OTPPageState extends State<OTPPage> {
                 }
               }, // end onSubmit
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(height: 10),
             TextButton(
-              onPressed: () {
+              onPressed: isResendEnabled ? () {
                 generateOTP(context);
-              },
-              child: const Text(
-                "Gửi lại OTP",
+                setState(() {
+                  isResendEnabled = false;
+                  resendTimer = 30;
+                });
+                startResendTimer();
+              } : null, // <-- Đã sửa lỗi ở đây
+              child: Text(
+                resendTimer > 0 ? "Gửi lại OTP (${resendTimer}s)" : "Gửi lại OTP",
                 style: TextStyle(
                   fontSize: 18,
-                  color: Colors.black,
+                  color: isResendEnabled ? Colors.black : Colors.grey,
                   fontWeight: FontWeight.w600,
                 ),
               ),

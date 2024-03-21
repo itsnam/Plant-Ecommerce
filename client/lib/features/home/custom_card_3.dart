@@ -36,11 +36,18 @@ class _CustomCard3State extends State<CustomCard3> {
   bool isLoggedIn = false;
   String? email;
   bool isFavorite = false;
+  bool _isDisposed = false;
 
   @override
   void initState() {
     super.initState();
     checkLoginStatus();
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   Future<void> checkLoginStatus() async {
@@ -60,12 +67,13 @@ class _CustomCard3State extends State<CustomCard3> {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final List<dynamic> favoriteList = data['plants'];
-      setState(() {
-        isFavorite = favoriteList.any((plant) => plant['_id']['_id'] == widget.id);
-      });
+      if (!_isDisposed) {
+        setState(() {
+          isFavorite = favoriteList.any((plant) => plant['_id']['_id'] == widget.id);
+        });
+      }
     }
   }
-
 
   void addToFavorites(String email, String id) async {
     if (!isLoggedIn) {
@@ -81,7 +89,13 @@ class _CustomCard3State extends State<CustomCard3> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK'),
+                child: const Text('Huỷ'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/auth");
+                },
+                child: const Text("Đăng nhập"),
               ),
             ],
           );
@@ -150,7 +164,13 @@ class _CustomCard3State extends State<CustomCard3> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK'),
+                child: const Text('Huỷ'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/auth");
+                },
+                child: const Text("Đăng nhập"),
               ),
             ],
           );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantial/features/profile/update_address.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -34,6 +35,32 @@ class _ProfilePageState extends State<ProfilePage> {
       email = "";
       isLoggedIn = false;
     });
+  }
+
+  void showLoginDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Yêu cầu đăng nhập"),
+          content: const Text("Vui lòng đăng nhập để thực hiện chức năng này"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Huỷ"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/auth");
+              },
+              child: const Text("Đăng nhập"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -80,6 +107,46 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.history),
+          title: const Text('Xem lịch sử đơn hàng'),
+          onTap: () {
+            if (!isLoggedIn) {
+              showLoginDialog(context);
+            } else {
+              
+            }   
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.location_on),
+          title: const Text('Cập nhật địa chỉ giao hàng'),
+          onTap: () {
+            if (!isLoggedIn) {
+              showLoginDialog(context);
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UpdateAddressPage(
+                    email: email,
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.payment),
+          title: const Text('Cập nhật thanh toán'),
+          onTap: () {
+            if (!isLoggedIn) {
+              showLoginDialog(context);
+            } else {
+              
+            }
+          },
         ),
       ]),
     );
