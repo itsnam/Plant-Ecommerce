@@ -6,12 +6,15 @@ import {
   UserGroupIcon,
   XMarkIcon,
   HomeIcon,
+  ClipboardDocumentListIcon
 } from "@heroicons/react/24/outline/index.js";
 import {
   UserGroupIcon as UserGroupIconSolid,
   HomeIcon as HomeIconSolid,
   Squares2X2Icon as Squares2X2IconSolid,
+  ClipboardDocumentListIcon as ClipboardDocumentListIconSolid
 } from "@heroicons/react/24/solid/index.js";
+
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(false);
@@ -23,7 +26,10 @@ const Sidebar = () => {
       setActive(2);
     } else if (matchPath({ path: "/users/*" }, location.pathname)) {
       setActive(3);
-    } else if (matchPath({ path: "/*" }, location.pathname)) {
+    } else if (matchPath({ path: "/orders/*" }, location.pathname)) {
+      setActive(4);
+    }
+    else if (matchPath({ path: "/*" }, location.pathname)) {
       setActive(1);
     }
   }, [location]);
@@ -82,6 +88,15 @@ const Sidebar = () => {
               text={"Users"}
               iconActive={<UserGroupIconSolid className={"h-6 w-6"} />}
               icon={<UserGroupIcon className={"h-6 w-6"} />}
+            />
+            <SidebarItems
+              id={4}
+              active={isActive}
+              setActive={handleSetActive}
+              link={"/orders"}
+              text={"Orders"}
+              iconActive={<ClipboardDocumentListIconSolid className={"h-6 w-6"} />}
+              icon={<ClipboardDocumentListIcon className={"h-6 w-6"} />}
             />
           </ul>
         </SidebarContext.Provider>

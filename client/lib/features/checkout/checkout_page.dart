@@ -1,11 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
-import 'package:flutter_paypal_native/models/custom/purchase_unit.dart';
-import 'package:flutter_paypal_native/models/custom/user_action.dart';
-import 'package:flutter_paypal_native/str_helper.dart';
-import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
 import 'package:intl/intl.dart';
 import 'package:plantial/features/checkout/address_card.dart';
 

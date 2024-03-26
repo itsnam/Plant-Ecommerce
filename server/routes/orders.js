@@ -4,6 +4,7 @@ const orderController = require("../controllers/orderController");
 
 router.get("/:userEmail", orderController.getCurrentOrderByEmail);
 router.post("/", orderController.addOrder);
+router.put("/:email", orderController.sendOrderRequest);
 router.put("/", orderController.updateOrder);
 
 module.exports = router;
