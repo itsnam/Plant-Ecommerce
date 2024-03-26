@@ -1,4 +1,5 @@
 const Order = require("../models/order");
+const Plant = require("../models/plant");
 const { ObjectId, Types } = require("mongoose");
 
 exports.getCurrentOrderByEmail = async (req, res) => {
@@ -58,6 +59,18 @@ exports.addOrder = async (req, res) => {
   }
 };
 
+const updatePlantQuantity = async (plantList) => {
+  for (const item of plantList) {
+    let plant = await Plant.findOne({
+      _id: item._id,
+      status: 1,
+      quantity: { $gt: 0 },
+    });
+    plant.quantity -= item.quantity;
+    await plant.save();
+  }
+};
+
 exports.updateOrder = async (req, res) => {
   try {
     const data = req.body;
@@ -77,3 +90,35 @@ exports.updateOrder = async (req, res) => {
     }
   } catch (e) {}
 };
+
+exports.sendOrderRequest = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const order = await Order.findOne({ email: email, status: 1 });
+    const { address, paymentMethod, total } = req.body;
+    if (order) {
+      order.paymentMethod = paymentMethod.name;
+      order.total = total;
+      order.address.name = address.name;
+      order.address.phone = address.phone;
+      order.address.street = address.street;
+      order.address.district = JSON.parse(address.district.replace(/'/g, '"'));
+      order.address.province = JSON.parse(address.province.replace(/'/g, '"'));
+      order.address.ward = JSON.parse(address.ward.replace(/'/g, '"'));
+      await updatePlantQuantity(order.plants);
+      order.status = 2;
+      order.createdAt = Date.now();
+      await order.save();
+    }
+
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+exports.getOrders = async (req, res) => {
+  const orders = await Order.find({}, {status: 1}).sort({})
+  if(orders){
+    return res.status(200)
+  }
+}
