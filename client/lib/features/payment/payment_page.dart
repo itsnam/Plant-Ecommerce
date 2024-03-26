@@ -25,7 +25,7 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   final List<PaymentMethod> paymentMethods = [
-    PaymentMethod("Paypal", const Icon(Icons.paypal)),
+    PaymentMethod("Credit card", const Icon(Icons.credit_card)),
     PaymentMethod("COD", const Icon(Icons.payments)),
   ];
   late PaymentMethod selectedMethod = paymentMethods[0];
