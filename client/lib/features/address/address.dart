@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Address{
   String name;
   String phone;
@@ -17,4 +19,15 @@ class Address{
     district = json["district"],
     province = json["province"],
     id = json["_id"];
+
+  Map<String , dynamic> toJson(){
+    return {
+      'name' : name,
+      'phone' : phone,
+      'street' : street,
+      'ward': jsonEncode(ward),
+      'district' : jsonEncode(district),
+      'province' : jsonEncode(province)
+    };
+  }
 }

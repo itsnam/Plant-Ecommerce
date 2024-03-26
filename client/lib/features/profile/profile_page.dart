@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/profile/update_address.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -109,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.history),
+          leading: const Icon(Iconsax.rotate_left),
           title: const Text('Xem lịch sử đơn hàng'),
           onTap: () {
             if (!isLoggedIn) {
@@ -120,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.location_on),
+          leading: const Icon(Iconsax.location),
           title: const Text('Cập nhật địa chỉ giao hàng'),
           onTap: () {
             if (!isLoggedIn) {
@@ -134,17 +135,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               );
-            }
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.payment),
-          title: const Text('Cập nhật thanh toán'),
-          onTap: () {
-            if (!isLoggedIn) {
-              showLoginDialog(context);
-            } else {
-              
             }
           },
         ),
