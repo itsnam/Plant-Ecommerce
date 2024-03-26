@@ -12,6 +12,7 @@ import 'package:plantial/features/styles/styles.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Url/url.dart';
+import '../commons/custom_back_button.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -36,13 +37,13 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-  Future<Map<String, dynamic>> fetchData() async {
+  Future fetchData() async {
     final response = await get(Uri.parse('$apiOrders/$email'));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       return data;
     } else {
-      throw Exception('Failed to load data');
+      return "";
     }
   }
 
@@ -65,9 +66,31 @@ class _CartPageState extends State<CartPage> {
                 valueColor: AlwaysStoppedAnimation(primary),
               ));
             } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-              return const Center(
-                child: Text('Empty'),
-              );
+              return const Scaffold(body: CustomScrollView(slivers: [
+                SliverAppBar(
+                  toolbarHeight: 70,
+                  backgroundColor: background,
+                  leading: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: CustomBackButton(
+                      color: Colors.black,
+                    ),
+                  ),
+                  centerTitle: true,
+                  title: Text("Giỏ hàng",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                  pinned: true,
+                  floating: true,
+                  snap: false,
+                ),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(
+                    child: Text("Không có sản phẩm trong giỏ hàng"),
+                  ),
+                )
+              ]));
             } else {
               return ChangeNotifierProvider(
                 create: (BuildContext context) =>
@@ -81,7 +104,8 @@ class _CartPageState extends State<CartPage> {
                         leading: Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                           child: Consumer<CartProvider>(
-                            builder: (BuildContext context, CartProvider value, Widget? child) {  
+                            builder: (BuildContext context, CartProvider value,
+                                Widget? child) {
                               return CustomBackButtonWithFunction(
                                 color: Colors.black,
                                 onPressed: () {
@@ -114,12 +138,12 @@ class _CartPageState extends State<CartPage> {
                                     children: [
                                       Positioned.fill(
                                         child: Padding(
-                                              padding: const EdgeInsets
-                                                  .fromLTRB(15, 0, 15, 0),
-                                              child: Container(
-                                                color: Colors.redAccent,
-                                              ),
-                                            ),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              15, 0, 15, 0),
+                                          child: Container(
+                                            color: Colors.redAccent,
+                                          ),
+                                        ),
                                       ),
                                       Slidable(
                                         key: ValueKey(index),
@@ -129,12 +153,16 @@ class _CartPageState extends State<CartPage> {
                                           children: [
                                             SlidableAction(
                                               onPressed: (context) {
-                                                instance.removeCartItem(instance.cartItems[index].product.id);
-                                              } ,
+                                                instance.removeCartItem(instance
+                                                    .cartItems[index]
+                                                    .product
+                                                    .id);
+                                              },
                                               backgroundColor: Colors.redAccent,
                                               foregroundColor: Colors.white,
                                               icon: Iconsax.trash,
-                                              borderRadius: const BorderRadius.only(
+                                              borderRadius:
+                                                  const BorderRadius.only(
                                                 topRight: Radius.circular(10),
                                                 bottomRight:
                                                     Radius.circular(10),
@@ -207,7 +235,8 @@ class _CartPageState extends State<CartPage> {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Consumer<CartProvider>(
-                                      builder: (BuildContext context, CartProvider value, Widget? child) {
+                                      builder: (BuildContext context,
+                                          CartProvider value, Widget? child) {
                                         return Text(
                                           f
                                               .format(value.getShippingCharge())
@@ -255,8 +284,7 @@ class _CartPageState extends State<CartPage> {
                               const Text(
                                 "Tổng cộng",
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400),
+                                    fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                               Consumer<CartProvider>(
                                 builder: (BuildContext context,
@@ -276,7 +304,8 @@ class _CartPageState extends State<CartPage> {
                             height: 20,
                           ),
                           Consumer<CartProvider>(
-                            builder: (BuildContext context, CartProvider value, Widget? child) {
+                            builder: (BuildContext context, CartProvider value,
+                                Widget? child) {
                               return SizedBox(
                                 height: 55,
                                 child: TextButton(
@@ -285,17 +314,20 @@ class _CartPageState extends State<CartPage> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                            CheckOutPage1(email: email!, cartItems: value.items,)));
+                                            builder: (context) => CheckOutPage1(
+                                                  email: email!,
+                                                  cartItems: value.items,
+                                                )));
                                   },
                                   style: ButtonStyle(
                                       backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          primary),
+                                          MaterialStateProperty.all<Color>(
+                                              primary),
                                       shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(7),
+                                          borderRadius:
+                                              BorderRadius.circular(7),
                                         ),
                                       )),
                                   child: const Text(

@@ -107,18 +107,11 @@ exports.sendOrderRequest = async (req, res) => {
       order.address.ward = JSON.parse(address.ward.replace(/'/g, '"'));
       await updatePlantQuantity(order.plants);
       order.status = 2;
-      order.createdAt = Date.now();
       await order.save();
     }
 
+    //console.log(address);
   } catch (e) {
     console.log(e);
   }
 };
-
-exports.getOrders = async (req, res) => {
-  const orders = await Order.find({}, {status: 1}).sort({})
-  if(orders){
-    return res.status(200)
-  }
-}
