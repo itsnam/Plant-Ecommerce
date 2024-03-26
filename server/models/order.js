@@ -22,13 +22,38 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  /*1: pending, 0: canceled, 2: confirmed*/
+  /*1: , 0: canceled, 2: pending, 3: confirmed*/
   status: {
     type: Number,
     default: 1,
   },
   createdAt: {
     type: Date,
+    default: Date.now,
+  },
+
+  paymentMethod: {
+    type: String,
+  },
+  address: {
+    phone: {
+      type: String,
+    },
+    name: {
+      type: String,
+    },
+    street: {
+      type: String,
+    },
+    ward: {
+      type: [String],
+    },
+    district: {
+      type: [String],
+    },
+    province: {
+      type: [String],
+    },
   },
 });
 

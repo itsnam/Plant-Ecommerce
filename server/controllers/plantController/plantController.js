@@ -63,7 +63,7 @@ const updatePlant = async (req, res) => {
 
 const getAllPlants = async (req, res) => {
   try {
-    const plants = await Plant.find();
+    const plants = await Plant.find({ status: 1, quantity: { $gt: 0 } });
     res.status(200).json(plants);
   } catch (error) {
     console.error(error);

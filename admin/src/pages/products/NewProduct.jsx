@@ -138,9 +138,9 @@ const NewProduct = ({ title, defaultValue, p, isEdit, onSubmit }) => {
                 Status
               </label>
               <select
-                id={"status"}
+                id={"type"}
                 defaultValue={formState.status}
-                name={"status"}
+                name={"type"}
                 onChange={handleChange}
                 className={"input py-2.5 text-sm"}
               >
