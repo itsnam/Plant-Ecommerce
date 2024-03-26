@@ -5,7 +5,7 @@ const { ObjectId, Types } = require("mongoose");
 exports.getCurrentOrderByEmail = async (req, res) => {
   const { userEmail } = req.params;
   const order = await Order.findOne({ email: userEmail, status: 1 }).populate(
-    "plants._id",
+    "plants._id"
   );
   if (order) {
     return res.status(200).json(order);
@@ -21,20 +21,20 @@ const updatePlant = async (order, data) => {
       { email: data.email, status: 1, "plants._id": data.productId },
       {
         $set: {
-          "plants.$.quantity": q,
-        },
-      },
+          "plants.$.quantity": q
+        }
+      }
     );
   } else {
     const plant = {
       _id: data.productId,
-      quantity: data.quantity,
+      quantity: data.quantity
     };
     await Order.findOneAndUpdate(
       { email: data.email, status: 1 },
       {
-        $push: { plants: plant },
-      },
+        $push: { plants: plant }
+      }
     );
   }
 };
@@ -45,7 +45,7 @@ exports.addOrder = async (req, res) => {
     const order = await Order.findOne({ email: data.email, status: 1 });
     if (!order) {
       const order = new Order({
-        email: data.email,
+        email: data.email
       });
       await order.save();
       await updatePlant(order, data);
@@ -64,7 +64,7 @@ const updatePlantQuantity = async (plantList) => {
     let plant = await Plant.findOne({
       _id: item._id,
       status: 1,
-      quantity: { $gt: 0 },
+      quantity: { $gt: 0 }
     });
     plant.quantity -= item.quantity;
     await plant.save();
@@ -73,22 +73,33 @@ const updatePlantQuantity = async (plantList) => {
 
 exports.updateOrder = async (req, res) => {
   try {
-    const data = req.body;
-    const cartItems = data.cartItems;
-    const email = data.email;
-    const order = await Order.findOne({ email: email, status: 1 });
-    if (order) {
-      plants = [];
-      cartItems.map((item) => {
-        plants.push({
-          _id: new Types.ObjectId(item.product._id),
-          quantity: item.quantity,
-        });
-      });
-      order.plants = plants;
-      await order.save();
+    let order;
+    if(req.body._id) {
+      order = await Order.findOne({ _id : req.body._id});
+    }else{
+      const email = req.body.email;
+      order = await Order.findOne({ email: email, status: 1 });
     }
-  } catch (e) {}
+    if (order) {
+      if(req.body.cartItems){
+        const cartItems = req.body.cartItems;
+        plants = [];
+        cartItems.map((item) => {
+          plants.push({
+            _id: new Types.ObjectId(item.product._id),
+            quantity: item.quantity
+          });
+        });
+        order.plants = plants;
+      }
+      if(req.body.status !== null) order.status = req.body.status;
+      await order.save();
+      return res.status(200).json(order)
+    }
+    return res.status(404).json("0 order found");
+  } catch (e) {
+
+  }
 };
 
 exports.sendOrderRequest = async (req, res) => {
@@ -102,16 +113,26 @@ exports.sendOrderRequest = async (req, res) => {
       order.address.name = address.name;
       order.address.phone = address.phone;
       order.address.street = address.street;
-      order.address.district = JSON.parse(address.district.replace(/'/g, '"'));
-      order.address.province = JSON.parse(address.province.replace(/'/g, '"'));
-      order.address.ward = JSON.parse(address.ward.replace(/'/g, '"'));
+      order.address.district = JSON.parse(address.district.replace(/'/g, "\""));
+      order.address.province = JSON.parse(address.province.replace(/'/g, "\""));
+      order.address.ward = JSON.parse(address.ward.replace(/'/g, "\""));
       await updatePlantQuantity(order.plants);
       order.status = 2;
+      order.createdAt = Date.now();
       await order.save();
     }
-
-    //console.log(address);
   } catch (e) {
     console.log(e);
   }
 };
+
+exports.getOrders = async (req, res) => {
+  const orders = await Order.find({ status: { $ne: 1 } }).populate(
+    "plants._id"
+  ).sort({ createdAt: -1 });
+  if (orders) {
+    return res.status(200).json(orders);
+  }
+  return res.status(404).json("empty");
+};
+

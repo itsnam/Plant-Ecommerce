@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar.jsx";
 import DashboardPage from "./pages/DashboardPage.jsx";
 import React from "react";
 import UserPage from "./pages/UserPage.jsx";
+import { Orders } from "./pages/orders/index.jsx";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
         <Routes>
           <Route path="/" exact element={<DashboardPage />} />
           <Route path="/products/*" element={<Layout />} />
-          <Route path="/users" element={<UserPage />} />
+          <Route path="/users/*" element={<UserPage />} />
+          <Route path="/orders/*" element={<Orders />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

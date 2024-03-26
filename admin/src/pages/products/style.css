@@ -10,6 +10,12 @@
         @apply block font-medium leading-6 text-custom_gray-600
     }
     .table-label{
-        @apply px-6 py-3 text-left font-medium uppercase text-gray-500
+        @apply px-6 py-3 text-left font-semibold uppercase text-gray-500 text-sm
+    }
+    .table-r{
+        @apply whitespace-nowrap px-6 py-2 text-sm
+    }
+    .table-trailing{
+        @apply rounded-md p-2 hover:bg-white hover:ring-1 ring-inset ring-gray-300
     }
 }
