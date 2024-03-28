@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react";
-import { getOrders } from "../api/getOrders.js";
+import { getOrders } from "../../api/getOrders.js";
 import Moment from "react-moment";
 import { StatusFormatter } from "./StatusFormatter.jsx";
 import { DropDownMenu } from "./DropDownMenu.jsx";

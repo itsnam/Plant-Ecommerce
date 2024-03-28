@@ -2,7 +2,7 @@ import { useState, Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/16/solid/index.js";
 import { StatusFormatter } from "./StatusFormatter.jsx";
-import { updateOrder } from "../api/updateOrder.js";
+import { updateOrder } from "../../api/updateOrder.js";
 
 const status = [
   {
@@ -32,8 +32,8 @@ export const StatusListbox = ({ data }) => {
 
   return (
     <div className="w-44">
-      <Listbox value={selected} onChange={handleSelected}>
-        <div className="relative mt-1">
+      <Listbox className={"relative mt-1"} value={selected} onChange={handleSelected}>
+        <div>
           <Listbox.Button className="relative w-full rounded-md hover:bg-white py-2 pl-3 pr-7 text-left hover:ring-1 ring-gray-300">
             <span className="block truncate"><StatusFormatter statusValue={selected}></StatusFormatter></span>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
