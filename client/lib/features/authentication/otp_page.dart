@@ -21,7 +21,7 @@ class _OTPPageState extends State<OTPPage> {
   bool isOTPValid = true;
   bool clearText = false;
   bool isResendEnabled = false;
-  int resendTimer = 30;
+  int resendTimer = 15;
   
   late Timer _timer;
 

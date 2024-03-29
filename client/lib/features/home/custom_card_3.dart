@@ -247,7 +247,7 @@ class _CustomCard3State extends State<CustomCard3> {
               if (widget.showFavoriteIcon)
               Positioned(
                 right: 0,
-                child: Container(
+                child: isLoggedIn ? Container(
                   padding: const EdgeInsets.all(10),
                   child: SizedBox(
                     height: 35,
@@ -276,7 +276,7 @@ class _CustomCard3State extends State<CustomCard3> {
                       ),
                     ),
                   ),
-                ),
+                ) : const SizedBox(),
               ),
               Positioned(
                 bottom: 0,

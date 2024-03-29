@@ -86,6 +86,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             TextField(
+              keyboardType: TextInputType.emailAddress,
               autofocus: true,
               cursorColor: Colors.black,
               controller: emailController,

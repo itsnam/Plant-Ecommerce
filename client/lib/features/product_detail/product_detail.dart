@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ProductDetail extends StatefulWidget {
   final String name;
@@ -27,36 +28,45 @@ class _ProductDetailState extends State<ProductDetail> {
 
   @override
   Widget build(BuildContext context) {
+    var f = NumberFormat.currency(locale: "vi_VN");
     double screenSize = MediaQuery.of(context).size.width;
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 25, 10),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            LimitedBox(
-              maxWidth: screenSize,
-              child: Text(
-                widget.name,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  widget.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.w700),
+                ),
+                Text("₫${f.format(widget.price).replaceFirst("VND", "").trim()}",
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.w700)),
+              ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 15),
             LimitedBox(
               maxWidth: screenSize,
               child: Text(
                 widget.description,
-                maxLines: 4,
+                maxLines: 15,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w500),
               ),
             ),
-            const SizedBox(height: 15),
-            const Divider(color: Color(0xFFD9E1E1)),
             const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -66,12 +76,11 @@ class _ProductDetailState extends State<ProductDetail> {
                   children: [
                     const Text("Đã bán",
                         style: TextStyle(
-                            color: Color(0xFFAEB3AE),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500)),
+                            fontSize: 14, fontWeight: FontWeight.w500)),
                     const SizedBox(height: 6),
                     Text(widget.sold.toString(),
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600))
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w900))
                   ],
                 ),
                 const SizedBox(width: 18),
@@ -80,23 +89,20 @@ class _ProductDetailState extends State<ProductDetail> {
                   children: [
                     const Text("Kho",
                         style: TextStyle(
-                            color: Color(0xFFAEB3AE),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500)),
+                            fontSize: 14, fontWeight: FontWeight.w500)),
                     const SizedBox(height: 6),
                     Text(widget.quantity.toString(),
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600))
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w900))
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 28),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('${widget.price}',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 Row(
                   children: [
                     SizedBox(
@@ -140,7 +146,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         ),
                         onPressed: () {
                           setState(() {
-                            if(_quantity < widget.quantity) _quantity++;
+                            if (_quantity < widget.quantity) _quantity++;
                             widget.onQuantityUpdated(_quantity);
                           });
                         },

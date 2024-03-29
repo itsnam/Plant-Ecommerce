@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/Url/url.dart';
+import 'package:plantial/features/commons/custom_back_button.dart';
 import 'package:plantial/features/product_detail/product_detail.dart';
 import 'package:http/http.dart';
 import 'package:plantial/features/styles/styles.dart';
@@ -10,7 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailLayout extends StatefulWidget {
   final String productId;
-  const ProductDetailLayout({Key? key, required this.productId}) : super(key: key);
+
+  const ProductDetailLayout({Key? key, required this.productId})
+      : super(key: key);
 
   @override
   State<ProductDetailLayout> createState() => _ProductDetailLayoutState();
@@ -22,7 +25,6 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
   String? email;
   bool isFavorite = false;
 
-
   Future<void> checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -30,18 +32,19 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
       email = prefs.getString('email');
     });
 
-    if (isLoggedIn){
+    if (isLoggedIn) {
       checkIsFavorite();
     }
   }
 
- Future<void> checkIsFavorite() async {
+  Future<void> checkIsFavorite() async {
     final response = await get(Uri.parse('$apiFavorites/$email'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final List<dynamic> favoriteList = data['plants'];
       setState(() {
-        isFavorite = favoriteList.any((plant) => plant['_id']['_id'] == widget.productId);
+        isFavorite = favoriteList
+            .any((plant) => plant['_id']['_id'] == widget.productId);
       });
     }
   }
@@ -124,7 +127,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
     });
   }
 
-  dynamic data; 
+  dynamic data;
 
   Future<void> fetchSingleData() async {
     final response = await get(Uri.parse('$apiPlants/${widget.productId}'));
@@ -145,8 +148,8 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Yêu cầu đăng nhập'),
-            content: const Text(
-                'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'),
+            content:
+                const Text('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -162,13 +165,14 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
     }
 
     var body = {
-    'email': email,
-    'productId' : productId,
-    'quantity': quantity,
+      'email': email,
+      'productId': productId,
+      'quantity': quantity,
     };
-    var jsonString  = json.encode(body);
+    var jsonString = json.encode(body);
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-    final response = await post(Uri.parse(apiOrders), headers: headers, body: jsonString);
+    final response =
+        await post(Uri.parse(apiOrders), headers: headers, body: jsonString);
     if (response.statusCode == 200) {
       data = json.decode(response.body);
       if (!context.mounted) return;
@@ -190,86 +194,77 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
     return ScrollConfiguration(
       behavior: const ScrollBehavior().copyWith(overscroll: false),
       child: Scaffold(
-        body: data == null ? const Center(child: CircularProgressIndicator())
-        : data.isEmpty ? const Center(child: Text('No data available'))
-        : CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              leadingWidth: 66,
-              leading: const Padding(
-                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                child: BackButton(
-                  style: ButtonStyle(
-                    shape: MaterialStatePropertyAll(CircleBorder()),
-                    iconSize: MaterialStatePropertyAll(24),
-                    backgroundColor: MaterialStatePropertyAll(Colors.white),
-                  ),
-                ),
-              ),
-              pinned: false,
-              floating: true,
-              snap: false,
-              expandedHeight: MediaQuery.of(context).size.width * 0.8,
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    if (isLoggedIn) {
-                      setState(() {
-                        isFavorite = !isFavorite;
-                      });
-                    }
-                      addToFavorites(email!, widget.productId);
-                  },
-                  icon: Icon(
-                    isFavorite ? Iconsax.heart5 : Iconsax.heart,
-                    color: isFavorite ? favourite :Colors.black,
-                    size: 24,
-                  ),
-                ),
-              ],
-              flexibleSpace: Stack(
-                children: [
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Image(
-                      fit: BoxFit.cover,
-                      image: NetworkImage('http://10.0.2.2:3000/${data['image']}'),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: -1,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 30,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(40),
+        backgroundColor: Colors.white,
+        body: data == null
+            ? const Center(child: CircularProgressIndicator())
+            : data.isEmpty
+                ? const Center(child: Text('No data available'))
+                : CustomScrollView(
+                    slivers: [
+                      SliverAppBar(
+                        floating: true,
+                        snap: true,
+                        pinned: false,
+                        backgroundColor: Colors.white,
+                        toolbarHeight: 70,
+                        leading: const CustomBackButton(color: Colors.black),
+                        actions: [
+                          isLoggedIn
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      if (isLoggedIn) {
+                                        setState(() {
+                                          isFavorite = !isFavorite;
+                                        });
+                                      }
+                                      addToFavorites(email!, widget.productId);
+                                    },
+                                    icon: Icon(
+                                      isFavorite
+                                          ? Iconsax.heart5
+                                          : Iconsax.heart,
+                                      color:
+                                          isFavorite ? favourite : Colors.black,
+                                      size: 24,
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                        ],
+                      ),
+                      SliverPadding(
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, bottom: 30, top: 10),
+                        sliver: SliverToBoxAdapter(
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(7)),
+                            child: SizedBox.fromSize(
+                              size: const Size.fromRadius(150),
+                              child: Image.network(
+                                '$imageUrl${data['image']}',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: ProductDetail(
+                          name: data['name'],
+                          description: data['description'],
+                          sold: data['sold'],
+                          quantity: data['quantity'],
+                          price: data['price'],
+                          onQuantityUpdated: updateQuantity,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: ProductDetail( 
-                name: data['name'],
-                description: data['description'],
-                sold: data['sold'],
-                quantity: data['quantity'],
-                price: data['price'],
-                onQuantityUpdated: updateQuantity,
-              ),
-            ),
-          ],
-        ),
-        bottomNavigationBar: data == null ? null : Container(
+        bottomNavigationBar: Container(
           height: 80,
           decoration: const BoxDecoration(color: Colors.white),
           child: Padding(
@@ -279,36 +274,25 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                 addToCart(widget.productId, _quantity);
               },
               style: ButtonStyle(
-                backgroundColor:
-                    const MaterialStatePropertyAll(Color(0xFF4b8e4b)),
+                backgroundColor: const MaterialStatePropertyAll(primary),
                 shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7),
                 )),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Icon(
+                    Iconsax.shopping_cart,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
                     "Thêm vào giỏ hàng",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  const VerticalDivider(),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    (data['price'] * _quantity).toString(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],

@@ -92,7 +92,11 @@ exports.updateOrder = async (req, res) => {
         });
         order.plants = plants;
       }
-      if(req.body.status !== null) order.status = req.body.status;
+      if(req.body.status !== undefined) {
+        console.log(req.body.status)
+
+        order.status = req.body.status;
+      }
       await order.save();
       return res.status(200).json(order)
     }

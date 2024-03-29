@@ -258,6 +258,7 @@ class _CustomCard1State extends State<CustomCard1> {
                             ),
                           ),
                           Row(children: [
+                            isLoggedIn ?
                             SizedBox(
                               height: 35,
                               width: 35,
@@ -281,7 +282,7 @@ class _CustomCard1State extends State<CustomCard1> {
                                     color: Colors.white,
                                     size: 20,
                                   )),
-                            ),
+                            ) : SizedBox(width: 0,),
                             const SizedBox(width: 7.0),
                             SizedBox(
                               height: 35,

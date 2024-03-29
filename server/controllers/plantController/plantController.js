@@ -41,7 +41,7 @@ const updatePlant = async (req, res) => {
     const path = "./" + plant.image;
     try {
       fs.unlink(path, (err) => {
-        if (err) throw err;
+        if (err) console.log(err);
       });
     } catch (e) {
       console.log(e);
