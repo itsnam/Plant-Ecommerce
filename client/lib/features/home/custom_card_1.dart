@@ -7,22 +7,15 @@ import 'package:plantial/features/styles/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plantial/features/product_detail/product_detail_layout.dart';
 
+import '../../models/product.dart';
+
 class CustomCard1 extends StatefulWidget {
-  final String name;
-  final String type;
-  final int price;
-  final String imgUrl;
-  final String id;
+  final Product product;
   final Function()? onFavoriteRemoved;
 
   const CustomCard1({
     Key? key,
-    required this.name,
-    required this.type,
-    required this.price,
-    required this.imgUrl,
-    required this.id,
-    this.onFavoriteRemoved,
+    this.onFavoriteRemoved, required this.product,
   }) : super(key: key);
 
   @override
@@ -59,11 +52,10 @@ class _CustomCard1State extends State<CustomCard1> {
 
     if (response.statusCode == 200) {
       List<dynamic> favoriteList = json.decode(response.body);
-
       if (mounted) {
         setState(() {
           isFavorite = favoriteList
-              .any((favorite) => favorite['plantId']['_id'] == widget.id);
+              .any((favorite) => favorite['plantId']['_id'] == widget.product.id);
         });
       }
     }
@@ -205,7 +197,7 @@ class _CustomCard1State extends State<CustomCard1> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetailLayout(productId: widget.id),
+            builder: (context) => ProductDetailLayout(product: widget.product),
           ),
         );
       },
@@ -225,7 +217,7 @@ class _CustomCard1State extends State<CustomCard1> {
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   child: SizedBox.fromSize(
                     size: const Size.fromRadius(55),
-                    child: Image.network(widget.imgUrl, fit: BoxFit.cover),
+                    child: Image.network('$imageUrl${widget.product.imgUrl}', fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -237,7 +229,7 @@ class _CustomCard1State extends State<CustomCard1> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.name,
+                        widget.product.name,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: const TextStyle(
@@ -250,7 +242,7 @@ class _CustomCard1State extends State<CustomCard1> {
                         children: [
                           Flexible(
                             child: Text(
-                              'đ${widget.price}',
+                              'đ${widget.product.price}',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -275,14 +267,14 @@ class _CustomCard1State extends State<CustomCard1> {
                                     setState(() {
                                       isFavorite = !isFavorite;
                                     });
-                                    addToFavorites(email!, widget.id);
+                                    addToFavorites(email!, widget.product.id);
                                   },
                                   child: const Icon(
                                     Iconsax.heart5,
                                     color: Colors.white,
                                     size: 20,
                                   )),
-                            ) : SizedBox(width: 0,),
+                            ) : const SizedBox(width: 0,),
                             const SizedBox(width: 7.0),
                             SizedBox(
                               height: 35,
@@ -295,7 +287,7 @@ class _CustomCard1State extends State<CustomCard1> {
                                               BorderRadius.circular(5)),
                                       backgroundColor: primary),
                                   onPressed: () {
-                                    addOrder(email!, widget.id, 1);
+                                    addOrder(email!, widget.product.id, 1);
                                   },
                                   child: const Icon(
                                     Iconsax.add,

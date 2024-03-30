@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:plantial/features/home/custom_card_3.dart';
 import 'package:plantial/features/search/custom_search_bar.dart';
 import 'package:plantial/features/styles/styles.dart';
+import '../../models/product.dart';
 import '../Url/url.dart';
 
 class SearchPage extends StatefulWidget {
@@ -16,6 +17,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   List result = [];
+  List<Product> data = [];
 
   void search(String keywords) async {
     if (keywords == "") return;
@@ -27,6 +29,7 @@ class _SearchPageState extends State<SearchPage> {
     if (response.statusCode == 200) {
       setState(() {
         result = json.decode(response.body);
+        data = result.map((e) => Product.fromJson(e)).toList();
       });
     } else {
       throw Exception('Failed to load data');
@@ -60,11 +63,7 @@ class _SearchPageState extends State<SearchPage> {
             itemCount: result.length,
             itemBuilder: (BuildContext context, int index) {
               return CustomCard3(
-                  id: result[index]['_id'],
-                  name: result[index]['name'],
-                  type: result[index]['type'],
-                  price: result[index]['price'],
-                  imgUrl: 'http://10.0.2.2:3000/${result[index]['image']}',
+                  product: data[index],
                   showFavoriteIcon: false,);
             },
           ),

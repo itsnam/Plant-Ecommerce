@@ -8,24 +8,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plantial/features/product_detail/product_detail_layout.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/product.dart';
+
 class CustomCard3 extends StatefulWidget {
-  final String name;
-  final String type;
-  final int price;
-  final String imgUrl;
-  final String id;
+  final Product product;
   final Function()? onFavoriteRemoved;
   final bool showFavoriteIcon;
 
   const CustomCard3({
     Key? key,
-    required this.name,
-    required this.type,
-    required this.price,
-    required this.imgUrl,
-    required this.id,
     this.onFavoriteRemoved,
     this.showFavoriteIcon = true,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -69,7 +63,8 @@ class _CustomCard3State extends State<CustomCard3> {
       final List<dynamic> favoriteList = data['plants'];
       if (!_isDisposed) {
         setState(() {
-          isFavorite = favoriteList.any((plant) => plant['_id']['_id'] == widget.id);
+          isFavorite =
+              favoriteList.any((plant) => plant['_id']['_id'] == widget.product.id);
         });
       }
     }
@@ -224,7 +219,7 @@ class _CustomCard3State extends State<CustomCard3> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetailLayout(productId: widget.id),
+            builder: (context) => ProductDetailLayout(product: widget.product),
           ),
         );
       },
@@ -241,43 +236,45 @@ class _CustomCard3State extends State<CustomCard3> {
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(90),
-                  child: Image.network(widget.imgUrl, fit: BoxFit.cover),
+                  child: Image.network('$imageUrl${widget.product.imgUrl}', fit: BoxFit.cover),
                 ),
               ),
               if (widget.showFavoriteIcon)
-              Positioned(
-                right: 0,
-                child: isLoggedIn ? Container(
-                  padding: const EdgeInsets.all(10),
-                  child: SizedBox(
-                    height: 35,
-                    width: 35,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                          backgroundColor:
-                          isFavorite ? favourite : Colors.white),
-                      onPressed: () {
-                      if (isLoggedIn) {
-                        setState(() {
-                          isFavorite = !isFavorite;
-                        });
-                      }
-                        addToFavorites(email!, widget.id);
-                      },
-                      child: Icon(
-                        Iconsax.heart5,
-                        color: isFavorite
-                            ? Colors.white
-                            : unselectedMenuItem,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ) : const SizedBox(),
-              ),
+                Positioned(
+                  right: 0,
+                  child: isLoggedIn
+                      ? Container(
+                          padding: const EdgeInsets.all(10),
+                          child: SizedBox(
+                            height: 35,
+                            width: 35,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50)),
+                                  backgroundColor:
+                                      isFavorite ? favourite : Colors.white),
+                              onPressed: () {
+                                if (isLoggedIn) {
+                                  setState(() {
+                                    isFavorite = !isFavorite;
+                                  });
+                                }
+                                addToFavorites(email!, widget.product.id);
+                              },
+                              child: Icon(
+                                Iconsax.heart5,
+                                color: isFavorite
+                                    ? Colors.white
+                                    : unselectedMenuItem,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                ),
               Positioned(
                 bottom: 0,
                 right: 0,
@@ -293,7 +290,7 @@ class _CustomCard3State extends State<CustomCard3> {
                                 borderRadius: BorderRadius.circular(50)),
                             backgroundColor: primary),
                         onPressed: () {
-                          addOrder(email!, widget.id, 1);
+                          addOrder(email!, widget.product.id, 1);
                         },
                         child: const Icon(
                           Iconsax.add,
@@ -313,7 +310,7 @@ class _CustomCard3State extends State<CustomCard3> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.name,
+                    widget.product.name,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: const TextStyle(
@@ -322,7 +319,7 @@ class _CustomCard3State extends State<CustomCard3> {
                   Row(
                     children: [
                       Text(
-                        f.format(widget.price),
+                        f.format(widget.product.price),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(

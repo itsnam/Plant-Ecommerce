@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plantial/features/Url/url.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:plantial/models/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:plantial/features/styles/styles.dart';
 import '../home/custom_card_3.dart';
@@ -64,7 +65,7 @@ class _FavouritePageState extends State<FavouritePage> {
         title: const Text('Yêu thích', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
       ),
       body: isLoggedIn
-          ? FutureBuilder<List<dynamic>>(
+          ? FutureBuilder(
               future: fetchData(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -79,7 +80,8 @@ class _FavouritePageState extends State<FavouritePage> {
                     child: Text('Chưa có cây yêu thích'),
                   );
                 } else {
-                  List<dynamic> data = snapshot.data!;
+                  List result = snapshot.data!;
+                  List<Product> data = result.map((e) => Product.fromJson(e['_id'])).toList();
                   return ListView(
                     children: [
                       Padding(
@@ -96,12 +98,7 @@ class _FavouritePageState extends State<FavouritePage> {
                             itemCount: data.length,
                             itemBuilder: (_, index) {
                               return CustomCard3(
-                                  id: data[index]['_id']['_id'],
-                                  name: data[index]['_id']['name'],
-                                  type: data[index]['_id']['type'],
-                                  price: data[index]['_id']['price'],
-                                  imgUrl:
-                                  'http://10.0.2.2:3000/${data[index]['_id']['image']}',
+                                  product: data[index],
                                   onFavoriteRemoved: onFavoriteRemoved,);
                             }),
                       ),

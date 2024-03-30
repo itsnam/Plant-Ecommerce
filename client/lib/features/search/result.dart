@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:plantial/features/home/custom_card_3.dart';
 import 'package:plantial/features/search/upload.dart';
+import 'package:plantial/models/product.dart';
 
 class Result extends StatefulWidget {
   final File image;
@@ -37,7 +38,8 @@ class _ResultState extends State<Result> {
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return const Center(child: Text('No data available'));
             } else {
-              List<dynamic> data = snapshot.data!;
+              List result = snapshot.data!;
+              List<Product> data = result.map((e) => Product.fromJson(e)).toList();
               return Padding(
                 padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                 child: GridView.builder(
@@ -51,11 +53,7 @@ class _ResultState extends State<Result> {
                   itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return CustomCard3(
-                      id: data[index]['_id'],
-                      name: data[index]['name'],
-                      type: data[index]['type'],
-                      price: data[index]['price'],
-                      imgUrl: 'http://10.0.2.2:3000/${data[index]['image']}',
+                      product: data[index],
                       showFavoriteIcon: false,
                     );
                   },

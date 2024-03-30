@@ -1,4 +1,4 @@
-import 'package:plantial/features/cart/product.dart';
+import 'package:plantial/models/product.dart';
 
 class CartItem {
   Product product;

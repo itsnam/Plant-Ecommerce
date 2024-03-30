@@ -20,7 +20,7 @@ let createPlant = async (req, res) => {
       description: req.body.description,
       quantity: req.body.quantity,
       price: req.body.price,
-      status: req.body.status,
+      status: req.body.status
     });
     return res.status(200).json("Plant created successfully");
   } catch (error) {
@@ -73,13 +73,13 @@ const getAllPlants = async (req, res) => {
 
 const getPlants = async (req, res) => {
   try {
-    const sortBy = req.params.sortBy;
-    const page = req.params.page;
-    const perPage = req.params.perPage;
+    const sortBy = req.query.sortBy;
+    const page = req.query.page;
+    const perPage = req.query.itemsPerPage;
     const plants = await Plant.find({ status: 1 })
-      .limit(perPage)
+      .sort([[sortBy, -1]])
       .skip(page * perPage)
-      .sort({ sortBy: "desc" });
+      .limit(perPage);
     res.status(200).json(plants);
   } catch (error) {
     console.error(error);
@@ -104,7 +104,7 @@ const predict = async (req, res) => {
   try {
     const result = await predictPlant(
       req.files["image"][0].buffer,
-      [1, 3, 299, 299],
+      [1, 3, 299, 299]
     );
     let plants = await Plant.find({ type: result.name });
     console.log(result);
@@ -117,7 +117,7 @@ const predict = async (req, res) => {
 const search = async (req, res) => {
   try {
     const plants = await Plant.find({
-      name: { $regex: req.body.keywords, $options: "i" },
+      name: { $regex: req.body.keywords, $options: "i" }
     });
     return res.status(200).json(plants);
   } catch (e) {
@@ -132,5 +132,5 @@ module.exports = {
   getAllPlants,
   createPlant,
   getPlantById,
-  updatePlant,
+  updatePlant
 };

@@ -28,7 +28,6 @@ class _AppState extends State<App> {
   int index = 0;
   List<Widget> pages = [const HomePage(), const FavouritePage(), const CartPage(), const ProfilePage()];
 
-
   void onTapped(int i){
     setState(() {
       index = i;
