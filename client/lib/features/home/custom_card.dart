@@ -34,92 +34,88 @@ class _CustomCardState extends State<CustomCard> {
           ),
         );
       },
-      child: SizedBox(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
-          child: Card(
-            color: Colors.transparent,
-            shadowColor: Colors.transparent,
-            shape: const ContinuousRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15))),
-            surfaceTintColor: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      // Image border
-                      child: SizedBox(
-                        height: itemWidth,
-                        width: itemWidth * 0.85,
-                        child: Image.network(
-                            '$imageUrl${widget.product.imgUrl}',
-                            fit: BoxFit.cover),
-                      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+        child: Card(
+          color: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: const ContinuousRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          surfaceTintColor: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    // Image border
+                    child: SizedBox(
+                      height: itemWidth,
+                      width: itemWidth * 0.85,
+                      child: Image.network(
+                          '$imageUrl${widget.product.imgUrl}',
+                          fit: BoxFit.cover),
                     ),
-                    Positioned.fill(
-                      child: Container(
-                        padding: const EdgeInsets.all(5.0),
-                        alignment: Alignment.bottomCenter,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: <Color>[
-                              Colors.black.withAlpha(0),
-                              Colors.black12,
-                              Colors.black12,
-                              Colors.black45
-                            ],
-                          ),
+                  ),
+                  Positioned.fill(
+                    child: Container(
+                      padding: const EdgeInsets.all(5.0),
+                      alignment: Alignment.bottomCenter,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[
+                            Colors.black.withAlpha(0),
+                            Colors.black12,
+                            Colors.black12,
+                            Colors.black45
+                          ],
                         ),
                       ),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 7, 30, 10),
-                        child: Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: itemWidth - 75,
-                                      child: Text(
-                                        widget.product.name,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: Color(0xFFf9f9f9),
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                    Text(
-                                      f.format(widget.product.price),
-                                      style: const TextStyle(
-                                          color: Color(0xFFf9f9f9),
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 20),
-                                    ),
-                                  ]),
-                            ],
-                          ),
-                        ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 7, 30, 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: itemWidth - 75,
+                                  child: Text(
+                                    widget.product.name,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        color: Color(0xFFf9f9f9),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Text(
+                                  f.format(widget.product.price),
+                                  style: const TextStyle(
+                                      color: Color(0xFFf9f9f9),
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 20),
+                                ),
+                              ]),
+                        ],
                       ),
                     ),
-                  ]),
-                ],
-              ),
+                  ),
+                ]),
+              ],
             ),
           ),
         ),
