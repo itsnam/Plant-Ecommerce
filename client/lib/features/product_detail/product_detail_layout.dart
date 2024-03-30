@@ -21,6 +21,7 @@ class ProductDetailLayout extends StatefulWidget {
 
 class _ProductDetailLayoutState extends State<ProductDetailLayout> {
   int _quantity = 1;
+  int productQuantity = 0;
   bool isLoggedIn = false;
   String? email;
   bool isFavorite = false;
@@ -121,20 +122,14 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
     }
   }
 
-  void updateQuantity(int newQuantity) {
-    setState(() {
-      _quantity = newQuantity;
-    });
-  }
-
   dynamic data;
 
   Future<void> fetchSingleData() async {
     final response = await get(Uri.parse('$apiPlants/${widget.productId}'));
-
     if (response.statusCode == 200) {
       setState(() {
         data = json.decode(response.body);
+        productQuantity = data['quantity'];
       });
     } else {
       throw Exception('Failed to load data');
@@ -196,7 +191,7 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: data == null
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator(color: primary,))
             : data.isEmpty
                 ? const Center(child: Text('No data available'))
                 : CustomScrollView(
@@ -259,44 +254,122 @@ class _ProductDetailLayoutState extends State<ProductDetailLayout> {
                           sold: data['sold'],
                           quantity: data['quantity'],
                           price: data['price'],
-                          onQuantityUpdated: updateQuantity,
                         ),
                       ),
                     ],
                   ),
         bottomNavigationBar: Container(
           height: 80,
-          decoration: const BoxDecoration(color: Colors.white),
+          decoration: BoxDecoration(color: Colors.white, boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                offset: const Offset(0, 3),
+                spreadRadius: 5,
+                blurRadius: 7)
+          ]),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
-            child: TextButton(
-              onPressed: () {
-                addToCart(widget.productId, _quantity);
-              },
-              style: ButtonStyle(
-                backgroundColor: const MaterialStatePropertyAll(primary),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7),
-                )),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Iconsax.shopping_cart,
-                    color: Colors.white,
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              backgroundColor: unselectedMenuItem,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                if (_quantity > 1) _quantity--;
+                              });
+                            },
+                            child: const Icon(
+                              Icons.remove,
+                              color: Colors.black,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 40,
+                          child: Center(
+                            child: Text('$_quantity', style: const TextStyle(
+                              fontWeight: FontWeight.w900
+                            ),),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: primary,
+                              padding: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                if(_quantity < productQuantity) _quantity ++;
+                              });
+                            },
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                TextButton(
+                  onPressed: () {
+                    addToCart(widget.productId, _quantity);
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: const MaterialStatePropertyAll(primary),
+                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7),
+                    )),
                   ),
-                  SizedBox(width: 10),
-                  Text(
-                    "Thêm vào giỏ hàng",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 3,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Iconsax.shopping_cart,
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          "Thêm vào giỏ hàng",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

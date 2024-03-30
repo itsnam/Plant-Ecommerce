@@ -7,7 +7,6 @@ class ProductDetail extends StatefulWidget {
   final int sold;
   final int quantity;
   final int price;
-  final Function(int) onQuantityUpdated;
 
   const ProductDetail({
     Key? key,
@@ -16,7 +15,6 @@ class ProductDetail extends StatefulWidget {
     required this.sold,
     required this.quantity,
     required this.price,
-    required this.onQuantityUpdated,
   }) : super(key: key);
 
   @override
@@ -24,7 +22,6 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  int _quantity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -99,64 +96,6 @@ class _ProductDetailState extends State<ProductDetail> {
               ],
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 35,
-                      width: 35,
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                color: Color(0xFFD9E1E1),
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            if (_quantity > 1) _quantity--;
-                            widget.onQuantityUpdated(_quantity);
-                          });
-                        },
-                        child: const Text("-"),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 30,
-                      child: Center(
-                        child: Text('$_quantity'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 35,
-                      width: 35,
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                color: Color(0xFFD9E1E1),
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            if (_quantity < widget.quantity) _quantity++;
-                            widget.onQuantityUpdated(_quantity);
-                          });
-                        },
-                        child: const Text("+"),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
           ],
         ),
       ),
