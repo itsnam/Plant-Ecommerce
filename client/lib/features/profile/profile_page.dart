@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:plantial/features/profile/update_address.dart';
+import 'package:plantial/features/profile/history_cart_page.dart';
+import 'package:plantial/features/profile/update_address_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -116,7 +117,14 @@ class _ProfilePageState extends State<ProfilePage> {
             if (!isLoggedIn) {
               showLoginDialog(context);
             } else {
-              
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HistoryCartPage(
+                    email: email,
+                  ),
+                ),
+              );
             }   
           },
         ),
