@@ -41,19 +41,25 @@ class CheckOutAddressCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      address!.name,
+                      address?.name ?? 'Unknown',
                       style: const TextStyle(
-                          fontWeight: FontWeight.w500, fontSize: 14),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
                     ),
                     Text(
-                      address!.phone,
+                      address?.phone ?? 'Unknown',
                       style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w400),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                     Text(
-                      "${address!.street}, ${(address!.ward[1]).toLowerCase()} ${address!.ward[0]}, ${(address!.district[1]).toLowerCase()} ${(address!.district[0])}, ${(address?.province[1]).toLowerCase()} ${address!.province[0]}",
+                      "${address?.street ?? 'Unknown'}, ${(address?.ward != null && address!.ward.isNotEmpty) ? (address!.ward[1]).toLowerCase() + ' ' + address!.ward[0] : 'Unknown'}, ${(address?.district != null && address!.district.isNotEmpty) ? (address!.district[1]).toLowerCase() + ' ' + address!.district[0] : 'Unknown'}, ${(address?.province != null && address!.province.isNotEmpty) ? (address!.province[1]).toLowerCase() + ' ' + address!.province[0] : 'Unknown'}",
                       style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w400),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ],
                 ),
@@ -64,4 +70,5 @@ class CheckOutAddressCard extends StatelessWidget {
       ),
     );
   }
+
 }

@@ -35,6 +35,9 @@ class _AddressUpdateState extends State<AddressUpdate> {
     nameController.text = widget.initialAddress.name;
     phoneController.text = widget.initialAddress.phone;
     addressDetailController.text = widget.initialAddress.street;
+    //addressController.provinceValue = widget.initialAddress.province[0];
+    //addressController.districtValue = widget.initialAddress.district[0];
+    //addressController.wardValue = widget.initialAddress.ward[0];
   }
 
   @override
