@@ -40,19 +40,13 @@ class _AddressCardState extends State<AddressCard> {
           const SnackBar(content: Text('Đã xoá địa chỉ thành công'), duration: Duration(seconds: 1),),
         );
         widget.onDelete();
-      } else if (response.statusCode == 400) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Chỉ còn địa chỉ duy nhất nên không thể xoá'), duration: Duration(seconds: 1),),
-        );
-      } else {
+      }else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Không thể xoá địa chỉ'), duration: Duration(seconds: 1)),
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Đã xảy ra lỗi'), duration: Duration(seconds: 1),),
-      );
+      debugPrint(e.toString());
     }
   }
 
@@ -60,7 +54,7 @@ class _AddressCardState extends State<AddressCard> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? email = prefs.getString('email');
     if (!context.mounted) return;
-    Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => AddressUpdate(
@@ -69,9 +63,8 @@ class _AddressCardState extends State<AddressCard> {
           initialAddress: widget.address,
         ),
       ),
-    );
+    ).then((value) => widget.onDelete());
   }
-
 
   @override
   Widget build(BuildContext context) {

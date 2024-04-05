@@ -55,6 +55,11 @@ class _CheckOutPage1State extends State<CheckOutPage1> {
           addressList = AddressList.fromJson(data);
           selectedAddress = addressList.items[0];
         });
+      }else{
+        setState(() {
+          addressList = AddressList();
+          selectedAddress = null;
+        });
       }
       return "success";
     }
@@ -194,7 +199,9 @@ class _CheckOutPage1State extends State<CheckOutPage1> {
                 SizedBox(
                   height: 55,
                   child: TextButton(
-                    onPressed: (selectedAddress == null) ? null : () {
+                    onPressed: () {
+                      if (selectedAddress == null) {
+                      } else {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -202,16 +209,18 @@ class _CheckOutPage1State extends State<CheckOutPage1> {
                                       cartItems: widget.cartItems,
                                       address: selectedAddress,
                                     ))).then((value) => refreshPage());
+                      }
                     },
                     style: ButtonStyle(
-                        backgroundColor:
-                        (selectedAddress == null) ? const MaterialStatePropertyAll(Colors.black26) : const MaterialStatePropertyAll(primary),
+                        backgroundColor: (selectedAddress == null)
+                            ? const MaterialStatePropertyAll(disableButtonBackground)
+                            : const MaterialStatePropertyAll(primary),
                         shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7)))),
-                    child: const Text(
+                    child: Text(
                       "Xác nhận",
                       style: TextStyle(
-                          color: Colors.white,
+                          color: (selectedAddress == null) ? disableButtonTextColor : Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w400),
                     ),

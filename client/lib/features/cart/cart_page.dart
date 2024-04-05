@@ -66,7 +66,8 @@ class _CartPageState extends State<CartPage> {
                 valueColor: AlwaysStoppedAnimation(primary),
               ));
             } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-              return const Scaffold(body: CustomScrollView(slivers: [
+              return const Scaffold(
+                  body: CustomScrollView(slivers: [
                 SliverAppBar(
                   toolbarHeight: 70,
                   backgroundColor: background,
@@ -192,68 +193,74 @@ class _CartPageState extends State<CartPage> {
                           );
                         },
                       ),
-                      SliverFillRemaining(
-                          hasScrollBody: false,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text("Tạm tính",
-                                        style: TextStyle(
-                                            height: 0,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400)),
-                                    Consumer<CartProvider>(
-                                      builder: (BuildContext context,
-                                          CartProvider value, Widget? child) {
-                                        return Text(
-                                            f
-                                                .format(value.getTotalPrice())
-                                                .replaceFirst("VND", ""),
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                height: 0,
-                                                fontWeight: FontWeight.w400));
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Phí giao hàng",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          height: 0,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    Consumer<CartProvider>(
-                                      builder: (BuildContext context,
-                                          CartProvider value, Widget? child) {
-                                        return Text(
-                                          f
-                                              .format(value.getShippingCharge())
-                                              .replaceFirst("VND", ""),
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              height: 0,
-                                              fontWeight: FontWeight.w400),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 20),
-                              ],
-                            ),
-                          )),
+                      Consumer<CartProvider>(
+                        builder: (BuildContext context, CartProvider value,
+                            Widget? child) {
+                          return SliverFillRemaining(
+                              hasScrollBody: false,
+                              child: value.length == 0
+                                  ? const Center(
+                                      child: Text("Không có sản phẩm trong giỏ!"),
+                                    )
+                                  : Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 20, 15, 0),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              const Text("Tạm tính",
+                                                  style: TextStyle(
+                                                      height: 0,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
+                                              Text(
+                                                  f
+                                                      .format(
+                                                          value.getTotalPrice())
+                                                      .replaceFirst("VND", ""),
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      height: 0,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              const Text(
+                                                "Phí giao hàng",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    height: 0,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                              Text(
+                                                f
+                                                    .format(value
+                                                        .getShippingCharge())
+                                                    .replaceFirst("VND", ""),
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    height: 0,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 20),
+                                        ],
+                                      ),
+                                    ));
+                        },
+                      ),
                     ],
                   ),
                   bottomNavigationBar: Container(
@@ -310,18 +317,24 @@ class _CartPageState extends State<CartPage> {
                                 height: 55,
                                 child: TextButton(
                                   onPressed: () {
-                                    value.updateOrder(email!);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => CheckOutPage1(
-                                                  email: email!,
-                                                  cartItems: value.items,
-                                                )));
+                                    if (value.length == 0) {
+                                    } else {
+                                      value.updateOrder(email!);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CheckOutPage1(
+                                                    email: email!,
+                                                    cartItems: value.items,
+                                                  )));
+                                    }
                                   },
                                   style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                      backgroundColor: value.length == 0
+                                          ? MaterialStateProperty.all<Color>(
+                                              disableButtonBackground)
+                                          : MaterialStateProperty.all<Color>(
                                               primary),
                                       shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
@@ -330,10 +343,12 @@ class _CartPageState extends State<CartPage> {
                                               BorderRadius.circular(7),
                                         ),
                                       )),
-                                  child: const Text(
+                                  child: Text(
                                     "Xác nhận",
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        color: (value.length == 0)
+                                            ? disableButtonTextColor
+                                            : Colors.white,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400),
                                   ),

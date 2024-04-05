@@ -8,13 +8,19 @@ import 'package:plantial/features/address/address.dart';
 import 'package:plantial/features/address/address_controller.dart';
 import 'package:plantial/features/commons/custom_back_button.dart';
 import 'package:plantial/features/styles/styles.dart';
+import 'package:smart_snackbars/enums/animate_from.dart';
+import 'package:smart_snackbars/smart_snackbars.dart';
 
 class AddressUpdate extends StatefulWidget {
   final String email;
   final String appBarTitle;
-  final Address initialAddress; 
+  final Address initialAddress;
 
-  const AddressUpdate({super.key, required this.appBarTitle, required this.email, required this.initialAddress});
+  const AddressUpdate(
+      {super.key,
+      required this.appBarTitle,
+      required this.email,
+      required this.initialAddress});
 
   @override
   State<AddressUpdate> createState() => _AddressUpdateState();
@@ -26,8 +32,7 @@ class _AddressUpdateState extends State<AddressUpdate> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final addressDetailController = TextEditingController();
-  bool updateSuccess = false; 
-
+  bool updateSuccess = false;
 
   @override
   void initState() {
@@ -35,9 +40,10 @@ class _AddressUpdateState extends State<AddressUpdate> {
     nameController.text = widget.initialAddress.name;
     phoneController.text = widget.initialAddress.phone;
     addressDetailController.text = widget.initialAddress.street;
-    //addressController.provinceValue = widget.initialAddress.province[0];
-    //addressController.districtValue = widget.initialAddress.district[0];
-    //addressController.wardValue = widget.initialAddress.ward[0];
+    addressController.provinceValue = widget.initialAddress.province[2];
+    addressController.districtValue = widget.initialAddress.district[2];
+    addressController.wardValue = widget.initialAddress.ward[2];
+    addressController.ward = widget.initialAddress.ward;
   }
 
   @override
@@ -56,7 +62,7 @@ class _AddressUpdateState extends State<AddressUpdate> {
 
   Future<void> updateAddress(String email, String addressId) async {
     final String apiEndpoint = '$apiAddress/$email/$addressId';
-    
+
     final Map<String, dynamic> requestBody = {
       'name': nameController.text,
       'phone': phoneController.text,
@@ -65,7 +71,7 @@ class _AddressUpdateState extends State<AddressUpdate> {
       'district': addressController.district,
       'province': addressController.province,
     };
-    
+
     final Response response = await put(
       Uri.parse(apiEndpoint),
       headers: {'Content-Type': 'application/json'},
@@ -75,14 +81,16 @@ class _AddressUpdateState extends State<AddressUpdate> {
     if (!context.mounted) return;
 
     if (response.statusCode == 200) {
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Cập nhật địa chỉ thất bại${response.body}'), duration: const Duration(seconds: 1),),
+        SnackBar(
+          content: Text('Cập nhật địa chỉ thất bại${response.body}'),
+          duration: const Duration(seconds: 1),
+        ),
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -405,16 +413,47 @@ class _AddressUpdateState extends State<AddressUpdate> {
                   height: 55,
                   child: TextButton(
                     onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        await updateAddress(widget.email, widget.initialAddress.id);
+                      if (formKey.currentState!.validate() &&
+                          addressController.validate()) {
+                        await updateAddress(
+                            widget.email, widget.initialAddress.id);
+
+                      } else {
+                        SmartSnackBars.showCustomSnackBar(
+                            context: context,
+                            animateFrom: AnimateFrom.fromTop,
+                            duration: const Duration(milliseconds: 1000),
+                            child: Container(
+                              padding: const EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: errorColor,
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Có lỗi xảy ra",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ));
                       }
                     },
                     style: ButtonStyle(
                         backgroundColor:
                             const MaterialStatePropertyAll(primary),
-                        shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(7)))),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7)))),
                     child: const Text(
                       "Xác nhận",
                       style: TextStyle(

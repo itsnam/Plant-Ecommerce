@@ -67,6 +67,7 @@ const updatePlantQuantity = async (plantList) => {
       quantity: { $gt: 0 },
     });
     plant.quantity -= item.quantity;
+    plant.sold += item.quantity;
     await plant.save();
   }
 };
@@ -74,8 +75,15 @@ const updatePlantQuantity = async (plantList) => {
 exports.updateOrder = async (req, res) => {
   try {
     const data = req.body;
-    const cartItems = data.cartItems;
+
+    if(data._id !== undefined){
+      const order = await Order.findOneAndUpdate({ _id: data._id},{status : data.status});
+
+      return order.status(200).json(order);
+    }
+
     const email = data.email;
+    const cartItems = data.cartItems;
     const order = await Order.findOne({ email: email, status: 1 });
     if (order) {
       plants = [];
@@ -114,6 +122,17 @@ exports.sendOrderRequest = async (req, res) => {
     console.log(e);
   }
 };
+
+exports.getAllOrders = async (req, res) => {
+  const orders = await Order.find({ status: { "$ne": 1 } });
+  return res.status(200).json(orders)
+}
+
+exports.updateOrderStatus = async (req, res) => {
+  const { status, id } = req.body;
+  const order = await Order.findOneAndUpdate({_id : id},{status : status});
+  return res.status(200).json(order);
+}
 
 exports.getHistoryOrderByEmail = async (req, res) => {
   const { userEmail } = req.params;

@@ -75,14 +75,13 @@ class _CheckOutPageState extends State<CheckOutPage> {
     });
   }
 
-  Future sendOrderRequest(
-      String email, ad.Address? address, pm.PaymentMethod paymentMethod) async {
+  Future sendOrderRequest(String email, ad.Address? address, pm.PaymentMethod paymentMethod) async {
     var response = put(Uri.parse('$apiOrders/$email'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'address': address?.toJson(),
           'paymentMethod': paymentMethod.toJson(),
-          'total': total
+          'total': total! + 30000
         }));
   }
 
@@ -258,11 +257,17 @@ class _CheckOutPageState extends State<CheckOutPage> {
                   height: 55,
                   child: TextButton(
                     onPressed: () async {
-                      if(widget.paymentMethod.name != "COD"){
-                        await convert().then((value) =>
-                            CheckOutController().makePayment(context, vndToUsd!)).then((value) => sendOrderRequest(email!, widget.address, widget.paymentMethod));
-                      }else{
-                        sendOrderRequest(email!, widget.address, widget.paymentMethod).then((value) => Navigator.of(context).popUntil((route) => route.isFirst));
+                      if (widget.paymentMethod.name != "COD") {
+                        await convert()
+                            .then((value) => CheckOutController()
+                                .makePayment(context, vndToUsd!))
+                            .then((value) => sendOrderRequest(
+                                email!, widget.address, widget.paymentMethod));
+                      } else {
+                        sendOrderRequest(
+                                email!, widget.address, widget.paymentMethod)
+                            .then((value) => Navigator.of(context)
+                                .popUntil((route) => route.isFirst));
                       }
                     },
                     style: ButtonStyle(

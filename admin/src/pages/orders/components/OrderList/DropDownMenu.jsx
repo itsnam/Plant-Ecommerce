@@ -3,8 +3,8 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline/index.js";
 import React, { Fragment, useState } from "react";
 import { OrderStatusModal } from "../modals/OrderStatusModal.jsx";
 
-export const DropDownMenu = ({data}) => {
-  const [isModalOpen, setIsModelOpen] = useState(false);
+export const DropDownMenu = ({data, onUpdateOrder}) => {
+  const [isModalOpen, setIsModelOpen] = useState(false)
 
   return (
     <>

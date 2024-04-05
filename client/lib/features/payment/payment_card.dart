@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/payment/payment_method.dart';
 import 'package:plantial/features/styles/styles.dart';
 

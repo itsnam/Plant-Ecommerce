@@ -14,6 +14,14 @@ class AddressController {
   List district = [];
   List ward = [];
 
+  bool validate(){
+    if(provinceValue != null && districtValue != null && wardValue != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   List<DropdownMenuItem> getProvinceList() {
     return data.map((e) {
       return DropdownMenuItem(

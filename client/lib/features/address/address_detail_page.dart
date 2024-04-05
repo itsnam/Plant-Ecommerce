@@ -12,7 +12,8 @@ class AddressDetail extends StatefulWidget {
   final String email;
   final String appBarTitle;
 
-  const AddressDetail({super.key, required this.appBarTitle, required this.email});
+  const AddressDetail(
+      {super.key, required this.appBarTitle, required this.email});
 
   @override
   State<AddressDetail> createState() => _AddressDetailState();
@@ -37,6 +38,10 @@ class _AddressDetailState extends State<AddressDetail> {
     var d = await rootBundle.loadString("assets/sorted.json");
     addressController.data = json.decode(d);
     return "success";
+  }
+
+  bool isValidPhoneNumber(String number){
+      return RegExp(r'(84|0[3|5|7|8|9])+([0-9]{8})\b').hasMatch(number);
   }
 
   @override
@@ -131,6 +136,10 @@ class _AddressDetailState extends State<AddressDetail> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Vui lòng nhập Số điện thoại';
+                                }else{
+                                  if(isValidPhoneNumber(value) == false){
+                                    return "Số điện thoại không hợp lệ";
+                                  }
                                 }
                                 return null;
                               },
@@ -364,18 +373,17 @@ class _AddressDetailState extends State<AddressDetail> {
                         final response = await post(
                           Uri.parse(apiAddress),
                           headers: {'Content-Type': 'application/json'},
-                          body:
-                          json.encode({
+                          body: json.encode({
                             'email': widget.email,
                             'name': nameController.text,
                             'phone': phoneController.text,
-                            'street' : addressDetailController.text,
-                            'ward' : addressController.ward,
-                            'province' : addressController.province,
-                            'district' : addressController.district
-                           }),
+                            'street': addressDetailController.text,
+                            'ward': addressController.ward,
+                            'province': addressController.province,
+                            'district': addressController.district
+                          }),
                         );
-                        if(response.statusCode == 200 && context.mounted){
+                        if (response.statusCode == 200 && context.mounted) {
                           Navigator.pop(context);
                         }
                       }
@@ -383,9 +391,8 @@ class _AddressDetailState extends State<AddressDetail> {
                     style: ButtonStyle(
                         backgroundColor:
                             const MaterialStatePropertyAll(primary),
-                        shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(7)))),
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7)))),
                     child: const Text(
                       "Xác nhận",
                       style: TextStyle(

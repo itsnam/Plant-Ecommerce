@@ -14,7 +14,7 @@ exports.getAddress = async (req, res) => {
     let addressList = await Address.findOne({
       email: email,
     });
-    if (!addressList) {
+    if (!addressList | addressList.addresses.length === 0) {
       return res.status(200).json([]);
     }
     return res.status(200).json(addressList);
@@ -24,7 +24,6 @@ exports.getAddress = async (req, res) => {
 exports.addNewAddress = async (req, res) => {
   try {
     const { email, name, phone, street, ward, district, province } = req.body;
-    console.log(province);
     let addressList = await Address.findOne({
       email: email,
     });
@@ -52,16 +51,10 @@ exports.deleteAddress = async (req, res) => {
     if (!addressList) {
       return res.status(404).json({ message: "Address list not found" });
     }
-
-    if (addressList.addresses.length === 1) {
-      return res.status(400).json({ message: "Cannot delete the only address" });
-    }
-
     const updatedAddresses = addressList.addresses.filter(address => address._id.toString() !== addressId);
     if (updatedAddresses.length === addressList.addresses.length) {
       return res.status(404).json({ message: "Address not found" });
     }
-    
     addressList.addresses = updatedAddresses;
     await addressList.save();
     return res.status(200).json({ message: "Address deleted successfully" });
@@ -74,6 +67,7 @@ exports.updateAddress = async (req, res) => {
   try {
     const { email, addressId } = req.params;
     const { name, phone, street, ward, district, province } = req.body;
+
     let addressList = await Address.findOne({ email: email });
     if (!addressList) {
       return res.status(404).json({ message: "Address list not found" });

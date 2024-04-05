@@ -23,12 +23,10 @@ const Sidebar = () => {
   useEffect(() => {
     if (matchPath({ path: "/products/*" }, location.pathname)) {
       setActive(2);
-    } else if (matchPath({ path: "/users/*" }, location.pathname)) {
-      setActive(3);
     } else if (matchPath({ path: "/orders/*" }, location.pathname)) {
       setActive(4);
     }else if (matchPath({ path: "/*" }, location.pathname)) {
-      setActive(1);
+      setActive(2);
     }
   }, [location]);
 
@@ -61,15 +59,6 @@ const Sidebar = () => {
         <SidebarContext.Provider value={expanded}>
           <ul className={"flex-1 px-4"}>
             <SidebarItems
-              id={1}
-              active={isActive}
-              setActive={handleSetActive}
-              link={"/"}
-              text={"Dashboard"}
-              iconActive={<HomeIconSolid className={"h-6 w-6"} />}
-              icon={<HomeIcon className={"h-6 w-6"} />}
-            />
-            <SidebarItems
               id={2}
               active={isActive}
               setActive={handleSetActive}
@@ -77,15 +66,6 @@ const Sidebar = () => {
               text={"Products"}
               iconActive={<Squares2X2IconSolid className={"h-6 w-6"} />}
               icon={<Squares2X2Icon className={"h-6 w-6"} />}
-            />
-            <SidebarItems
-              id={3}
-              active={isActive}
-              setActive={handleSetActive}
-              link={"/users"}
-              text={"Users"}
-              iconActive={<UserGroupIconSolid className={"h-6 w-6"} />}
-              icon={<UserGroupIcon className={"h-6 w-6"} />}
             />
             <SidebarItems
               id={4}

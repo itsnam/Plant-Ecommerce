@@ -10,10 +10,10 @@ export const OrderList = () => {
 
   useEffect(() => {
     getOrders().then((res) => {
-      console.log(res.data);
       setList(res.data);
     });
   }, [1]);
+
 
   return (
     <div className={"rounded-md"}>

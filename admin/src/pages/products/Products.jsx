@@ -11,7 +11,7 @@ const Products = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://localhost:3000/api/plants",
+      url: "http://localhost:3000/api/plants/all",
     }).then((res) => {
       if (res.status === 200) {
         res.data.map((item) => {

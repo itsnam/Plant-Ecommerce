@@ -111,26 +111,17 @@ class _FavouritePageState extends State<FavouritePage> {
           : Center(
               child: SizedBox(
                 height: 55,
-                child: TextButton(
+                child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, "/auth");
                   },
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(
-                              primary),
-                      shape: MaterialStateProperty.all<
-                          RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                      )),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primary
+                  ),
                   child: const Text(
                     "Đăng nhập để xem giỏ hàng",
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500),
+                        color: Colors.white,),
                   ),
                 ),
               )

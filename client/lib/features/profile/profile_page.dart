@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:plantial/features/profile/history_cart_page.dart';
-import 'package:plantial/features/profile/update_address_page.dart';
+import 'package:plantial/features/styles/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -68,85 +68,93 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        Container(
-          decoration: const BoxDecoration(
-              color: Color(0xFF4b8e4b)
-          ),
-          height: 40,
+      appBar: AppBar(
+        toolbarHeight: 70,
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        title: const Text(
+          'Tài khoản',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
         ),
-        Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFF4b8e4b)
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  email,
-                  style:
-                      const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 20),
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    color: Colors.white
+      ),
+      body: (isLoggedIn == false)
+          ? Center(
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primary,
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 7),
-                  child: TextButton(
-                    onPressed: () {
-                      if (isLoggedIn) {
-                        logout();
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/auth");
+                  },
+                  child: const Text(
+                    "Đăng nhập",
+                    style: TextStyle(color: Colors.white),
+                  )))
+          : Column(children: [
+              const Icon(
+                Iconsax.profile_circle5,
+                size: 65,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                email,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 20,
+                ),
+              ),
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ListTile(
+                    contentPadding: const EdgeInsets.only(left: 20),
+                    title: const Text(
+                      'Xem lịch sử đơn hàng',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    onTap: () {
+                      if (!isLoggedIn) {
+                        showLoginDialog(context);
                       } else {
-                        Navigator.pushNamed(context, "/auth");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HistoryCartPage(
+                              email: email,
+                            ),
+                          ),
+                        );
                       }
                     },
-                    child: Text(isLoggedIn ? "Log out" : "Sign In", style: const TextStyle(color: Colors.black),),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        ListTile(
-          leading: const Icon(Iconsax.rotate_left),
-          title: const Text('Xem lịch sử đơn hàng'),
-          onTap: () {
-            if (!isLoggedIn) {
-              showLoginDialog(context);
-            } else {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HistoryCartPage(
-                    email: email,
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Divider(
+                      thickness: 0.5,
+                      height: 0,
+                    ),
                   ),
-                ),
-              );
-            }   
-          },
-        ),
-        ListTile(
-          leading: const Icon(Iconsax.location),
-          title: const Text('Cập nhật địa chỉ giao hàng'),
-          onTap: () {
-            if (!isLoggedIn) {
-              showLoginDialog(context);
-            } else {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UpdateAddressPage(
-                    email: email,
-                  ),
-                ),
-              );
-            }
-          },
-        ),
-      ]),
+                  ListTile(
+                      contentPadding: const EdgeInsets.only(left: 20),
+                      title: const Text(
+                        'Đăng xuất',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      onTap: () {
+                        if (isLoggedIn) {
+                          logout();
+                        } else {
+                          Navigator.pushNamed(context, "/auth");
+                        }
+                      }),
+                ],
+              ),
+            ]),
     );
   }
 }

@@ -37,16 +37,6 @@ const Layout = () => {
               Product List
             </button>
           </Link>
-          {active === 1 ? (
-            <Listbox value={filter} onChange={setFilter}>
-              <Listbox.Button>{filter}</Listbox.Button>
-              <Listbox.Options>
-                {filters.map((item) => (
-                  <Listbox.Option value={item}>{item}</Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Listbox>
-          ) : null}
         </div>
         <Link to={"/products/add-product"}>
           <button

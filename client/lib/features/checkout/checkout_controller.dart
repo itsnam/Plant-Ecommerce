@@ -23,7 +23,7 @@ class CheckOutController {
               googlePay: gpay));
       displayPaymentSheet(context);
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
@@ -33,13 +33,12 @@ class CheckOutController {
         Navigator.of(context).popUntil((route) => route.isFirst)
       );
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
 
   createPaymentIntent(amount) async {
-    print(amount);
     try {
       Map<String, dynamic> body = {"amount": amount, "currency": "USD"};
       final response = await post(
@@ -51,7 +50,7 @@ class CheckOutController {
           });
       return json.decode(response.body);
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 }
